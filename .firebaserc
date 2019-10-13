@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "serve-my-customer",
+    "staging": "serve-my-customer-staging"
+  }
+}
