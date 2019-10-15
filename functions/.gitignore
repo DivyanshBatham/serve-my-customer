@@ -3,3 +3,6 @@ node_modules/
 
 # misc
 firebase-debug.log
+
+# config 
+config/serviceAccountKey.json
