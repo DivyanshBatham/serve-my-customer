@@ -1,9 +1,22 @@
-var admin = require("firebase-admin");
+const admin = require("firebase-admin");
 
-var serviceAccount = require("./serviceAccountKey.json");
+const serviceAccount = require("./serviceAccountKey.json");
 
-var adminSdk = admin.initializeApp({
+// This is the way to initialize non function apps:
+const adminSdk = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
 
-module.exports = adminSdk
+// For a functions app, we can simply do this:
+// const adminSdk = admin.initializeApp(functions.config().firebase);
+
+// For goggle cloud platform app:
+// const adminSdk = admin.initializeApp({
+//     credential: admin.credential.applicationDefault
+// });
+
+
+// Export separately
+const auth = adminSdk.auth();
+
+module.exports = { auth };
