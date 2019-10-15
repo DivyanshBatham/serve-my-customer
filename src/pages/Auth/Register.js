@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { register } from '../../store/actions/authActions';
 
 class Register extends Component {
     // TODO: Make this a multi-step register
@@ -22,6 +24,7 @@ class Register extends Component {
         e.preventDefault();
         const { email, password, displayName, phoneNumber } = this.state;
         console.table({ email, password, displayName, phoneNumber });
+        this.props.register({ email, password, displayName, phoneNumber });
     }
 
     render() {
@@ -70,4 +73,10 @@ class Register extends Component {
     }
 }
 
-export default Register;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        register: (data) => dispatch(register(data))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Register);
