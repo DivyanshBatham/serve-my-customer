@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 // import firebase from './config/init-firebase';
 import { auth } from './config/clientSdk';
-import { Login, Register, Home } from './pages';
+import { Login, Register, Home, VerifyEmail } from './pages';
 import { App } from './modules';
 import './App.scss';
 
@@ -47,7 +47,9 @@ class Routes extends Component {
         {...rest}
         render={props =>
           user ? (
-            <Component {...props} user={user} />
+            user.emailVerified ?
+              <Component {...props} user={user} /> :
+              <VerifyEmail {...props} user={user} />
           ) : (
               <Redirect
                 to={{
