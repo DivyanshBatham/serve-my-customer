@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import axiosInstance from '../../services/axiosInstance';
 import { auth } from '../../config/clientSdk';
 
 class Register extends Component {
@@ -24,10 +25,9 @@ class Register extends Component {
         e.preventDefault();
         const { email, password, displayName, phoneNumber } = this.state;
         try {
-            const res = await axios({
+            const res = await axiosInstance({
                 method: 'post',
                 url: '/api/register',
-                baseURL: 'http://localhost:5000/serve-my-customer/us-central1/',
                 data: {
                     email,
                     password,
