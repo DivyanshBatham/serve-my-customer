@@ -16,11 +16,9 @@ class Routes extends Component {
   }
 
   componentDidMount() {
-    console.log("Component Mounted")
-    auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged(async (user) => {
       if (user) {
-        console.warn("User is signed in.")
-        console.log(user);
+        const idToken = await auth.currentUser.getIdToken(/* forceRefresh */ true);
         this.setState({
           fetchingAuthState: false,
           user: {
@@ -31,10 +29,10 @@ class Routes extends Component {
             isAnonymous: user.isAnonymous,
             uid: user.uid,
             providerData: user.providerData,
+            idToken
           }
         });
       } else {
-        console.warn("User is signed out.")
         this.setState({
           fetchingAuthState: false,
         })
