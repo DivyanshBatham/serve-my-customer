@@ -9,8 +9,19 @@ class VerifyEmail extends Component {
 
     handleUpdateEmail = async () => {
         const res = auth.currentUser.updateEmail("divyansh.sunita@gmail");
-
+        auth.currentUser.sendEmailVerification();
         console.log(res);
+    }
+
+    handleResendEmail = () => {
+        auth.currentUser.sendEmailVerification()
+            .then((res) => {
+                console.log(res);
+                alert("Email Sent")
+            })
+            .catch(err => {
+                console.error(err);
+            })
     }
 
     render() {
@@ -25,7 +36,7 @@ class VerifyEmail extends Component {
                 <strong>User Id: </strong>
                 <em>{user.uid}</em>
                 <br />
-                <button>Resend Email</button>
+                <button onClick={this.handleResendEmail}>Resend Email</button>
                 <br />
                 <button onClick={this.handleUpdateEmail}>Update Email</button>
             </div>

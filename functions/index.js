@@ -8,3 +8,9 @@ const expressApp = require('./app');
 // });
 
 exports.api = functions.https.onRequest(expressApp);
+
+exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
+    const { email } = user;
+});
+
+// functions.auth.user().onOperation()

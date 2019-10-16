@@ -37,7 +37,8 @@ class Register extends Component {
             })
 
             const { token } = res.data;
-            auth.signInWithCustomToken(token);
+            await auth.signInWithCustomToken(token);
+            await auth.currentUser.sendEmailVerification();
         } catch (err) {
             console.error(err); 
             if(err.isAxiosError)
