@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { auth } = require('../config/adminSdk');
 
-router.get('/', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
 
   const { email, password, phoneNumber, displayName } = req.body;
 
@@ -19,14 +19,14 @@ router.get('/', async (req, res, next) => {
     })
 
     // Add Custom Claim:
-    // TODO: Add this logic and Email verification to Triggers
+    // TODO: Add Email Verification Logic to Fuction Triggers
     await auth.setCustomUserClaims(user.uid, { companyAccount: true });
 
     // Generate Custom Token:
+    // Could this go into race condition?
     const customToken = await auth.createCustomToken(user.uid);
 
     res.status(201).json({
-      "success": true,
       "data": user,
       "token": customToken
     })
@@ -34,7 +34,6 @@ router.get('/', async (req, res, next) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      "success": false,
       "error": err
     })
   }
