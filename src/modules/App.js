@@ -4,6 +4,7 @@ import { Dashboard, Employees } from "../pages";
 import Sidenav from "./Sidenav";
 
 const App = (props) => {
+    console.log(props);
     return (
         <div className="app">
             <Sidenav/>
