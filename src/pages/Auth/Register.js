@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { register } from '../../store/actions/authActions';
+import axios from 'axios';
+import { auth } from '../../config/clientSdk';
 
 class Register extends Component {
     // TODO: Make this a multi-step register
@@ -20,11 +20,33 @@ class Register extends Component {
         });
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
         const { email, password, displayName, phoneNumber } = this.state;
-        console.table({ email, password, displayName, phoneNumber });
-        this.props.register({ email, password, displayName, phoneNumber });
+        try {
+            const res = await axios({
+                method: 'post',
+                url: '/api/register',
+                baseURL: 'http://localhost:5000/serve-my-customer/us-central1/',
+                data: {
+                    email,
+                    password,
+                    displayName,
+                    phoneNumber
+                }
+            })
+
+            const { token } = res.data;
+            auth.signInWithCustomToken(token);
+        } catch (err) {
+            console.error(err); 
+            if(err.isAxiosError)
+                console.error(err.response.data);
+            else {
+                console.error(err.message, err.name);
+            }
+        }
+
     }
 
     render() {
@@ -73,10 +95,5 @@ class Register extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        register: (data) => dispatch(register(data))
-    }
-}
 
-export default connect(null, mapDispatchToProps)(Register);
+export default Register;
