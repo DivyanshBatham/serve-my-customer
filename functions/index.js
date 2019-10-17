@@ -1,16 +1,10 @@
 const functions = require('firebase-functions');
 const expressApp = require('./app');
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
+const { createCompanyTrigger, deleteCompanyTrigger } = require('./triggers');
 
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
-
+// HTTP Triggers:
 exports.api = functions.https.onRequest(expressApp);
 
-exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
-    const { email } = user;
-});
-
-// functions.auth.user().onOperation()
+// Cloud Firestore Triggers:
+exports.createCompanyDocument = createCompanyTrigger;
+exports.deleteCompanyDocument = deleteCompanyTrigger;
