@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { auth } from './config/clientSdk';
 import { Login, Register, Home, VerifyEmail } from './pages';
 import { App } from './modules';
+import { FullPageLoader } from './components';
 import './App.scss';
 
 class Routes extends Component {
@@ -82,7 +83,7 @@ class Routes extends Component {
     return (
       <div className="App">
         {fetchingAuthState ? (
-          <h1>Loading</h1>
+          <FullPageLoader/>
         ) : (
             <BrowserRouter basename={process.env.PUBLIC_URL}>
               <Switch>
