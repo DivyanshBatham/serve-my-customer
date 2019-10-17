@@ -40,9 +40,11 @@ class Register extends Component {
             await auth.signInWithCustomToken(token);
             await auth.currentUser.sendEmailVerification();
         } catch (err) {
-            console.error(err); 
-            if(err.isAxiosError)
-                console.error(err.response.data);
+            console.error(err);
+            if (err.isAxiosError) {
+                if (err.response)
+                    console.error(err.response.data);
+            }
             else {
                 console.error(err.message, err.name);
             }
