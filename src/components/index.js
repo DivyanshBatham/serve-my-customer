@@ -1,3 +1,1 @@
-import { Loader, FullPageLoader } from './Loaders';
-
-export { Loader, FullPageLoader };
+export { Loader, FullPageLoader } from './Loaders';

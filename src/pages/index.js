@@ -1,8 +1,6 @@
-import Dashboard from './Dashboard';
-import Employees from './Employees';
-import Login from './Auth/Login';
-import Register from './Auth/Register';
-import VerifyEmail from './Auth/VerifyEmail';
-import Home from './Home';
-
-export { Dashboard, Employees, Login, Register, Home, VerifyEmail }
+export { default as Dashboard } from './Dashboard';
+export { default as Employees } from './Employees';
+export { default as Login } from './Auth/Login';
+export { default as Register } from './Auth/Register';
+export { default as VerifyEmail } from './Auth/VerifyEmail';
+export { default as Home } from './Home';
