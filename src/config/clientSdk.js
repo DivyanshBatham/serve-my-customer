@@ -11,7 +11,7 @@ firebase.initializeApp(firebaseConfig);
 
 // From Fireship:
 export const auth = firebase.auth();
-export const db = firebase.firestore();
+export const firestore = firebase.firestore();
 firebase.performance();
 firebase.analytics();
 
