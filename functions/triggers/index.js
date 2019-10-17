@@ -1,4 +1,5 @@
-const createCompanyTrigger = require('./createCompanyTrigger');
-const deleteCompanyTrigger = require('./deleteCompanyTrigger');
 
-module.exports = { createCompanyTrigger, deleteCompanyTrigger };
+module.exports = {
+    createCompanyTrigger: require('./createCompanyTrigger'),
+    deleteCompanyTrigger: require('./deleteCompanyTrigger'),
+};
