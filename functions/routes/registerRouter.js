@@ -19,13 +19,16 @@ router.post('/', async (req, res, next) => {
     })
 
     // Add Custom Claim:
-    // TODO: Add Email Verification Logic to Fuction Triggers
-    await auth.setCustomUserClaims(user.uid, { companyAccount: true });
+    await auth.setCustomUserClaims(user.uid, {
+      companyAccount: true,
+      companyId: user.uid
+    });
 
     // Generate Custom Token:
-    // Could this go into race condition?
     const customToken = await auth.createCustomToken(user.uid);
 
+    // Company Document gets created via createCompanyTrigger
+    
     res.status(201).json({
       "data": user,
       "token": customToken
