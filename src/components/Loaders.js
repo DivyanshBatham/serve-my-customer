@@ -1,16 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Flex, Box } from '../atoms';
 
-const Wrapper = styled.div`
-  background-color: #F1F4F9;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const BallPulse = styled.div`
+const BallPulseSync = styled.div`
 @keyframes ball-pulse-sync {
   33% {
     -webkit-transform: translateY(10px);
@@ -22,48 +14,47 @@ const BallPulse = styled.div`
     -webkit-transform: translateY(0);
             transform: translateY(0); } }
 
-.ball-pulse-sync > div:nth-child(1) {
+ > div:nth-child(1) {
   -webkit-animation: ball-pulse-sync 0.6s -0.14s infinite ease-in-out;
           animation: ball-pulse-sync 0.6s -0.14s infinite ease-in-out; }
 
-.ball-pulse-sync > div:nth-child(2) {
+ > div:nth-child(2) {
   -webkit-animation: ball-pulse-sync 0.6s -0.07s infinite ease-in-out;
           animation: ball-pulse-sync 0.6s -0.07s infinite ease-in-out; }
 
-.ball-pulse-sync > div:nth-child(3) {
+ > div:nth-child(3) {
   -webkit-animation: ball-pulse-sync 0.6s 0s infinite ease-in-out;
           animation: ball-pulse-sync 0.6s 0s infinite ease-in-out; }
 
-.ball-pulse-sync > div {
-  background-color: #3464E0;
-  width: 15px;
-  height: 15px;
-  border-radius: 100%;
-  margin: 2px;
-  -webkit-animation-fill-mode: both;
-          animation-fill-mode: both;
-  display: inline-block; }
   `;
 
+const Ball = styled(Box)`
+  margin: 2px;
+  border-radius: 100%;
+  animation-fill-mode: both;
+  display: inline-block;
+`
 
+Ball.defaultProps = {
+  bg: 'primary',
+  size: '1rem'
+}
 
 const Loader = () => {
   return (
-    <BallPulse>
-      <div className="ball-pulse-sync">
-        <div />
-        <div />
-        <div />
-      </div>
-    </BallPulse>
+    <BallPulseSync>
+      <Ball />
+      <Ball size='1.1rem' />
+      <Ball />
+    </BallPulseSync>
   );
 }
 
 const FullPageLoader = () => {
   return (
-    <Wrapper>
+    <Flex.center height="100vh" bg="offwhite">
       <Loader />
-    </Wrapper>
+    </Flex.center>
   )
 }
 
