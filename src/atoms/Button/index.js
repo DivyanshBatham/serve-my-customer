@@ -16,8 +16,8 @@ const Button = styled.button`
 
   padding: 0.5rem 2rem;
   border-radius: 0.5rem;
-  box-shadow: 5px 5px 25px 0 rgba(46,61,73,.2);
-  transition: all .3s ease;
+  box-shadow: ${props => props.theme.shadows.normal};
+  transition: ${props => props.theme.transition};
   font-family: ${props => props.theme.fonts.poppins};
   font-weight: ${props => props.theme.fontWeights.medium};
   cursor: pointer;
@@ -27,7 +27,7 @@ const Button = styled.button`
   }
 
   &:hover {
-    box-shadow: 2px 4px 8px 0 rgba(46,61,73,.2);
+    box-shadow: ${props => props.theme.shadows.hover};
   }
 
   &:focus {

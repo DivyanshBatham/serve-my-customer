@@ -10,5 +10,6 @@ export default createGlobalStyle`
         /* font-family: 'Poppins', sans-serif; */
         font-family: 'Open Sans', sans-serif;
         font-size: 16px;
+        background-color: ${props => props.theme.colors.offWhite}
     }
 `

@@ -52,7 +52,7 @@ const Loader = () => {
 
 const FullPageLoader = () => {
   return (
-    <Flex.center height="100vh" bg="offwhite">
+    <Flex.center height="100vh" bg="offWhite">
       <Loader />
     </Flex.center>
   )
