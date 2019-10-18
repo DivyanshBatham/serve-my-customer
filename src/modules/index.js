@@ -1,2 +1,2 @@
 export { default as App} from './App';
-export { default as SideNav} from './SideNav';
+export { default as Sidenav} from './Sidenav';

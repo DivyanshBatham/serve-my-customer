@@ -5,7 +5,7 @@ import { auth } from './config/clientSdk';
 import { Login, Register, Home, VerifyEmail } from './pages';
 import { App } from './modules';
 import { FullPageLoader } from './components';
-import './App.scss';
+// import './App.scss';
 
 class Routes extends Component {
   constructor(props) {
