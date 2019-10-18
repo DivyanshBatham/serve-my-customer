@@ -17,5 +17,10 @@ const fonts = {
 
 export default {
     colors,
-    fonts
+    fonts,
+    fontWeights: {
+        light: 300,
+        regular: 400,
+        medium: 500,
+    },
 };
