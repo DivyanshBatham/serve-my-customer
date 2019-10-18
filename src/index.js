@@ -1,19 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
 import Routes from './Routes';
 import * as serviceWorker from './serviceWorker';
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import rootReducer from './store/reducers/rootReducer';
-
-const store = createStore(rootReducer, applyMiddleware(thunk));
+import { ThemeProvider } from 'styled-components'
+import theme from './theme';
+import GlobalStyle from './globalStyles';
 
 ReactDOM.render(
-    <Provider store={store}>
+    <ThemeProvider theme={theme}>
+        <GlobalStyle />
         <Routes />
-    </Provider>,
+    </ThemeProvider>,
     document.getElementById('root')
 );
 
