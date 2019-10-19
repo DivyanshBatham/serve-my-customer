@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { auth } from '../../config/clientSdk';
+import { Text, Column, Box, Button } from '../../atoms';
 
 class VerifyEmail extends Component {
     constructor(props) {
@@ -8,9 +9,10 @@ class VerifyEmail extends Component {
     }
 
     handleUpdateEmail = async () => {
-        const res = auth.currentUser.updateEmail("divyansh.sunita@gmail");
-        auth.currentUser.sendEmailVerification();
-        console.log(res);
+        alert("TODO: Add InputField");
+        // const res = auth.currentUser.updateEmail("divyansh.sunita@gmail");
+        // auth.currentUser.sendEmailVerification();
+        // console.log(res);
     }
 
     handleResendEmail = () => {
@@ -28,18 +30,22 @@ class VerifyEmail extends Component {
         const { user } = this.props;
         console.log(user);
         return (
-            <div>
-                <h1>VerifyEmail</h1>
-                <strong>Email: </strong>
-                <em>{user.email} (verified: {(user.emailVerified).toString()})</em>
-                <br />
-                <strong>User Id: </strong>
-                <em>{user.uid}</em>
-                <br />
-                <button onClick={this.handleResendEmail}>Resend Email</button>
-                <br />
-                <button onClick={this.handleUpdateEmail}>Update Email</button>
-            </div>
+            <Column alignItems="center">
+                <h1>Email Not Verified</h1>
+                <Text.p>Verify your email to start serving your customers.</Text.p>
+                <Box>
+                    <strong>Email: </strong>
+                    <em>{user.email} (verified: {(user.emailVerified).toString()})</em>
+                </Box>
+                <Box>
+                    <strong>User Id: </strong>
+                    <em>{user.uid}</em>
+                </Box>
+                <Box mt="2rem">
+                    <Button.secondary m="1rem" onClick={this.handleResendEmail}>Resend Email</Button.secondary>
+                    <Button.secondary m="1rem" onClick={this.handleUpdateEmail}>Update Email</Button.secondary>
+                </Box>
+            </Column>
         );
     }
 }

@@ -20,6 +20,10 @@ const Button = styled.button`
   transition: ${props => props.theme.transition};
   font-family: ${props => props.theme.fonts.poppins};
   font-weight: ${props => props.theme.fontWeights.medium};
+  color: white;
+  background-color: ${props => props.theme.colors.primary};
+  border: none;
+  font-size: 1rem;
   cursor: pointer;
 
   &:disabled {
@@ -35,14 +39,11 @@ const Button = styled.button`
   }
 `;
 
-Button.defaultProps = {
-  color: 'white',
-  bg: 'primary',
-  border: 'none',
-  borderColor: 'primary',
-  fontSize: '1rem',
-};
-
 Button.displayName = 'Button';
+
+Button.secondary = styled(Button)`
+  background-color: white;
+  color: ${props => props.theme.colors.black};
+`
 
 export default Button;
