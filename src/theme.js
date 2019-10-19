@@ -1,10 +1,12 @@
 const colors = {
-    black: '#000e1a',
+    // black: '#000e1a',
+    black: '#282828',
     white: '#fff',
     blue: '#3464E0',
     lightBlue: '#87D3F3',
     darkBlue: '#1A44AA',
     offWhite: '#F1F4F9',
+    red: '#F24846',
 };
 
 // Set Primary Theme:
