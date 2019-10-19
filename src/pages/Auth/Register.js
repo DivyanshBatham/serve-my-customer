@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axiosInstance from '../../services/axiosInstance';
 import { auth } from '../../config/clientSdk';
-import { ConditionalLoader } from '../../components';
-import { Column, Button, Flex } from '../../atoms';
+import { Column, Button, Flex, Container } from '../../atoms';
 import { Form, AuthTextField, AuthLink, ErrorText } from './authStyles';
 
 class Register extends Component {
@@ -69,8 +68,8 @@ class Register extends Component {
     render() {
         const { email, password, displayName, phoneNumber, loading, error } = this.state;
         return (
-            <ConditionalLoader showLoader={loading}>
-                <Column alignItems="center" p="1rem">
+            <Container.Loader showLoader={loading}>
+                <Column alignItems="center">
                     <h1>Serve My Customer</h1>
                     <Form onSubmit={this.handleSubmit}>
                         <AuthTextField
@@ -106,7 +105,7 @@ class Register extends Component {
                             onChange={this.handleChange}
                         />
 
-                        { error && <ErrorText>* {error}</ErrorText>}
+                        {error && <ErrorText>* {error}</ErrorText>}
 
                         <Flex.spaceBetween alignItems="center" mt="2rem">
                             <AuthLink as={Link} to="/login" fontSize="0.9rem">Already have an account? Login</AuthLink>
@@ -114,7 +113,7 @@ class Register extends Component {
                         </Flex.spaceBetween>
                     </Form>
                 </Column>
-            </ConditionalLoader>
+            </Container.Loader>
         );
     }
 }

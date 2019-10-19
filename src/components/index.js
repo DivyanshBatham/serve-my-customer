@@ -1,1 +1,1 @@
-export { Loader, FullPageLoader, ConditionalLoader } from './Loaders';
+export { Loader, FullPageLoader } from './Loaders';

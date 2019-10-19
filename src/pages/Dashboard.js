@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { firestore } from '../config/clientSdk';
+import { Container } from '../atoms';
+
 class Dashboard extends Component {
     constructor(props) {
         super(props);
@@ -48,7 +50,7 @@ class Dashboard extends Component {
     render() {
         const { activeSessions, pendingSessions } = this.state;
         return (
-            <div>
+            <Container>
                 <h1>Dashboard</h1>
                 <h3>Active Sessions:</h3>
                 <ul>
@@ -62,7 +64,7 @@ class Dashboard extends Component {
                         pendingSessions && pendingSessions.map(session => <li key={session.id}>{session.customerEmail} + {session.id}</li>)
                     }
                 </ul>
-            </div>
+            </Container>
         );
     }
 }

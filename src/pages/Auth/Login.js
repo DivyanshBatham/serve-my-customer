@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../../config/clientSdk';
-import { ConditionalLoader } from '../../components';
-import { Column, Button, Flex } from '../../atoms';
+import { Column, Button, Flex, Container } from '../../atoms';
 import { Form, AuthTextField, AuthLink, ErrorText } from './authStyles';
 
 
@@ -46,8 +45,8 @@ class Login extends Component {
         const { email, password, loading, error } = this.state;
 
         return (
-            <ConditionalLoader showLoader={loading}>
-                <Column alignItems="center" p="1rem">
+            <Container.Loader showLoader={loading}>
+                <Column alignItems="center">
                     <h1>Serve My Customer</h1>
                     <Form onSubmit={this.handleSubmit}>
                         <AuthTextField
@@ -76,7 +75,7 @@ class Login extends Component {
 
                     </Form>
                 </Column>
-            </ConditionalLoader >
+            </Container.Loader >
         );
     }
 }

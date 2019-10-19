@@ -58,9 +58,4 @@ const FullPageLoader = () => {
   )
 }
 
-const ConditionalLoader = (props) => {
-  const { showLoader = true } = props;
-  return showLoader ? <FullPageLoader /> : props.children;
-}
-
-export { Loader, FullPageLoader, ConditionalLoader };
+export { Loader, FullPageLoader };
