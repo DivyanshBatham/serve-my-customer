@@ -14,7 +14,7 @@ const Button = styled.button`
   ${typography}
   ${layout}
 
-  padding: 0.5rem 2rem;
+  padding: 0.7rem 2.5rem;
   border-radius: 0.5rem;
   box-shadow: ${props => props.theme.shadows.normal};
   transition: ${props => props.theme.transition};
