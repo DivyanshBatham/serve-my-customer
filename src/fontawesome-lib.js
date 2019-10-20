@@ -8,7 +8,8 @@ import {
   faUserTimes,
   faUserPlus,
   faCode,
-  faCog
+  faCog,
+  faCommentMedical
 } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -20,5 +21,6 @@ library.add(
   faUserTimes,
   faUserPlus,
   faCode,
-  faCog
+  faCog,
+  faCommentMedical
 );

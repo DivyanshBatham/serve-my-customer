@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { firestore } from '../../config/clientSdk';
 import { Container, Flex, Text } from '../../atoms';
 import { Loader } from '../../components';
-import { StyledCard, StatNumber, StyledCardNotifier } from './styles';
+import { StyledCard, StatNumber, StyledCardNotifier, StyledRow, StyledIconContainer } from './styles';
 
 class Sessions extends Component {
     constructor(props) {
@@ -22,10 +23,10 @@ class Sessions extends Component {
                 .onSnapshot((activeSessions) => {
                     let length = activeSessions.docs.length;
                     this.setState({
-                        // activeSessions: activeSessions.docs.map(session => ({
-                        //     id: session.id,
-                        //     ...session.data()
-                        // }))
+                        activeSessions: activeSessions.docs.map(session => ({
+                            id: session.id,
+                            ...session.data()
+                        })),
                         activeSessionsCount: length < 10 ? '0' + length : length
                     })
                 }, (err) => {
@@ -37,6 +38,10 @@ class Sessions extends Component {
                 .onSnapshot((pendingSessions) => {
                     let length = pendingSessions.docs.length;
                     this.setState({
+                        pendingSessions: pendingSessions.docs.map(session => ({
+                            id: session.id,
+                            ...session.data()
+                        })),
                         pendingSessionsCount: length < 10 ? '0' + length : length
                     })
                 }, (err) => {
@@ -76,7 +81,11 @@ class Sessions extends Component {
     render() {
         console.log(this.props.match.params);
         const { status } = this.props.match.params;
-        const { activeSessionsCount, pendingSessionsCount, inactiveSessionsCount, completedSessionsCount } = this.state;
+        const {
+            activeSessions, activeSessionsCount,
+            pendingSessions, pendingSessionsCount,
+            inactiveSessions, inactiveSessionsCount,
+            completedSessions, completedSessionsCount } = this.state;
         return (
             <Container>
                 <h1>Sessions</h1>
@@ -120,6 +129,28 @@ class Sessions extends Component {
                     </StyledCard>
                 </Flex>
 
+                {
+                    pendingSessions ? (
+                        pendingSessions.map((session, index) => (
+                            <StyledRow m="1rem 0">
+                                <Flex>
+                                    <Text mr="2rem">{index + 1}.</Text>
+                                    <Text mr="2rem">{session.customerName}</Text>
+                                    <Text.italics mr="2rem">{session.customerEmail}</Text.italics>
+                                    <Text mr="2rem">Subject: {session.sessionSubject}</Text>
+                                </Flex>
+                                <StyledIconContainer>
+                                    <FontAwesomeIcon
+                                        icon="comment-medical"
+                                    />
+                                </StyledIconContainer>
+                            </StyledRow>))
+                    ) : (
+                            <StyledRow justifyContent="center" m="1rem 0">
+                                <Loader sizes={['0.8rem', '0.9rem', '0.8rem']} />
+                            </StyledRow>
+                        )
+                }
             </Container>
         );
     }
