@@ -40,12 +40,12 @@ Ball.defaultProps = {
   size: '1rem'
 }
 
-const Loader = () => {
+const Loader = (props) => {
   return (
     <BallPulseSync>
-      <Ball />
-      <Ball size='1.1rem' />
-      <Ball />
+      <Ball size={props.sizes[0]}/>
+      <Ball size={props.sizes[1]}/>
+      <Ball size={props.sizes[2]}/>
     </BallPulseSync>
   );
 }
@@ -53,7 +53,7 @@ const Loader = () => {
 const FullPageLoader = () => {
   return (
     <Flex.center height="100vh" bg="offWhite">
-      <Loader />
+      <Loader sizes={['1rem','1.1rem','1rem']}/>
     </Flex.center>
   )
 }
