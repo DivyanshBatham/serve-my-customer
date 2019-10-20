@@ -2,12 +2,14 @@ import styled from 'styled-components';
 import {
   color,
   space,
-  layout
+  flex,
+  layout,
 } from 'styled-system';
 
 const Box = styled.div`
   ${color}
   ${space}
+  ${flex}
   ${layout}
   box-sizing: 'border-box';
 `;
