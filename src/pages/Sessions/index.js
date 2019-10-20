@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { firestore } from '../../config/clientSdk';
-import { Container, Text, Flex } from '../../atoms';
+import { Container, Flex, Text } from '../../atoms';
 import { Loader } from '../../components';
 import { StyledCard, StatNumber, StyledCardNotifier } from './styles';
 
-class Dashboard extends Component {
+class Sessions extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sessions: null
+            employees: null
         }
     }
 
@@ -74,65 +74,55 @@ class Dashboard extends Component {
     }
 
     render() {
+        console.log(this.props.match.params);
+        const { status } = this.props.match.params;
         const { activeSessionsCount, pendingSessionsCount, inactiveSessionsCount, completedSessionsCount } = this.state;
         return (
             <Container>
-                <h1>Dashboard</h1>
+                <h1>Sessions</h1>
 
                 <Flex justifyContent="center" flexWrap="wrap" m="1rem 0">
-                    <StyledCard as={Link} to="/app/sessions/pending">
+                    <StyledCard as={NavLink} to="/app/sessions/pending">
                         <Text fontSize="1rem" fontWeight="medium">Pending</Text>
                         <Text fontSize="1rem" fontWeight="medium">Sessions</Text>
                         <StatNumber>{pendingSessionsCount ?
                             pendingSessionsCount :
-                            <Loader sizes={['1rem', '1.1rem', '1rem']} />}
+                            <Loader bg={status === "pending" ? 'white' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
                         </StatNumber>
-                        {pendingSessionsCount > 0 && <StyledCardNotifier bg="primary" />}
+                        <StyledCardNotifier bg={pendingSessionsCount > 0 && status !== 'pending' ? 'primary' : 'white'} />
                     </StyledCard>
 
-                    <StyledCard as={Link} to="/app/sessions/active">
+                    <StyledCard as={NavLink} to="/app/sessions/active">
                         <Text fontSize="1rem" fontWeight="medium">Active</Text>
                         <Text fontSize="1rem" fontWeight="medium">Sessions</Text>
                         <StatNumber>{activeSessionsCount ?
                             activeSessionsCount :
-                            <Loader sizes={['1rem', '1.1rem', '1rem']} />}
+                            <Loader bg={status === "active" ? 'white' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
                         </StatNumber>
                     </StyledCard>
 
-                    <StyledCard as={Link} to="/app/sessions/inactive">
+                    <StyledCard as={NavLink} to="/app/sessions/inactive">
                         <Text fontSize="1rem" fontWeight="medium">Inactive</Text>
                         <Text fontSize="1rem" fontWeight="medium">Sessions</Text>
                         <StatNumber>{inactiveSessionsCount ?
                             inactiveSessionsCount :
-                            <Loader sizes={['1rem', '1.1rem', '1rem']} />}
+                            <Loader bg={status === "inactive" ? 'white' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
                         </StatNumber>
                     </StyledCard>
 
-                    <StyledCard as={Link} to="/app/sessions/completed">
+                    <StyledCard as={NavLink} to="/app/sessions/completed">
                         <Text fontSize="1rem" fontWeight="medium">Completed</Text>
                         <Text fontSize="1rem" fontWeight="medium">Sessions</Text>
                         <StatNumber>{completedSessionsCount ?
                             completedSessionsCount :
-                            <Loader sizes={['1rem', '1.1rem', '1rem']} />}
+                            <Loader bg={status === "completed" ? 'white' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
                         </StatNumber>
                     </StyledCard>
                 </Flex>
 
-                {/* <h3>Active Sessions:</h3>
-                <ul>
-                    {
-                        activeSessions && activeSessions.map(session => <li key={session.id}>{session.customerEmail} + {session.id}</li>)
-                    }
-                </ul>
-                <h3>Pending Sessions:</h3>
-                <ul>
-                    {
-                        pendingSessions && pendingSessions.map(session => <li key={session.id}>{session.customerEmail} + {session.id}</li>)
-                    }
-                </ul> */}
             </Container>
         );
     }
 }
 
-export default Dashboard;
+export default Sessions;

@@ -43,9 +43,9 @@ Ball.defaultProps = {
 const Loader = (props) => {
   return (
     <BallPulseSync>
-      <Ball size={props.sizes[0]}/>
-      <Ball size={props.sizes[1]}/>
-      <Ball size={props.sizes[2]}/>
+      <Ball size={props.sizes[0]} bg={props.bg}/>
+      <Ball size={props.sizes[1]} bg={props.bg}/>
+      <Ball size={props.sizes[2]} bg={props.bg}/>
     </BallPulseSync>
   );
 }

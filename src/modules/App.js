@@ -1,7 +1,7 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dashboard, Employees } from "../pages";
+import { Dashboard, Employees, Sessions } from "../pages";
 import Sidenav from "./Sidenav";
 import { Flex, Box, Text, Button, Container, IconContainer } from "../atoms";
 
@@ -50,21 +50,30 @@ const App = (props) => {
             <Flex>
                 <Sidenav />
                 <Box flex="1" pt="1.5rem" mr="2.5rem">
-                    <Route
-                        exact
-                        path={props.match.url}
-                        render={() => <Redirect to="/app/dashboard" />}
-                    />
-                    <Route
-                        exact
-                        path={`${props.match.url}/dashboard`}
-                        component={Dashboard}
-                    />
-                    <Route
-                        exact
-                        path={`${props.match.url}/employees`}
-                        component={Employees}
-                    />
+                    <Switch>
+                        <Redirect exact
+                            from='/app'
+                            to='/app/dashboard' />
+                        <Route
+                            exact
+                            path={`/app/dashboard`}
+                            component={Dashboard}
+                        />
+                        <Route
+                            exact
+                            path={`/app/employees`}
+                            component={Employees}
+                        />
+                        <Redirect exact
+                            from='/app/sessions'
+                            to='/app/sessions/pending' />
+                        <Route
+                            exact
+                            path={`/app/sessions/:status(pending|active|inactive|completed)`}
+                            component={Sessions}
+                        />
+                        {/* TODO: Add a 404 Page */}
+                    </Switch>
                 </Box>
             </Flex>
         </>

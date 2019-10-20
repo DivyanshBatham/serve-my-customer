@@ -8,7 +8,7 @@ const Sidenav = () => {
     return (
         <StyledNav>
             <Box m="0 auto">
-                <StyledLink as={NavLink} to="dashboard">
+                <StyledLink as={NavLink} to="/app/dashboard">
                     <StyledIconContainer>
                         <FontAwesomeIcon
                             icon="columns"
@@ -19,7 +19,7 @@ const Sidenav = () => {
             </Box>
 
             <Box m="0 auto">
-                <StyledLink as={NavLink} to="employees">
+                <StyledLink as={NavLink} to="/app/employees">
                     <StyledIconContainer>
                         <FontAwesomeIcon
                             icon="users"
@@ -30,7 +30,7 @@ const Sidenav = () => {
             </Box>
             
             <Box m="0 auto">
-                <StyledLink as={NavLink} to="sessions">
+                <StyledLink as={NavLink} to="/app/sessions">
                     <StyledIconContainer>
                         <FontAwesomeIcon
                             icon="comments"
