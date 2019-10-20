@@ -4,7 +4,9 @@ import {
   faUsers,
   faColumns,
   faSignOutAlt,
-  faComments
+  faComments,
+  faUserTimes,
+  faUserPlus
 } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -12,5 +14,7 @@ library.add(
   faUsers,
   faColumns,
   faSignOutAlt,
-  faComments
+  faComments,
+  faUserTimes,
+  faUserPlus
 );
