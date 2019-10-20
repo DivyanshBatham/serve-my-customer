@@ -10,9 +10,9 @@ const Employees = () => {
                 <h1>
                     Employees
                 </h1>
-                <Button ml="3rem">
+                <Button>
                     <Flex>
-                        <IconContainer size="1rem" mr="0.4rem">
+                        <IconContainer size="1rem" mr="0.5rem" ml="-0.5rem">
                             <FontAwesomeIcon
                                 icon="user-plus"
                             />

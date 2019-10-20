@@ -6,7 +6,8 @@ import {
   faSignOutAlt,
   faComments,
   faUserTimes,
-  faUserPlus
+  faUserPlus,
+  faCode
 } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -16,5 +17,6 @@ library.add(
   faSignOutAlt,
   faComments,
   faUserTimes,
-  faUserPlus
+  faUserPlus,
+  faCode
 );
