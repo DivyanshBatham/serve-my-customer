@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import { ThemeProvider } from 'styled-components'
 import theme from './theme';
 import GlobalStyle from './globalStyles';
+import './fontawesome-lib';
 
 ReactDOM.render(
     <ThemeProvider theme={theme}>

@@ -81,7 +81,7 @@ class Routes extends Component {
   render() {
     const { fetchingAuthState } = this.state;
     return (
-      <div className="App">
+      <>
         {fetchingAuthState ? (
           <FullPageLoader/>
         ) : (
@@ -94,7 +94,7 @@ class Routes extends Component {
               </Switch>
             </BrowserRouter>
           )}
-      </div>
+      </>
     );
   }
 }

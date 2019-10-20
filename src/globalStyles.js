@@ -8,13 +8,12 @@ export default createGlobalStyle`
         margin: 0;
         padding: 0;
         font-family: 'Poppins', sans-serif;
-        /* font-family: 'Open Sans', sans-serif; */
         font-size: 16px;
-        background-color: ${props => props.theme.colors.offWhite}
+        background-color: ${props => props.theme.colors.offWhite};
+        color: ${props => props.theme.colors.black}
     }
 
     * {
         font-family: 'Poppins', sans-serif;
-        color: ${props => props.theme.colors.black}
     }
 `
