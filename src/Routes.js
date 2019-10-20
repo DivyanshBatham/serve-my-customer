@@ -36,6 +36,7 @@ class Routes extends Component {
       } else {
         this.setState({
           fetchingAuthState: false,
+          user: null
         })
       }
     });

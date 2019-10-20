@@ -14,6 +14,7 @@ export const StyledLink = styled(Flex.center)`
     box-shadow: ${props => props.theme.shadows.normal};
     transition: ${props => props.theme.transition};
     color: ${props => props.theme.colors.black};
+    cursor: pointer;
 
     &.active {
         background-color: ${props => props.theme.colors.primary};

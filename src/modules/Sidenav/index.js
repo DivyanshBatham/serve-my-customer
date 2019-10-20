@@ -1,8 +1,13 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { auth } from '../../config/clientSdk';
 import { Box } from '../../atoms';
 import { StyledLink, StyledIconContainer, StyledNav } from './styles';
+
+const Logout = () => {
+    auth.signOut();
+}
 
 const Sidenav = () => {
     return (
@@ -41,7 +46,7 @@ const Sidenav = () => {
             </Box>
 
             <Box m="0 auto">
-                <StyledLink as={Link}>
+                <StyledLink onClick={Logout}>
                     <StyledIconContainer>
                         <FontAwesomeIcon
                             icon="sign-out-alt"
