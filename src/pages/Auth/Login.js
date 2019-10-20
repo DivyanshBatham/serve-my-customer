@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../../config/clientSdk';
-import { Column, Button, Flex, Container } from '../../atoms';
+import { Column, Button, Flex, Container, Text } from '../../atoms';
 import { Form, AuthTextField, AuthLink, ErrorText } from './authStyles';
 
 
@@ -47,7 +47,17 @@ class Login extends Component {
         return (
             <Container.Loader showLoader={loading}>
                 <Column alignItems="center">
-                    <h1>Serve My Customer</h1>
+                    <Text
+                        color="black"
+                        fontSize="2.2rem"
+                        fontWeight="medium"
+                        fontFamily="pacifico"
+                        as="h1"
+                        m="2.8rem 0 2rem"
+                    >
+                        Serve My Customer
+                    </Text>
+
                     <Form onSubmit={this.handleSubmit}>
                         <AuthTextField
                             type="text"
