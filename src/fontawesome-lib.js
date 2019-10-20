@@ -7,7 +7,8 @@ import {
   faComments,
   faUserTimes,
   faUserPlus,
-  faCode
+  faCode,
+  faCog
 } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -18,5 +19,6 @@ library.add(
   faComments,
   faUserTimes,
   faUserPlus,
-  faCode
+  faCode,
+  faCog
 );

@@ -46,7 +46,7 @@ class Employees extends Component {
                     </h1>
                     <Button>
                         <Flex>
-                            <IconContainer size="1rem" mr="0.5rem" ml="-0.5rem">
+                            <IconContainer mr="0.5rem" ml="-0.5rem">
                                 <FontAwesomeIcon
                                     icon="user-plus"
                                 />

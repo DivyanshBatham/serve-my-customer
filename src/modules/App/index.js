@@ -1,9 +1,10 @@
 import React from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dashboard, Employees, Sessions } from "../pages";
-import Sidenav from "./Sidenav";
-import { Flex, Box, Text, Button, Container, IconContainer } from "../atoms";
+import { Dashboard, Employees, Sessions } from "../../pages";
+import Sidenav from "../Sidenav";
+import { Flex, Box, Text, Button, Container, IconContainer } from "../../atoms";
+import { SettingsIconContainer } from './styles';
 
 const App = (props) => {
     console.log(props);
@@ -20,31 +21,26 @@ const App = (props) => {
                             as="h1"
                         >
                             Serve My Customer
-                    </Text>
-                        <Button.secondary>
-                            <Flex>
-                                <IconContainer size="1rem" mr="0.5rem" ml="-0.5rem">
-                                    <FontAwesomeIcon
-                                        icon="code"
-                                    />
-                                </IconContainer>
-                                Get Script
-                            </Flex>
-                        </Button.secondary>
-                    </Flex.verticallyCenter>
-
-                    {/* <Button>
-                    <Flex>
-                        <IconContainer size="1rem" mr="0.4rem">
-                            <FontAwesomeIcon
-                                icon="user-plus"
-                            />
-                        </IconContainer>
-                        <Text>
-                            Invite
                         </Text>
-                    </Flex>
-                </Button> */}
+                        <Flex.center>
+
+                            <Button.secondary>
+                                <Flex>
+                                    <IconContainer mr="0.5rem" ml="-0.5rem">
+                                        <FontAwesomeIcon
+                                            icon="code"
+                                        />
+                                    </IconContainer>
+                                    Get Script
+                            </Flex>
+                            </Button.secondary>
+                            <SettingsIconContainer ml="2rem">
+                                <FontAwesomeIcon
+                                    icon="cog"
+                                />
+                            </SettingsIconContainer>
+                        </Flex.center>
+                    </Flex.verticallyCenter>
                 </Container>
             </Box>
             <Flex>
