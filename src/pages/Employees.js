@@ -1,10 +1,13 @@
 import React from 'react';
+import { Container } from '../atoms';
 
 const Employees = () => {
     return (
-        <h1>
-            Employees
-        </h1>
+        <Container>
+            <h1>
+                Employees
+            </h1>
+        </Container>
     );
 }
 

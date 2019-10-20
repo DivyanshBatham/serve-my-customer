@@ -8,9 +8,18 @@ const App = (props) => {
     console.log(props);
     return (
         <>
-            <Box bg="primary" height="20vh">
-                <Text color="white" fontSize="1.5rem" fontWeight="medium">Serve My Customer </Text>
-            </Box>
+            <Flex.verticallyCenter bg="primary" height="20vh">
+                <Text
+                    color="white"
+                    fontSize="2rem"
+                    fontWeight="medium"
+                    fontFamily="pacifico"
+                    pl="2rem"
+                    as="h1"
+                >
+                    Serve My Customer
+                </Text>
+            </Flex.verticallyCenter>
             <Flex>
                 <Sidenav />
                 <Box flex="1">

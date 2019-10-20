@@ -16,7 +16,8 @@ export default {
     colors,
     fonts: {
         poppins: "'Poppins', sans-serif",
-        openSans: "'Open Sans', sans-serif"
+        openSans: "'Open Sans', sans-serif",
+        pacifico: "'Pacifico', cursive",
     },
     fontWeights: {
         light: 300,
