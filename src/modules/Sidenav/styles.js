@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { TextField, Text, Box, IconContainer, Flex, Column } from '../../atoms';
+import {IconContainer, Flex } from '../../atoms';
 
 export const StyledLink = styled(Flex.center)`
     text-decoration: none;
@@ -34,8 +34,9 @@ export const StyledNav = styled.nav`
     display: flex;
     flex-direction: column;
     justify-content:space-evenly; 
-    width:200px;
+    /* width:200px; */
     position:sticky;
     top:0;
     height:80vh;
+    margin: 0 2.5rem;
 `

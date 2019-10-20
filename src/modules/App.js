@@ -49,7 +49,7 @@ const App = (props) => {
             </Box>
             <Flex>
                 <Sidenav />
-                <Box flex="1">
+                <Box flex="1" pt="1.5rem" mr="2.5rem">
                     <Route
                         exact
                         path={props.match.url}

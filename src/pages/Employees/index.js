@@ -39,7 +39,7 @@ class Employees extends Component {
         const { employees } = this.state;
         console.log(employees);
         return (
-            <Container pt="1rem" pr="2rem">
+            <Container>
                 <Flex.spaceBetween>
                     <h1>
                         Employees
