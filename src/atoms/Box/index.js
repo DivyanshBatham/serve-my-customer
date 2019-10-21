@@ -4,6 +4,7 @@ import {
   space,
   flex,
   layout,
+  border,
 } from 'styled-system';
 
 const Box = styled.div`
@@ -11,6 +12,7 @@ const Box = styled.div`
   ${space}
   ${flex}
   ${layout}
+  ${border}
   box-sizing: 'border-box';
 `;
 

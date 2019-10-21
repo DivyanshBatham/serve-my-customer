@@ -15,6 +15,7 @@
     "react-scripts": "3.2.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "simplebar-react": "^2.0.2-corejs2-1",
     "styled-components": "^4.4.0",
     "styled-system": "^5.1.2"
   },

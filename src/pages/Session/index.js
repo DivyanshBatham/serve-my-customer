@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { firestore } from '../../config/clientSdk';
-import { Container, Flex, Button, IconContainer, Text } from '../../atoms';
+import { Container, Flex, Button, IconContainer, Text, Column, Box, TextField } from '../../atoms';
 import { StyledRow } from './styles';
 import { Chat } from '../../modules';
 import { Loader } from '../../components';
+import 'simplebar';
+import 'simplebar/dist/simplebar.min.css';
 
 class Session extends Component {
     constructor(props) {
@@ -78,10 +80,10 @@ class Session extends Component {
         const { session } = this.state;
 
         return (
-            <Container>
+            <Column>
                 <Flex.spaceBetween>
                     <h1>Session {sessionId}</h1>
-                    { session && this.renderButton(session.sessionStatus)}
+                    {session && this.renderButton(session.sessionStatus)}
                 </Flex.spaceBetween>
 
                 {
@@ -100,8 +102,17 @@ class Session extends Component {
                         )
                 }
 
-                <Chat />
-            </Container>
+                <Flex>
+                    <Chat data-simplebar
+                    // data-simplebar-auto-hide="false" 
+                    />
+                    {/* <Box data-simplebar m="1.5rem 0 1.5rem 1.5rem" bg="white" borderRadius="0.5rem" width="250px">
+                        Suggestions
+                    </Box> */}
+                </Flex>
+
+                <TextField type="text" placeholder="Type a message" />
+            </Column>
         );
     }
 }
