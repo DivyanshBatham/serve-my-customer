@@ -15,7 +15,7 @@ class Sessions extends Component {
     }
 
     componentDidMount() {
-        // /companies/{companyId} 🏛 /sessions/{sessionId} 📦 
+        // /companies/{companyId} 🏛 /sessions/ 📦 
         let companyId = 'HLt6Aw07YQljGsU3Jg7x';
 
         this.activeSessionsListener =
@@ -107,17 +107,19 @@ class Sessions extends Component {
             sessions ? (
                 sessions.map((session, index) => (
                     <StyledRow as={Link} to={`/app/sessions/${session.id}`} m="1rem 0" key={session.id}>
-                        <Flex>
+                        <Flex.verticallyCenter>
                             <Text mr="2rem">{index + 1}.</Text>
                             <Text mr="2rem">{session.customerName}</Text>
                             <Text.italics mr="2rem">{session.customerEmail}</Text.italics>
                             <Text mr="2rem">Subject: {session.sessionSubject}</Text>
-                        </Flex>
-                        <StyledIconContainer>
-                            <FontAwesomeIcon
-                                icon="comment-medical"
-                            />
-                        </StyledIconContainer>
+                        </Flex.verticallyCenter>
+                        <Flex.verticallyCenter>
+                            <StyledIconContainer>
+                                <FontAwesomeIcon
+                                    icon="comment-medical"
+                                />
+                            </StyledIconContainer>
+                        </Flex.verticallyCenter>
                     </StyledRow>))
             ) : (
                     <StyledRow justifyContent="center" m="1rem 0">

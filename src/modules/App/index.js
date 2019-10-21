@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dashboard, Employees, Sessions } from "../../pages";
+import { Dashboard, Employees, Sessions, Session } from "../../pages";
 import Sidenav from "../Sidenav";
 import { Flex, Box, Text, Button, Container, IconContainer } from "../../atoms";
 import { SettingsIconContainer } from './styles';
@@ -45,7 +45,7 @@ const App = (props) => {
             </Box>
             <Flex>
                 <Sidenav />
-                <Box flex="1" pt="1.5rem" mr="2.5rem">
+                <Box flex="1" m="1.5rem 2.5rem 1.5rem 0">
                     <Switch>
                         <Redirect exact
                             from='/app'
@@ -71,7 +71,7 @@ const App = (props) => {
                         <Route
                             exact
                             path={`/app/sessions/:sessionId`}
-                            component={Employees}
+                            component={Session}
                         />
                         {/* TODO: Add a 404 Page */}
                     </Switch>

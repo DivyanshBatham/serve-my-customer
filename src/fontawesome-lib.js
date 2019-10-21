@@ -9,7 +9,8 @@ import {
   faUserPlus,
   faCode,
   faCog,
-  faCommentMedical
+  faCommentMedical,
+  faCommentSlash
 } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -22,5 +23,6 @@ library.add(
   faUserPlus,
   faCode,
   faCog,
-  faCommentMedical
+  faCommentMedical,
+  faCommentSlash
 );
