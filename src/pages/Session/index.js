@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { firestore } from '../../config/clientSdk';
+import firebase, { firestore } from '../../config/clientSdk';
 import { Container, Flex, Button, IconContainer, Text, Column, Box, TextField } from '../../atoms';
 import { StyledRow } from './styles';
 import { Chat } from '../../modules';
@@ -11,7 +11,9 @@ import 'simplebar/dist/simplebar.min.css';
 class Session extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            message: ''
+        }
     }
 
     componentDidMount() {
@@ -35,6 +37,37 @@ class Session extends Component {
 
     componentWillUnmount() {
         this.sessionsListener();
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+
+    sendMessageIfEnter = (e) => {
+        if (e.key === 'Enter')
+            this.handleSendMessage();
+    }
+
+    handleSendMessage = () => {
+        const { message } = this.state;
+
+        console.log("Sending Message: ", message);
+        const { sessionId } = this.props.match.params;
+        let companyId = 'HLt6Aw07YQljGsU3Jg7x';
+
+        firestore.collection(`companies/${companyId}/sessions/${sessionId}/messages`).doc().set({
+            message: message,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            author: 'employee'
+        })
+
+        this.setState({
+            message: ''
+        })
+
+
     }
 
     renderButton = (status) => {
@@ -77,7 +110,7 @@ class Session extends Component {
 
     render() {
         const { sessionId } = this.props.match.params;
-        const { session } = this.state;
+        const { session, message } = this.state;
 
         return (
             <Column>
@@ -103,7 +136,9 @@ class Session extends Component {
                 }
 
                 <Flex>
-                    <Chat data-simplebar
+                    <Chat
+                        // data-simplebar
+                    // sessionId={sessionId}
                     // data-simplebar-auto-hide="false" 
                     />
                     {/* <Box data-simplebar m="1.5rem 0 1.5rem 1.5rem" bg="white" borderRadius="0.5rem" width="250px">
@@ -111,7 +146,14 @@ class Session extends Component {
                     </Box> */}
                 </Flex>
 
-                <TextField type="text" placeholder="Type a message" />
+                <TextField
+                    type="text"
+                    placeholder="Type a message"
+                    name="message"
+                    value={message}
+                    onChange={this.handleChange}
+                    onKeyPress={this.sendMessageIfEnter}
+                />
             </Column>
         );
     }
