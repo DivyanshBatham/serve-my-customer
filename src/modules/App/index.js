@@ -68,6 +68,11 @@ const App = (props) => {
                             path={`/app/sessions/:status(pending|active|inactive|completed)`}
                             component={Sessions}
                         />
+                        <Route
+                            exact
+                            path={`/app/sessions/:sessionId`}
+                            component={Employees}
+                        />
                         {/* TODO: Add a 404 Page */}
                     </Switch>
                 </Box>

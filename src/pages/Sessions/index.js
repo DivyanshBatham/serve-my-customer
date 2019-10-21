@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { firestore } from '../../config/clientSdk';
 import { Container, Flex, Text } from '../../atoms';
@@ -53,6 +53,10 @@ class Sessions extends Component {
                 .onSnapshot((inactiveSessions) => {
                     let length = inactiveSessions.docs.length;
                     this.setState({
+                        inactiveSessions: inactiveSessions.docs.map(session => ({
+                            id: session.id,
+                            ...session.data()
+                        })),
                         inactiveSessionsCount: length < 10 ? '0' + length : length
                     })
                 }, (err) => {
@@ -64,6 +68,10 @@ class Sessions extends Component {
                 .onSnapshot((completedSessions) => {
                     let length = completedSessions.docs.length;
                     this.setState({
+                        completedSessions: completedSessions.docs.map(session => ({
+                            id: session.id,
+                            ...session.data()
+                        })),
                         completedSessionsCount: length < 10 ? '0' + length : length
                     })
                 }, (err) => {
@@ -78,14 +86,50 @@ class Sessions extends Component {
         this.completedSessionsListener();
     }
 
+    renderSessionList = (status) => {
+        const { activeSessions, pendingSessions, inactiveSessions, completedSessions } = this.state;
+        let sessions;
+        switch (status) {
+            case 'pending':
+                sessions = pendingSessions;
+                break;
+            case 'active':
+                sessions = activeSessions;
+                break;
+            case 'inactive':
+                sessions = inactiveSessions;
+                break;
+            default:
+                sessions = completedSessions;
+                break;
+        }
+        return (
+            sessions ? (
+                sessions.map((session, index) => (
+                    <StyledRow as={Link} to={`/app/sessions/${session.id}`} m="1rem 0" key={session.id}>
+                        <Flex>
+                            <Text mr="2rem">{index + 1}.</Text>
+                            <Text mr="2rem">{session.customerName}</Text>
+                            <Text.italics mr="2rem">{session.customerEmail}</Text.italics>
+                            <Text mr="2rem">Subject: {session.sessionSubject}</Text>
+                        </Flex>
+                        <StyledIconContainer>
+                            <FontAwesomeIcon
+                                icon="comment-medical"
+                            />
+                        </StyledIconContainer>
+                    </StyledRow>))
+            ) : (
+                    <StyledRow justifyContent="center" m="1rem 0">
+                        <Loader sizes={['0.8rem', '0.9rem', '0.8rem']} />
+                    </StyledRow>
+                )
+        );
+    }
+
     render() {
-        console.log(this.props.match.params);
         const { status } = this.props.match.params;
-        const {
-            activeSessions, activeSessionsCount,
-            pendingSessions, pendingSessionsCount,
-            inactiveSessions, inactiveSessionsCount,
-            completedSessions, completedSessionsCount } = this.state;
+        const { activeSessionsCount, pendingSessionsCount, inactiveSessionsCount, completedSessionsCount } = this.state;
         return (
             <Container>
                 <h1>Sessions</h1>
@@ -129,28 +173,8 @@ class Sessions extends Component {
                     </StyledCard>
                 </Flex>
 
-                {
-                    pendingSessions ? (
-                        pendingSessions.map((session, index) => (
-                            <StyledRow m="1rem 0">
-                                <Flex>
-                                    <Text mr="2rem">{index + 1}.</Text>
-                                    <Text mr="2rem">{session.customerName}</Text>
-                                    <Text.italics mr="2rem">{session.customerEmail}</Text.italics>
-                                    <Text mr="2rem">Subject: {session.sessionSubject}</Text>
-                                </Flex>
-                                <StyledIconContainer>
-                                    <FontAwesomeIcon
-                                        icon="comment-medical"
-                                    />
-                                </StyledIconContainer>
-                            </StyledRow>))
-                    ) : (
-                            <StyledRow justifyContent="center" m="1rem 0">
-                                <Loader sizes={['0.8rem', '0.9rem', '0.8rem']} />
-                            </StyledRow>
-                        )
-                }
+                {this.renderSessionList(status)}
+
             </Container>
         );
     }

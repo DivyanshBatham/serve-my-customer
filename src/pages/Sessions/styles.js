@@ -59,7 +59,15 @@ export const StyledRow = styled(Row)`
     border-radius: 0.5rem;
     padding: 0.7rem 1rem;
     justify-content: space-between;
+    text-decoration: none;
+    color: ${props => props.theme.colors.black};
+    box-shadow: ${props => props.theme.shadows.normal};
+    transition: ${props => props.theme.transition};
     ${flexbox};
+
+    &:hover {
+        box-shadow: ${props => props.theme.shadows.hover};
+    }
 `
 
 export const StyledIconContainer = styled(IconContainer)`
