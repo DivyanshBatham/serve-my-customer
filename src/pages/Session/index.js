@@ -117,7 +117,7 @@ class Session extends Component {
             <Column minHeight="100%">
                 <Flex.spaceBetween>
                     <h1>Session {sessionId}</h1>
-                    {session && this.renderButton(session.sessionStatus)}
+                    {session && this.renderButton(session.status)}
                 </Flex.spaceBetween>
 
                 {
@@ -126,7 +126,7 @@ class Session extends Component {
                             <Flex.verticallyCenter>
                                 <Text mr="2rem">{session.customerName}</Text>
                                 <Text.italics mr="2rem">{session.customerEmail}</Text.italics>
-                                <Text>Subject: {session.sessionSubject}</Text>
+                                <Text>Subject: {session.subject}</Text>
                             </Flex.verticallyCenter>
                         </StyledRow>
                     ) : (

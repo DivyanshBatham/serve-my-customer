@@ -19,7 +19,7 @@ class Sessions extends Component {
         const { companyId } = this.props.user;
 
         this.activeSessionsListener =
-            firestore.collection(`companies/${companyId}/sessions`).where('sessionStatus', "==", "active")
+            firestore.collection(`companies/${companyId}/sessions`).where('status', "==", "active")
                 .onSnapshot((activeSessions) => {
                     let length = activeSessions.docs.length;
                     this.setState({
@@ -34,7 +34,7 @@ class Sessions extends Component {
                 });
 
         this.pendingSessionsListener =
-            firestore.collection(`companies/${companyId}/sessions`).where('sessionStatus', "==", "pending")
+            firestore.collection(`companies/${companyId}/sessions`).where('status', "==", "pending")
                 .onSnapshot((pendingSessions) => {
                     let length = pendingSessions.docs.length;
                     this.setState({
@@ -49,7 +49,7 @@ class Sessions extends Component {
                 });
 
         this.inactiveSessionsListener =
-            firestore.collection(`companies/${companyId}/sessions`).where('sessionStatus', "==", "inactive")
+            firestore.collection(`companies/${companyId}/sessions`).where('status', "==", "inactive")
                 .onSnapshot((inactiveSessions) => {
                     let length = inactiveSessions.docs.length;
                     this.setState({
@@ -64,7 +64,7 @@ class Sessions extends Component {
                 });
 
         this.completedSessionsListener =
-            firestore.collection(`companies/${companyId}/sessions`).where('sessionStatus', "==", "completed")
+            firestore.collection(`companies/${companyId}/sessions`).where('status', "==", "completed")
                 .onSnapshot((completedSessions) => {
                     let length = completedSessions.docs.length;
                     this.setState({
@@ -113,7 +113,7 @@ class Sessions extends Component {
                             <Text mr="2rem">{index + 1}.</Text>
                             <Text mr="2rem">{session.customerName}</Text>
                             <Text.italics mr="2rem">{session.customerEmail}</Text.italics>
-                            <Text mr="2rem">Subject: {session.sessionSubject}</Text>
+                            <Text mr="2rem">Subject: {session.subject}</Text>
                         </Flex.verticallyCenter>
                         <Flex.verticallyCenter>
                             <StyledIconContainer>
