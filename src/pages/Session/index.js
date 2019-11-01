@@ -53,20 +53,21 @@ class Session extends Component {
     handleSendMessage = () => {
         const { message } = this.state;
 
-        console.log("Sending Message: ", message);
-        const { sessionId } = this.props.match.params;
-        let companyId = 'HLt6Aw07YQljGsU3Jg7x';
+        if (message) {
+            const { sessionId } = this.props.match.params;
+            let companyId = 'HLt6Aw07YQljGsU3Jg7x';
 
-        firestore.collection(`companies/${companyId}/sessions/${sessionId}/messages`).doc().set({
-            message: message,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            author: 'employee'
-        })
+            firestore.collection(`companies/${companyId}/sessions/${sessionId}/messages`).doc().set({
+                message: message,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                clientTimestamp: new Date(),
+                author: 'employee'
+            })
 
-        this.setState({
-            message: ''
-        })
-
+            this.setState({
+                message: ''
+            })
+        }
 
     }
 
@@ -137,7 +138,7 @@ class Session extends Component {
 
                 <Flex>
                     <Chat
-                        // data-simplebar
+                    // data-simplebar
                     // sessionId={sessionId}
                     // data-simplebar-auto-hide="false" 
                     />

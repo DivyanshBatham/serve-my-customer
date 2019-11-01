@@ -1,6 +1,7 @@
 const colors = {
     // black: '#000e1a',
     black: '#383838',
+    lightBlack: '#808080',
     white: '#fff',
     blue: '#3464E0',
     lightBlue: '#87D3F3',
