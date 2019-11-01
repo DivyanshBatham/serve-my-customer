@@ -20,7 +20,7 @@ router.post('/', async (req, res, next) => {
 
     // Add Custom Claim:
     await auth.setCustomUserClaims(user.uid, {
-      companyAccount: true,
+      admin: true,
       companyId: user.uid
     });
 
