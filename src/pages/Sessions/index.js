@@ -16,8 +16,8 @@ class Sessions extends Component {
 
     componentDidMount() {
         // /companies/{companyId} 🏛 /sessions/ 📦 
-        let companyId = 'HLt6Aw07YQljGsU3Jg7x';
-
+        const { companyId } = this.props.user;
+        
         this.activeSessionsListener =
             firestore.collection(`companies/${companyId}/sessions`).where('sessionStatus', "==", "active")
                 .onSnapshot((activeSessions) => {

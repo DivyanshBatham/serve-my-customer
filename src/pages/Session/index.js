@@ -18,7 +18,7 @@ class Session extends Component {
 
     componentDidMount() {
         // /companies/{companyId} 🏛 /sessions/{sessionId} 📝
-        let companyId = 'HLt6Aw07YQljGsU3Jg7x';
+        const { companyId } = this.props.user;
         const { sessionId } = this.props.match.params;
 
         this.sessionsListener =

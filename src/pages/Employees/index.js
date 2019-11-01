@@ -15,8 +15,8 @@ class Employees extends Component {
 
     componentDidMount() {
         // /companies/{companyId} 🏛 /employees/{employeeId} 👨‍💼 
-        let companyId = 'HLt6Aw07YQljGsU3Jg7x';
-
+        const { companyId } = this.props.user;
+        
         this.employeesListener =
             firestore.collection(`companies/${companyId}/employees`)
                 .onSnapshot((employees) => {

@@ -15,7 +15,7 @@ class Dashboard extends Component {
 
     componentDidMount() {
         // /companies/{companyId} 🏛 /sessions/{sessionId} 📦 
-        let companyId = 'HLt6Aw07YQljGsU3Jg7x';
+        const { companyId } = this.props.user;
 
         this.activeSessionsListener =
             firestore.collection(`companies/${companyId}/sessions`).where('sessionStatus', "==", "active")
