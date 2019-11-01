@@ -3,7 +3,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { firestore } from '../../config/clientSdk';
 import { Column, Flex, Text } from '../../atoms';
-import { Loader } from '../../components';
+import { Loader, FlexCard } from '../../components';
 import { StyledCard, StatNumber, StyledCardNotifier, StyledRow, StyledIconContainer } from './styles';
 
 class Sessions extends Component {
@@ -17,7 +17,7 @@ class Sessions extends Component {
     componentDidMount() {
         // /companies/{companyId} 🏛 /sessions/ 📦 
         const { companyId } = this.props.user;
-        
+
         this.activeSessionsListener =
             firestore.collection(`companies/${companyId}/sessions`).where('sessionStatus', "==", "active")
                 .onSnapshot((activeSessions) => {
@@ -80,6 +80,7 @@ class Sessions extends Component {
     }
 
     componentWillUnmount() {
+        console.log("unmounte")
         this.activeSessionsListener();
         this.pendingSessionsListener();
         this.inactiveSessionsListener();
@@ -103,8 +104,9 @@ class Sessions extends Component {
                 sessions = completedSessions;
                 break;
         }
-        return (
-            sessions ? (
+
+        if (sessions && sessions.length > 0) {
+            return (
                 sessions.map((session, index) => (
                     <StyledRow as={Link} to={`/app/sessions/${session.id}`} m="1rem 0" key={session.id}>
                         <Flex.verticallyCenter>
@@ -121,12 +123,18 @@ class Sessions extends Component {
                             </StyledIconContainer>
                         </Flex.verticallyCenter>
                     </StyledRow>))
-            ) : (
-                    <StyledRow justifyContent="center" m="1rem 0">
-                        <Loader sizes={['0.8rem', '0.9rem', '0.8rem']} />
-                    </StyledRow>
-                )
-        );
+            );
+        } else {
+            return <FlexCard>
+                {sessions && sessions.length === 0 ? (
+                    <Text.span fontSize="1.1rem">No {status} sessions.</Text.span>
+                ) : (
+                        <Loader sizes={['1rem', '1.1rem', '1rem']} />
+                    )
+                }
+            </FlexCard>
+        }
+
     }
 
     render() {
