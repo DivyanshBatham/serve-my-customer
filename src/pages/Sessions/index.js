@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { firestore } from '../../config/clientSdk';
-import { Container, Flex, Text } from '../../atoms';
+import { Column, Flex, Text } from '../../atoms';
 import { Loader } from '../../components';
 import { StyledCard, StatNumber, StyledCardNotifier, StyledRow, StyledIconContainer } from './styles';
 
@@ -133,7 +133,7 @@ class Sessions extends Component {
         const { status } = this.props.match.params;
         const { activeSessionsCount, pendingSessionsCount, inactiveSessionsCount, completedSessionsCount } = this.state;
         return (
-            <Container>
+            <Column minHeight="100%">
                 <h1>Sessions</h1>
 
                 <Flex justifyContent="center" flexWrap="wrap" m="1rem 0">
@@ -177,7 +177,7 @@ class Sessions extends Component {
 
                 {this.renderSessionList(status)}
 
-            </Container>
+            </Column>
         );
     }
 }

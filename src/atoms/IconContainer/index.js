@@ -12,6 +12,7 @@ import {
 const IconContainer = styled(Flex.center)`
     height: 24px;
     width: 24px;
+    transition: ${props => props.theme.transition};
     ${layout};
     ${space};
     ${typography}

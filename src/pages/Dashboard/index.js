@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { firestore } from '../../config/clientSdk';
-import { Container, Text, Flex } from '../../atoms';
+import { Column, Text, Flex } from '../../atoms';
 import { Loader } from '../../components';
 import { StyledCard, StatNumber, StyledCardNotifier } from './styles';
 
@@ -76,7 +76,7 @@ class Dashboard extends Component {
     render() {
         const { activeSessionsCount, pendingSessionsCount, inactiveSessionsCount, completedSessionsCount } = this.state;
         return (
-            <Container>
+            <Column minHeight="100%">
                 <h1>Dashboard</h1>
 
                 <Flex justifyContent="center" flexWrap="wrap" m="1rem 0">
@@ -130,7 +130,7 @@ class Dashboard extends Component {
                         pendingSessions && pendingSessions.map(session => <li key={session.id}>{session.customerEmail} + {session.id}</li>)
                     }
                 </ul> */}
-            </Container>
+            </Column>
         );
     }
 }

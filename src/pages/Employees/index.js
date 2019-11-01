@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { firestore } from '../../config/clientSdk';
-import { Container, Flex, Button, Text, IconContainer } from '../../atoms';
-import { StyledRow, StyledIconContainer } from './styles';
-import { Loader } from '../../components';
+import { Container, Box, Flex, Button, Text, IconContainer, Column } from '../../atoms';
+import { StyledRow, StyledIconContainer, StyledFlexCard } from './styles';
+import { Loader, FlexCard } from '../../components';
 
 class Employees extends Component {
     constructor(props) {
@@ -16,7 +16,7 @@ class Employees extends Component {
     componentDidMount() {
         // /companies/{companyId} 🏛 /employees/{employeeId} 👨‍💼 
         const { companyId } = this.props.user;
-        
+
         this.employeesListener =
             firestore.collection(`companies/${companyId}/employees`)
                 .onSnapshot((employees) => {
@@ -35,11 +35,58 @@ class Employees extends Component {
         this.employeesListener();
     }
 
-    render() {
+    renderEmployees = () => {
         const { employees } = this.state;
-        console.log(employees);
+
+        if (employees && employees.length > 0) {
+            return employees.map((employee, index) => (
+                <StyledRow m="1rem 0" key={employee.id}>
+                    <Flex>
+                        <Text mr="2rem">{index + 1}.</Text>
+                        <Text mr="2rem">{employee.name}</Text>
+                        <Text.italics mr="2rem">{employee.email}</Text.italics>
+                    </Flex>
+                    <Flex>
+                        <Text mr="2rem">Role: {employee.role}</Text>
+                    </Flex>
+                    <StyledIconContainer>
+                        <FontAwesomeIcon
+                            icon="user-times"
+                        />
+                    </StyledIconContainer>
+                </StyledRow>
+            ))
+        } else {
+            return (
+                <StyledFlexCard
+                    m="1rem 0"
+                    boxShadow={employees && employees.length === 0? 'normal': null}
+                >
+                    {employees && employees.length === 0 ? (
+                        <>
+                            <IconContainer size="2rem" fontSize="2rem" mb="0.5rem">
+                                <FontAwesomeIcon
+                                    icon="user-plus"
+                                />
+                            </IconContainer>
+                            <Text.span fontSize="1.1rem">Invite your first employee.</Text.span>
+                        </>
+                    ) : (
+                            <Loader sizes={['1rem', '1.1rem', '1rem']} />
+                        )
+                    }
+                </StyledFlexCard>
+
+                // {/* // <FlexCard m="1rem 0" > */ }
+                // {/* //     <Loader sizes={['1rem', '1.1rem', '1rem']} /> */ }
+                // {/* // </FlexCard> */ }
+            );
+        }
+    }
+
+    render() {
         return (
-            <Container>
+            <Column minHeight="100%">
                 <Flex.spaceBetween>
                     <h1>
                         Employees
@@ -57,32 +104,9 @@ class Employees extends Component {
                         </Flex>
                     </Button>
                 </Flex.spaceBetween>
-                {
-                    employees ? (
-                        employees.map((employee, index) => (
-                            <StyledRow m="1rem 0" key={employee.id}>
-                                <Flex>
-                                    <Text mr="2rem">{index + 1}.</Text>
-                                    <Text mr="2rem">{employee.name}</Text>
-                                    <Text.italics mr="2rem">{employee.email}</Text.italics>
-                                </Flex>
-                                <Flex>
-                                    <Text mr="2rem">Role: {employee.role}</Text>
-                                </Flex>
-                                <StyledIconContainer>
-                                    <FontAwesomeIcon
-                                        icon="user-times"
-                                    />
-                                </StyledIconContainer>
-                            </StyledRow>
-                        ))
-                    ) : (
-                            <StyledRow justifyContent="center" m="1rem 0">
-                                <Loader sizes={['0.8rem', '0.9rem', '0.8rem']} />
-                            </StyledRow>
-                        )
-                }
-            </Container>
+
+                <this.renderEmployees />
+            </Column>
         );
     }
 }

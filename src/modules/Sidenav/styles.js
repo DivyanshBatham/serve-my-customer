@@ -38,6 +38,6 @@ export const StyledNav = styled.nav`
     /* width:200px; */
     position:sticky;
     top:0;
-    height:80vh;
+    max-height: 80vh;
     margin: 0 2.5rem;
 `

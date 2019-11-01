@@ -55,7 +55,7 @@ const App = (props) => {
                     </Flex.verticallyCenter>
                 </Container>
             </Box>
-            <Flex>
+            <Flex flex="1">
                 <Sidenav />
                 <Box flex="1" m="1.5rem 2.5rem 1.5rem 0">
                     <Switch>

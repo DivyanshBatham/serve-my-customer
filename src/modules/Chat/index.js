@@ -47,7 +47,8 @@ class Chat extends Component {
     render() {
         const { messages } = this.state;
         return (
-            <Box maxHeight={'38vh'} m="1.5rem 0" bg="white" overflowY="scroll" borderRadius="0.5rem" flex="1" p="1rem 1rem 0rem 1rem">
+            // <Box maxHeight={'38vh'} m="1.5rem 0" bg="white" overflowY="scroll" borderRadius="0.5rem" flex="1" p="1rem 1rem 0rem 1rem">
+            <Box m="1.5rem 0" bg="white" overflowY="scroll" borderRadius="0.5rem" flex="1" p="1rem 1rem 0rem 1rem">
                 {messages && messages.map(message =>
                     <Flex flexDirection={message.author === 'employee' ? "row-reverse" : "row"} key={message.id}>
                         <Message>

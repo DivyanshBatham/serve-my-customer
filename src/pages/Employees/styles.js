@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Row, IconContainer } from '../../atoms';
+import { FlexCard } from '../../components';
 import { flexbox } from 'styled-system';
 
 export const StyledRow = styled(Row)`
@@ -15,5 +16,15 @@ export const StyledIconContainer = styled(IconContainer)`
     transition: ${props => props.theme.transition};
     &:hover {
         color: ${props => props.theme.colors.primary}
+    }
+`
+
+export const StyledFlexCard = styled(FlexCard)`
+    cursor: pointer;
+    &:hover {
+        box-shadow: ${props => props.theme.shadows.hover};
+        > div:first-child {
+            color: ${props => props.theme.colors.primary};
+        }
     }
 `

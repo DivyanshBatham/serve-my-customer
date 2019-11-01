@@ -114,7 +114,7 @@ class Session extends Component {
         const { session, message } = this.state;
 
         return (
-            <Column>
+            <Column minHeight="100%">
                 <Flex.spaceBetween>
                     <h1>Session {sessionId}</h1>
                     {session && this.renderButton(session.sessionStatus)}
@@ -136,7 +136,7 @@ class Session extends Component {
                         )
                 }
 
-                <Flex>
+                <Flex flex="1">
                     <Chat
                     // data-simplebar
                     // sessionId={sessionId}
