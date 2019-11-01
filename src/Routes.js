@@ -1,56 +1,21 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-// import firebase from './config/init-firebase';
-import { auth } from './config/clientSdk';
 import { Login, Register, Home, VerifyEmail } from './pages';
 import { App } from './modules';
-import { FullPageLoader } from './components';
-// import './App.scss';
+import { AuthContext } from './context/AuthContext';
 
 class Routes extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: null,
-      fetchingAuthState: true,
-    }
-  }
-
-  componentDidMount() {
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const idToken = await auth.currentUser.getIdToken(/* forceRefresh */ true);
-        this.setState({
-          fetchingAuthState: false,
-          user: {
-            displayName: user.displayName,
-            email: user.email,
-            emailVerified: user.emailVerified,
-            photoURL: user.photoURL,
-            isAnonymous: user.isAnonymous,
-            uid: user.uid,
-            providerData: user.providerData,
-            idToken
-          }
-        });
-      } else {
-        this.setState({
-          fetchingAuthState: false,
-          user: null
-        })
-      }
-    });
-  }
+  static contextType = AuthContext;
 
   PrivateRoute = ({ component: Component, ...rest }) => {
-    const { user } = this.state;
+    const { user } = this.context;
     return (
       <Route
         {...rest}
         render={props =>
           user ? (
             user.emailVerified ?
-              <Component {...props} user={user} /> :
+              <Component {...props} user={user}/> :
               <VerifyEmail {...props} user={user} />
           ) : (
               <Redirect
@@ -66,7 +31,7 @@ class Routes extends Component {
   };
 
   AuthRoute = ({ component: Component, ...rest }) => {
-    const { user } = this.state;
+    const { user } = this.context;
     return (
       <Route
         {...rest}
@@ -80,22 +45,15 @@ class Routes extends Component {
   };
 
   render() {
-    const { fetchingAuthState } = this.state;
     return (
-      <>
-        {fetchingAuthState ? (
-          <FullPageLoader/>
-        ) : (
-            <BrowserRouter basename={process.env.PUBLIC_URL}>
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <this.AuthRoute path="/login" component={Login} />
-                <this.AuthRoute path="/register" component={Register} />
-                <this.PrivateRoute path="/app" component={App} />
-              </Switch>
-            </BrowserRouter>
-          )}
-      </>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <this.AuthRoute path="/login" component={Login} />
+          <this.AuthRoute path="/register" component={Register} />
+          <this.PrivateRoute path="/app" component={App} />
+        </Switch>
+      </BrowserRouter>
     );
   }
 }

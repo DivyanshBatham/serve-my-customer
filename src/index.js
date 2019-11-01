@@ -6,11 +6,14 @@ import { ThemeProvider } from 'styled-components'
 import theme from './theme';
 import GlobalStyle from './globalStyles';
 import './fontawesome-lib';
+import AuthContextProvider from './context/AuthContext';
 
 ReactDOM.render(
     <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <Routes />
+        <AuthContextProvider>
+            <Routes />
+        </AuthContextProvider>
     </ThemeProvider>,
     document.getElementById('root')
 );

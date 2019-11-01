@@ -7,7 +7,19 @@ import { Flex, Box, Text, Button, Container, IconContainer } from "../../atoms";
 import { SettingsIconContainer } from './styles';
 
 const App = (props) => {
-    console.log(props);
+
+    const RouteWithUserAsProps = ({ component: Component, ...rest }) => {
+        const { user } = props;
+        return (
+            <Route
+                {...rest}
+                render={props =>
+                    <Component {...props} user={user} />
+                }
+            />
+        );
+    };
+
     return (
         <>
             <Box bg="primary">
@@ -50,12 +62,12 @@ const App = (props) => {
                         <Redirect exact
                             from='/app'
                             to='/app/dashboard' />
-                        <Route
+                        <RouteWithUserAsProps
                             exact
                             path={`/app/dashboard`}
                             component={Dashboard}
                         />
-                        <Route
+                        <RouteWithUserAsProps
                             exact
                             path={`/app/employees`}
                             component={Employees}
@@ -63,12 +75,12 @@ const App = (props) => {
                         <Redirect exact
                             from='/app/sessions'
                             to='/app/sessions/pending' />
-                        <Route
+                        <RouteWithUserAsProps
                             exact
                             path={`/app/sessions/:status(pending|active|inactive|completed)`}
                             component={Sessions}
                         />
-                        <Route
+                        <RouteWithUserAsProps
                             exact
                             path={`/app/sessions/:sessionId`}
                             component={Session}
