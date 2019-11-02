@@ -78,6 +78,7 @@ class Session extends Component {
         firestore.doc(`companies/${companyId}/sessions/${sessionId}`).update({
             status: 'active',
             employeeId: uid,
+            employeeRef: `companies/${companyId}/employees/${uid}`,
             startTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
         }).catch(err => console.error("Error updating document: ", err))
     }
@@ -89,6 +90,7 @@ class Session extends Component {
         firestore.doc(`companies/${companyId}/sessions/${sessionId}`).update({
             status: 'completed',
             employeeId: uid,
+            employeeRef: `companies/${companyId}/employees/${uid}`,
             endTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
         }).catch(err => console.error("Error updating document: ", err))
     }

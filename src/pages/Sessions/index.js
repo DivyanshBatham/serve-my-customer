@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { firestore } from '../../config/clientSdk';
-import { Column, Flex, Text } from '../../atoms';
+import { Column, Flex, Text, Box } from '../../atoms';
 import { Loader, FlexCard } from '../../components';
 import { StyledCard, StatNumber, StyledCardNotifier, StyledRow, StyledIconContainer } from './styles';
 
@@ -80,7 +79,6 @@ class Sessions extends Component {
     }
 
     componentWillUnmount() {
-        console.log("unmounte")
         this.activeSessionsListener();
         this.pendingSessionsListener();
         this.inactiveSessionsListener();
@@ -89,6 +87,7 @@ class Sessions extends Component {
 
     renderSessionList = (status) => {
         const { activeSessions, pendingSessions, inactiveSessions, completedSessions } = this.state;
+        const { uid } = this.props.user;
         let sessions;
         switch (status) {
             case 'pending':
@@ -116,11 +115,10 @@ class Sessions extends Component {
                             <Text mr="2rem">Subject: {session.subject}</Text>
                         </Flex.verticallyCenter>
                         <Flex.verticallyCenter>
-                            <StyledIconContainer>
-                                <FontAwesomeIcon
-                                    icon="comment-medical"
-                                />
-                            </StyledIconContainer>
+                            {
+                                session.employeeId === uid &&
+                                <Box size="1rem" borderRadius="100%" bg="primary" />
+                            }
                         </Flex.verticallyCenter>
                     </StyledRow>))
             );
