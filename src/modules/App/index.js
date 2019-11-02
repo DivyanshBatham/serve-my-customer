@@ -3,7 +3,8 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dashboard, Employees, Sessions, Session } from "../../pages";
 import Sidenav from "../Sidenav";
-import { Flex, Box, Text, Button, Container, IconContainer } from "../../atoms";
+import { Flex, Box, Text, Button, Container, IconContainer, Column } from "../../atoms";
+import { FlexCard } from "../../components";
 import { SettingsIconContainer } from './styles';
 
 const App = (props) => {
@@ -88,7 +89,14 @@ const App = (props) => {
                             path={`/app/sessions/:sessionId`}
                             component={Session}
                         />
-                        {/* TODO: Add a 404 Page */}
+                        <Route path="*">
+                            <Column minHeight="100%">
+                                <FlexCard>
+                                    <Text.span fontSize="2.1rem" fontWeight="medium">404</Text.span>
+                                    <Text.span fontSize="1.1rem">Page Not Found</Text.span>
+                                </FlexCard>
+                            </Column>
+                        </Route>
                     </Switch>
                 </Box>
             </Flex>
