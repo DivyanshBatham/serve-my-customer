@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { firestore } from '../../config/clientSdk';
-import { Container, Box, Flex, Button, Text, IconContainer, Column } from '../../atoms';
+import { Box, Flex, Button, Text, IconContainer, Column, TextField } from '../../atoms';
 import { StyledRow, StyledIconContainer, StyledFlexCard } from './styles';
-import { Loader, FlexCard } from '../../components';
+import { Loader } from '../../components';
+import { Modal } from '../../modules';
 
 class Employees extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            employees: null
+            employees: null,
+            modalIsOpen: false
         }
     }
 
@@ -33,6 +35,19 @@ class Employees extends Component {
 
     componentWillUnmount() {
         this.employeesListener();
+    }
+
+    openModal = () => {
+        this.setState({ modalIsOpen: true });
+    }
+
+    closeModal = () => {
+        this.setState({ modalIsOpen: false });
+    }
+
+    sendInvite = (e) => {
+        e.preventDefault();
+        alert("Invite Send");
     }
 
     renderEmployees = () => {
@@ -70,7 +85,7 @@ class Employees extends Component {
                 <StyledFlexCard
                     m="1rem 0"
                     boxShadow={employees && employees.length === 1 ? 'normal' : null}
-                    onClick={()=>alert("Invite Employee")}
+                    onClick={this.openModal}
                 >
                     {employees && employees.length === 1 ? (
                         <>
@@ -87,10 +102,6 @@ class Employees extends Component {
                         )
                     }
                 </StyledFlexCard>
-
-                // {/* // <FlexCard m="1rem 0" > */ }
-                // {/* //     <Loader sizes={['1rem', '1.1rem', '1rem']} /> */ }
-                // {/* // </FlexCard> */ }
             );
         }
     }
@@ -102,7 +113,7 @@ class Employees extends Component {
                     <h1>
                         Employees
                     </h1>
-                    <Button onClick={()=>alert("Invite Employee")}>
+                    <Button onClick={this.openModal}>
                         <Flex>
                             <IconContainer mr="0.5rem" ml="-0.5rem">
                                 <FontAwesomeIcon
@@ -117,6 +128,42 @@ class Employees extends Component {
                 </Flex.spaceBetween>
 
                 <this.renderEmployees />
+
+                <Modal
+                    closeModal={this.closeModal}
+                    modalIsOpen={this.state.modalIsOpen}
+                >
+                    <Text mb="1rem">We will email the registration link to your employee.</Text>
+                    <form onSubmit={this.sendInvite}>
+                        <TextField
+                            width="100%"
+                            type="text"
+                            name="email"
+                            aria-label="Employee's Email"
+                            placeholder="Employee's Email"
+                            autoComplete="off"
+                            // value={email}
+                            // onChange={this.handleChange}
+                            mb="1rem"
+                        />
+                        <br />
+
+                        <Flex justifyContent="flex-end">
+                            <Button>
+                                <Flex>
+                                    <IconContainer mr="0.5rem" ml="-0.7rem">
+                                        <FontAwesomeIcon
+                                            icon="paper-plane"
+                                        />
+                                    </IconContainer>
+                                    <Text>
+                                        Send
+                                    </Text>
+                                </Flex>
+                            </Button>
+                        </Flex>
+                    </form>
+                </Modal>
             </Column>
         );
     }

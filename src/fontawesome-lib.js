@@ -12,7 +12,9 @@ import {
   faCommentMedical,
   faCommentSlash,
   faClock,
-  faCheckDouble
+  faCheckDouble,
+  faTimes,
+  faPaperPlane
 } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -28,5 +30,7 @@ library.add(
   faCommentMedical,
   faCommentSlash,
   faClock,
-  faCheckDouble
+  faCheckDouble,
+  faTimes,
+  faPaperPlane
 );

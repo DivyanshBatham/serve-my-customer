@@ -30,7 +30,7 @@ const Button = styled.button`
     opacity: 0.2;
   }
 
-  &:hover {
+  &:hover, &:focus {
     box-shadow: ${props => props.theme.shadows.hover};
   }
 
