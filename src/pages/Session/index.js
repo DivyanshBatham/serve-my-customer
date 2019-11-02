@@ -149,21 +149,13 @@ class Session extends Component {
                         {session && this.renderButton(session.status)}
                     </Flex.spaceBetween>
 
-                    {
-                        session ? (
-                            <StyledRow m="1rem 0" key={session.id}>
-                                <Flex.verticallyCenter>
-                                    <Text mr="2rem">{session.customerName}</Text>
-                                    <Text.italics mr="2rem">{session.customerEmail}</Text.italics>
-                                    <Text>Subject: {session.subject}</Text>
-                                </Flex.verticallyCenter>
-                            </StyledRow>
-                        ) : (
-                                <StyledRow justifyContent="center" m="1rem 0">
-                                    <Loader sizes={['0.8rem', '0.9rem', '0.8rem']} />
-                                </StyledRow>
-                            )
-                    }
+                    <StyledRow m="1rem 0" key={session.id}>
+                        <Flex.verticallyCenter>
+                            <Text mr="2rem">{session.customerName}</Text>
+                            <Text.italics mr="2rem">{session.customerEmail}</Text.italics>
+                            <Text>Subject: {session.subject}</Text>
+                        </Flex.verticallyCenter>
+                    </StyledRow>
 
                     <Chat
                     // data-simplebar
@@ -171,6 +163,7 @@ class Session extends Component {
                     // data-simplebar-auto-hide="false" 
                     />
 
+                    {/* TODO: Move this to a separate component to reduce the lag of onChange */}
                     <TextField
                         type="text"
                         placeholder="Type a message"
