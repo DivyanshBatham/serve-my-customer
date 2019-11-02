@@ -15,7 +15,7 @@ class Dashboard extends Component {
 
     componentDidMount() {
         // /companies/{companyId} 🏛 /sessions/{sessionId} 📦 
-        const { companyId } = this.props.user;
+        const { companyId, uid } = this.props.user;
 
         this.activeSessionsListener =
             firestore.collection(`companies/${companyId}/sessions`).where('status', "==", "active")
@@ -26,7 +26,8 @@ class Dashboard extends Component {
                         //     id: session.id,
                         //     ...session.data()
                         // }))
-                        activeSessionsCount: length < 10 ? '0' + length : length
+                        activeSessionsCount: length < 10 ? '0' + length : length,
+                        curEmployeeHasActiveSession: activeSessions.docs.findIndex(session => session.data().employeeId === uid) !== -1,
                     })
                 }, (err) => {
                     console.log(err);
@@ -74,7 +75,14 @@ class Dashboard extends Component {
     }
 
     render() {
-        const { activeSessionsCount, pendingSessionsCount, inactiveSessionsCount, completedSessionsCount } = this.state;
+        const {
+            activeSessionsCount,
+            pendingSessionsCount,
+            inactiveSessionsCount,
+            completedSessionsCount,
+            curEmployeeHasActiveSession
+        } = this.state;
+
         return (
             <Column minHeight="100%">
                 <h1>Dashboard</h1>
@@ -97,6 +105,7 @@ class Dashboard extends Component {
                             activeSessionsCount :
                             <Loader sizes={['1rem', '1.1rem', '1rem']} />}
                         </StatNumber>
+                        {curEmployeeHasActiveSession && <StyledCardNotifier bg="primary" />}
                     </StyledCard>
 
                     <StyledCard as={Link} to="/app/sessions/inactive">

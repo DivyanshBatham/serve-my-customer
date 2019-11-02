@@ -15,17 +15,32 @@ class Sessions extends Component {
 
     componentDidMount() {
         // /companies/{companyId} 🏛 /sessions/ 📦 
-        const { companyId } = this.props.user;
+        const { companyId, uid } = this.props.user;
 
         this.activeSessionsListener =
             firestore.collection(`companies/${companyId}/sessions`).where('status', "==", "active")
                 .onSnapshot((activeSessions) => {
                     let length = activeSessions.docs.length;
-                    this.setState({
-                        activeSessions: activeSessions.docs.map(session => ({
+                    let activeSessionsData = [];
+                    let curEmployeeHasActiveSession = false;
+
+                    for (let session of activeSessions.docs) {
+                        let sessionData = session.data();
+                        let isCurEmployeeSession = false;
+                        if (sessionData.employeeId === uid) {
+                            curEmployeeHasActiveSession = true;
+                            isCurEmployeeSession = true;
+                        }
+
+                        activeSessionsData.push({
                             id: session.id,
-                            ...session.data()
-                        })),
+                            ...sessionData,
+                            isCurEmployeeSession
+                        });
+                    }
+                    this.setState({
+                        activeSessions: activeSessionsData,
+                        curEmployeeHasActiveSession,
                         activeSessionsCount: length < 10 ? '0' + length : length
                     })
                 }, (err) => {
@@ -86,8 +101,13 @@ class Sessions extends Component {
     }
 
     renderSessionList = (status) => {
-        const { activeSessions, pendingSessions, inactiveSessions, completedSessions } = this.state;
-        const { uid } = this.props.user;
+        const {
+            activeSessions,
+            pendingSessions,
+            inactiveSessions,
+            completedSessions,
+        } = this.state;
+
         let sessions;
         switch (status) {
             case 'pending':
@@ -116,7 +136,7 @@ class Sessions extends Component {
                         </Flex.verticallyCenter>
                         <Flex.verticallyCenter>
                             {
-                                session.employeeId === uid &&
+                                session.isCurEmployeeSession &&
                                 <Box size="1rem" borderRadius="100%" bg="primary" />
                             }
                         </Flex.verticallyCenter>
@@ -137,7 +157,14 @@ class Sessions extends Component {
 
     render() {
         const { status } = this.props.match.params;
-        const { activeSessionsCount, pendingSessionsCount, inactiveSessionsCount, completedSessionsCount } = this.state;
+        const {
+            activeSessionsCount,
+            pendingSessionsCount,
+            inactiveSessionsCount,
+            completedSessionsCount,
+            curEmployeeHasActiveSession
+        } = this.state;
+
         return (
             <Column minHeight="100%">
                 <h1>Sessions</h1>
@@ -160,6 +187,7 @@ class Sessions extends Component {
                             activeSessionsCount :
                             <Loader bg={status === "active" ? 'white' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
                         </StatNumber>
+                        <StyledCardNotifier bg={curEmployeeHasActiveSession && status !== 'active' ? 'primary' : 'white'} />
                     </StyledCard>
 
                     <StyledCard as={NavLink} to="/app/sessions/inactive">
