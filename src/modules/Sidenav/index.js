@@ -9,7 +9,8 @@ const Logout = () => {
     auth.signOut();
 }
 
-const Sidenav = () => {
+const Sidenav = (props) => {
+    const { user } = props;
     return (
         <StyledNav>
             <Box m="0 auto">
@@ -23,17 +24,20 @@ const Sidenav = () => {
                 </StyledLink>
             </Box>
 
-            <Box m="0 auto">
-                <StyledLink as={NavLink} to="/app/employees">
-                    <StyledIconContainer>
-                        <FontAwesomeIcon
-                            icon="users"
-                        />
-                    </StyledIconContainer>
-                    Employees
+            {
+                user.admin &&
+                <Box m="0 auto">
+                    <StyledLink as={NavLink} to="/app/employees">
+                        <StyledIconContainer>
+                            <FontAwesomeIcon
+                                icon="users"
+                            />
+                        </StyledIconContainer>
+                        Employees
                 </StyledLink>
-            </Box>
-            
+                </Box>
+            }
+
             <Box m="0 auto">
                 <StyledLink as={NavLink} to="/app/sessions">
                     <StyledIconContainer>

@@ -37,30 +37,39 @@ class Employees extends Component {
 
     renderEmployees = () => {
         const { employees } = this.state;
+        const { uid } = this.props.user;
 
         if (employees && employees.length > 0) {
             return employees.map((employee, index) => (
                 <StyledRow m="1rem 0" key={employee.id}>
-                    <Flex>
+                    <Flex.verticallyCenter>
                         <Text mr="2rem">{index + 1}.</Text>
                         <Text mr="2rem">{employee.name}</Text>
                         <Text.italics mr="2rem">{employee.email}</Text.italics>
-                    </Flex>
-                    <Flex>
+                    </Flex.verticallyCenter>
+                    <Flex.verticallyCenter>
                         <Text mr="2rem">Role: {employee.role}</Text>
-                    </Flex>
-                    <StyledIconContainer>
-                        <FontAwesomeIcon
-                            icon="user-times"
-                        />
-                    </StyledIconContainer>
+                    </Flex.verticallyCenter>
+                    <Flex.verticallyCenter>
+                        {
+                            employee.id !== uid ? (
+                                <StyledIconContainer onClick={() => alert("Remove Employee")}>
+                                    <FontAwesomeIcon
+                                        icon="user-times"
+                                    />
+                                </StyledIconContainer>
+                            ) : (
+                                    <Box size="1rem" borderRadius="100%" bg="primary" />
+                                )
+                        }
+                    </Flex.verticallyCenter>
                 </StyledRow>
             ))
         } else {
             return (
                 <StyledFlexCard
                     m="1rem 0"
-                    boxShadow={employees && employees.length === 0? 'normal': null}
+                    boxShadow={employees && employees.length === 0 ? 'normal' : null}
                 >
                     {employees && employees.length === 0 ? (
                         <>

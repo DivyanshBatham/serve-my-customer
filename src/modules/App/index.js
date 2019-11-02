@@ -7,9 +7,9 @@ import { Flex, Box, Text, Button, Container, IconContainer } from "../../atoms";
 import { SettingsIconContainer } from './styles';
 
 const App = (props) => {
+    const { user } = props;
 
     const RouteWithUserAsProps = ({ component: Component, ...rest }) => {
-        const { user } = props;
         return (
             <Route
                 {...rest}
@@ -56,7 +56,7 @@ const App = (props) => {
                 </Container>
             </Box>
             <Flex flex="1">
-                <Sidenav />
+                <Sidenav user={user} />
                 <Box flex="1" m="1.5rem 2.5rem 1.5rem 0">
                     <Switch>
                         <Redirect exact
@@ -67,11 +67,14 @@ const App = (props) => {
                             path={`/app/dashboard`}
                             component={Dashboard}
                         />
-                        <RouteWithUserAsProps
-                            exact
-                            path={`/app/employees`}
-                            component={Employees}
-                        />
+                        {
+                            user.admin &&
+                            <RouteWithUserAsProps
+                                exact
+                                path={`/app/employees`}
+                                component={Employees}
+                            />
+                        }
                         <Redirect exact
                             from='/app/sessions'
                             to='/app/sessions/pending' />
