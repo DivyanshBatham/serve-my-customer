@@ -39,7 +39,7 @@ class Employees extends Component {
         const { employees } = this.state;
         const { uid } = this.props.user;
 
-        if (employees && employees.length > 0) {
+        if (employees && employees.length > 1) {
             return employees.map((employee, index) => (
                 <StyledRow m="1rem 0" key={employee.id}>
                     <Flex.verticallyCenter>
@@ -69,16 +69,18 @@ class Employees extends Component {
             return (
                 <StyledFlexCard
                     m="1rem 0"
-                    boxShadow={employees && employees.length === 0 ? 'normal' : null}
+                    boxShadow={employees && employees.length === 1 ? 'normal' : null}
+                    onClick={()=>alert("Invite Employee")}
                 >
-                    {employees && employees.length === 0 ? (
+                    {employees && employees.length === 1 ? (
                         <>
                             <IconContainer size="2rem" fontSize="2rem" mb="0.5rem">
                                 <FontAwesomeIcon
                                     icon="user-plus"
                                 />
                             </IconContainer>
-                            <Text.span fontSize="1.1rem">Invite your first employee.</Text.span>
+                            <Text.span fontSize="1.1rem">Invite your first employee</Text.span>
+                            <Text.span fontSize="0.9rem" mt="1rem">Note: You can serve the customers yourself too.</Text.span>
                         </>
                     ) : (
                             <Loader sizes={['1rem', '1.1rem', '1rem']} />
@@ -100,7 +102,7 @@ class Employees extends Component {
                     <h1>
                         Employees
                     </h1>
-                    <Button>
+                    <Button onClick={()=>alert("Invite Employee")}>
                         <Flex>
                             <IconContainer mr="0.5rem" ml="-0.5rem">
                                 <FontAwesomeIcon
