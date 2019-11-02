@@ -4,7 +4,7 @@ import firebase, { firestore } from '../../config/clientSdk';
 import { Flex, Button, IconContainer, Text, Column, Box, TextField } from '../../atoms';
 import { StyledRow } from './styles';
 import { Chat } from '../../modules';
-import { Loader } from '../../components';
+import { Loader, FlexCard } from '../../components';
 import 'simplebar';
 import 'simplebar/dist/simplebar.min.css';
 
@@ -12,7 +12,8 @@ class Session extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            message: ''
+            message: '',
+            sessionExists: true,
         }
     }
 
@@ -25,6 +26,7 @@ class Session extends Component {
             firestore.doc(`companies/${companyId}/sessions/${sessionId}`)
                 .onSnapshot((session) => {
                     this.setState({
+                        sessionExists: session.exists,
                         session: {
                             id: session.id,
                             ...session.data()
@@ -135,51 +137,69 @@ class Session extends Component {
 
     render() {
         const { sessionId } = this.props.match.params;
-        const { session, message } = this.state;
+        const { session, message, sessionExists } = this.state;
         const { uid } = this.props.user;
 
-        return (
-            // <Column minHeight="100%">
-            <Column minHeight="100%" maxHeight="90vh">
-                <Flex.spaceBetween>
-                    <h1>Session {sessionId}</h1>
-                    {session && this.renderButton(session.status)}
-                </Flex.spaceBetween>
 
-                {
-                    session ? (
-                        <StyledRow m="1rem 0" key={session.id}>
-                            <Flex.verticallyCenter>
-                                <Text mr="2rem">{session.customerName}</Text>
-                                <Text.italics mr="2rem">{session.customerEmail}</Text.italics>
-                                <Text>Subject: {session.subject}</Text>
-                            </Flex.verticallyCenter>
-                        </StyledRow>
-                    ) : (
-                            <StyledRow justifyContent="center" m="1rem 0">
-                                <Loader sizes={['0.8rem', '0.9rem', '0.8rem']} />
+        if (session && sessionExists) {
+            return (
+                <Column minHeight="100%" maxHeight="70vh">
+                    <Flex.spaceBetween>
+                        <h1>Session {sessionId}</h1>
+                        {session && this.renderButton(session.status)}
+                    </Flex.spaceBetween>
+
+                    {
+                        session ? (
+                            <StyledRow m="1rem 0" key={session.id}>
+                                <Flex.verticallyCenter>
+                                    <Text mr="2rem">{session.customerName}</Text>
+                                    <Text.italics mr="2rem">{session.customerEmail}</Text.italics>
+                                    <Text>Subject: {session.subject}</Text>
+                                </Flex.verticallyCenter>
                             </StyledRow>
-                        )
-                }
+                        ) : (
+                                <StyledRow justifyContent="center" m="1rem 0">
+                                    <Loader sizes={['0.8rem', '0.9rem', '0.8rem']} />
+                                </StyledRow>
+                            )
+                    }
 
-                <Chat
-                // data-simplebar
-                // sessionId={sessionId}
-                // data-simplebar-auto-hide="false" 
-                />
+                    <Chat
+                    // data-simplebar
+                    // sessionId={sessionId}
+                    // data-simplebar-auto-hide="false" 
+                    />
 
-                <TextField
-                    type="text"
-                    placeholder="Type a message"
-                    name="message"
-                    value={message}
-                    autoComplete="off"
-                    disabled={!(session && session.status !== 'pending' && session.status !== 'completed' && session.employeeId === uid)}
-                    onChange={this.handleChange}
-                    onKeyPress={this.sendMessageIfEnter}
-                />
-            </Column>
-        );
+                    <TextField
+                        type="text"
+                        placeholder="Type a message"
+                        name="message"
+                        value={message}
+                        autoComplete="off"
+                        disabled={!(session && session.status !== 'pending' && session.status !== 'completed' && session.employeeId === uid)}
+                        onChange={this.handleChange}
+                        onKeyPress={this.sendMessageIfEnter}
+                    />
+                </Column>
+            );
+        } else {
+            return (session && !sessionExists ? (
+                <Column minHeight="100%">
+                    <FlexCard>
+                        <Text.span fontSize="2.1rem" fontWeight="medium">404</Text.span>
+                        <Text.span fontSize="1.1rem">Session Not Found</Text.span>
+                    </FlexCard>
+                </Column>
+            ) : (
+                    <Column minHeight="100%">
+                        <FlexCard>
+                            <Loader sizes={['1rem', '1.1rem', '1rem']} />
+                        </FlexCard>
+                    </Column>
+                )
+            );
+        }
     }
 }
 
