@@ -13,7 +13,7 @@ const Box = styled.div`
   ${flex}
   ${layout}
   ${border}
-  box-sizing: 'border-box';
+  box-sizing: border-box;
 `;
 
 Box.displayName = 'Box';

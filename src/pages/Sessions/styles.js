@@ -10,6 +10,7 @@ export const StyledCard = styled(Box)`
     position: relative;
     padding: 1.5rem;
     margin: 1rem;
+    box-sizing: content-box;
     box-shadow: ${props => props.theme.shadows.normal};
     transition: ${props => props.theme.transition};
     font-family: ${props => props.theme.fonts.poppins};

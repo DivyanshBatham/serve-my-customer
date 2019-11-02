@@ -108,7 +108,7 @@ class Sessions extends Component {
         if (sessions && sessions.length > 0) {
             return (
                 sessions.map((session, index) => (
-                    <StyledRow as={Link} to={`/app/sessions/${session.id}`} m="1rem 0" key={session.id}>
+                    <StyledRow as={Link} to={`/app/sessions/${session.id}`} mb="1rem" key={session.id}>
                         <Flex.verticallyCenter>
                             <Text mr="2rem">{index + 1}.</Text>
                             <Text mr="2rem">{session.customerName}</Text>

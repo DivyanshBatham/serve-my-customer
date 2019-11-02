@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import firebase, { firestore } from '../../config/clientSdk';
-import { Container, Flex, Button, IconContainer, Text, Column, Box, TextField } from '../../atoms';
+import { Flex, Button, IconContainer, Text, Column, Box, TextField } from '../../atoms';
 import { StyledRow } from './styles';
 import { Chat } from '../../modules';
 import { Loader } from '../../components';
@@ -54,8 +54,8 @@ class Session extends Component {
         const { message } = this.state;
 
         if (message) {
+            const { companyId } = this.props.user;
             const { sessionId } = this.props.match.params;
-            let companyId = 'HLt6Aw07YQljGsU3Jg7x';
 
             firestore.collection(`companies/${companyId}/sessions/${sessionId}/messages`).doc().set({
                 message: message,
@@ -114,7 +114,8 @@ class Session extends Component {
         const { session, message } = this.state;
 
         return (
-            <Column minHeight="100%">
+            // <Column minHeight="100%">
+            <Column minHeight="100%" maxHeight="90vh">
                 <Flex.spaceBetween>
                     <h1>Session {sessionId}</h1>
                     {session && this.renderButton(session.status)}
@@ -136,16 +137,11 @@ class Session extends Component {
                         )
                 }
 
-                <Flex flex="1">
                     <Chat
                     // data-simplebar
                     // sessionId={sessionId}
                     // data-simplebar-auto-hide="false" 
                     />
-                    {/* <Box data-simplebar m="1.5rem 0 1.5rem 1.5rem" bg="white" borderRadius="0.5rem" width="250px">
-                        Suggestions
-                    </Box> */}
-                </Flex>
 
                 <TextField
                     type="text"
