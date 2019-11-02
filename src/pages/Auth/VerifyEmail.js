@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { auth } from '../../config/clientSdk';
-import { Text, Column, Box, Button } from '../../atoms';
+import { Text, Flex, Box, Button } from '../../atoms';
 
 class VerifyEmail extends Component {
     constructor(props) {
@@ -30,7 +30,7 @@ class VerifyEmail extends Component {
         const { user } = this.props;
         console.log(user);
         return (
-            <Column alignItems="center">
+            <Flex.center flexDirection="column" flex="1">
                 <h1>Email Not Verified</h1>
                 <Text.p>Verify your email to start serving your customers.</Text.p>
                 <Box>
@@ -45,7 +45,7 @@ class VerifyEmail extends Component {
                     <Button.secondary m="1rem" onClick={this.handleResendEmail}>Resend Email</Button.secondary>
                     <Button.secondary m="1rem" onClick={this.handleUpdateEmail}>Update Email</Button.secondary>
                 </Box>
-            </Column>
+            </Flex.center>
         );
     }
 }
