@@ -51,9 +51,10 @@ class Session extends Component {
     }
 
     handleSendMessage = () => {
-        const { message } = this.state;
+        const { message, session } = this.state;
+        const { uid } = this.props.user;
 
-        if (message) {
+        if (message && session.status !== 'pending' && session.status !== 'completed' && session.employeeId === uid) {
             const { companyId } = this.props.user;
             const { sessionId } = this.props.match.params;
 
@@ -68,14 +69,35 @@ class Session extends Component {
                 message: ''
             })
         }
+    }
 
+    startSession = () => {
+        const { companyId, uid } = this.props.user;
+        const { sessionId } = this.props.match.params;
+
+        firestore.doc(`companies/${companyId}/sessions/${sessionId}`).update({
+            status: 'active',
+            employeeId: uid,
+            startTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        }).catch(err => console.error("Error updating document: ", err))
+    }
+
+    endSession = () => {
+        const { companyId, uid } = this.props.user;
+        const { sessionId } = this.props.match.params;
+
+        firestore.doc(`companies/${companyId}/sessions/${sessionId}`).update({
+            status: 'completed',
+            employeeId: uid,
+            endTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        }).catch(err => console.error("Error updating document: ", err))
     }
 
     renderButton = (status) => {
         switch (status) {
             case 'pending':
                 return (
-                    <Button>
+                    <Button onClick={this.startSession}>
                         <Flex>
                             <IconContainer mr="0.5rem" ml="-0.5rem">
                                 <FontAwesomeIcon
@@ -91,7 +113,7 @@ class Session extends Component {
             case 'active':
             case 'inactive':
                 return (
-                    <Button.secondary>
+                    <Button.secondary onClick={this.endSession}>
                         <Flex>
                             <IconContainer mr="0.5rem" ml="-0.5rem">
                                 <FontAwesomeIcon
@@ -112,6 +134,7 @@ class Session extends Component {
     render() {
         const { sessionId } = this.props.match.params;
         const { session, message } = this.state;
+        const { uid } = this.props.user;
 
         return (
             // <Column minHeight="100%">
@@ -137,17 +160,19 @@ class Session extends Component {
                         )
                 }
 
-                    <Chat
-                    // data-simplebar
-                    // sessionId={sessionId}
-                    // data-simplebar-auto-hide="false" 
-                    />
+                <Chat
+                // data-simplebar
+                // sessionId={sessionId}
+                // data-simplebar-auto-hide="false" 
+                />
 
                 <TextField
                     type="text"
                     placeholder="Type a message"
                     name="message"
                     value={message}
+                    autoComplete="off"
+                    disabled={!(session && session.status !== 'pending' && session.status !== 'completed' && session.employeeId === uid)}
                     onChange={this.handleChange}
                     onKeyPress={this.sendMessageIfEnter}
                 />

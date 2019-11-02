@@ -93,7 +93,7 @@ class Chat extends Component {
                 </div>
             </Box>
         ) : (
-                <FlexCard>
+                <FlexCard mb="1rem">
                     <Loader sizes={['1rem', '1.1rem', '1rem']} />
                 </FlexCard>
             )
