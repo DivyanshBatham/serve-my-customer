@@ -1,12 +1,5 @@
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
-// import {
-//   color,
-//   space,
-//   flex,
-//   layout,
-//   border,
-// } from 'styled-system';
 
 import { Box, IconContainer } from '../../atoms';
 

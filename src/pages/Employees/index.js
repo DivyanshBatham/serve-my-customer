@@ -10,8 +10,10 @@ class Employees extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            email: '',
             employees: null,
-            modalIsOpen: false
+            modalIsOpen: false,
+            sendingEmail: false,
         }
     }
 
@@ -45,9 +47,27 @@ class Employees extends Component {
         this.setState({ modalIsOpen: false });
     }
 
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+
     sendInvite = (e) => {
         e.preventDefault();
-        alert("Invite Send");
+        const { sendingEmail, email } = this.state;
+        if (!sendingEmail) {
+            alert("Sending Email to " + email);
+            this.setState({
+                sendingEmail: true
+            }, () => {
+                setTimeout(() => {
+                    this.setState({
+                        sendingEmail: false,
+                    })
+                }, 5000);
+            });
+        }
     }
 
     renderEmployees = () => {
@@ -107,6 +127,8 @@ class Employees extends Component {
     }
 
     render() {
+        const { email, modalIsOpen, sendingEmail } = this.state;
+
         return (
             <Column minHeight="100%">
                 <Flex.spaceBetween>
@@ -131,7 +153,7 @@ class Employees extends Component {
 
                 <Modal
                     closeModal={this.closeModal}
-                    modalIsOpen={this.state.modalIsOpen}
+                    modalIsOpen={modalIsOpen}
                 >
                     <Text mb="1rem">We will email the registration link to your employee.</Text>
                     <form onSubmit={this.sendInvite}>
@@ -142,24 +164,27 @@ class Employees extends Component {
                             aria-label="Employee's Email"
                             placeholder="Employee's Email"
                             autoComplete="off"
-                            // value={email}
-                            // onChange={this.handleChange}
+                            value={email}
+                            onChange={this.handleChange}
                             mb="1rem"
                         />
                         <br />
 
                         <Flex justifyContent="flex-end">
-                            <Button>
-                                <Flex>
-                                    <IconContainer mr="0.5rem" ml="-0.7rem">
-                                        <FontAwesomeIcon
-                                            icon="paper-plane"
-                                        />
-                                    </IconContainer>
-                                    <Text>
-                                        Send
-                                    </Text>
-                                </Flex>
+                            <Button width="142px">
+                                {sendingEmail ? (
+                                    <Loader sizes={['0.6rem', '0.7rem', '0.6rem']} bg="white" />
+                                )
+                                    : (
+                                        <Flex>
+                                            <IconContainer mr="0.5rem" ml="-0.7rem">
+                                                <FontAwesomeIcon
+                                                    icon="paper-plane"
+                                                />
+                                            </IconContainer>
+                                            <Text>Send</Text>
+                                        </Flex>
+                                    )}
                             </Button>
                         </Flex>
                     </form>
