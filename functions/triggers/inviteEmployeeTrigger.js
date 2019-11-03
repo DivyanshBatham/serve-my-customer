@@ -11,16 +11,17 @@ module.exports = functions.firestore
         const companyDoc = await firestore.doc(`companies/${companyId}`).get();
         const { companyName } = companyDoc.data();
 
-        // Create Token:
-        const token = {
-            companyId,
-            companyName,
-            employeeEmail
-        }
-        console.log(token);
+        // Create Invite Token:
+        const inviteToken = jwt.sign(
+            {
+                email: employeeEmail,
+                companyId,
+                companyName,
+            },
+            functions.config().jwt.secret,
+            { expiresIn: '7d' }
+        );
 
-        const inviteToken = "dummy.token.here";
-        
         const msg = {
             to: employeeEmail,
             from: 'no-reply@servemycustomer.com',
