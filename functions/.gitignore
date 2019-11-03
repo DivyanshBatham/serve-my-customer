@@ -6,3 +6,4 @@ firebase-debug.log
 
 # config 
 config/serviceAccountKey.json
+.runtimeconfig.json
