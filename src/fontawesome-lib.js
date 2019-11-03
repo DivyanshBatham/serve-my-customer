@@ -14,7 +14,9 @@ import {
   faClock,
   faCheckDouble,
   faTimes,
-  faPaperPlane
+  faPaperPlane,
+  faDownload,
+  faLink
 } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -32,5 +34,7 @@ library.add(
   faClock,
   faCheckDouble,
   faTimes,
-  faPaperPlane
+  faPaperPlane,
+  faDownload,
+  faLink
 );

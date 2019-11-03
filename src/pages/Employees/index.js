@@ -182,7 +182,7 @@ class Employees extends Component {
                         Employees
                     </h1>
                     <Button onClick={this.openModal}>
-                        <Flex>
+                        <Flex.verticallyCenter>
                             <IconContainer mr="0.5rem" ml="-0.5rem">
                                 <FontAwesomeIcon
                                     icon="user-plus"
@@ -190,8 +190,8 @@ class Employees extends Component {
                             </IconContainer>
                             <Text>
                                 Invite
-                        </Text>
-                        </Flex>
+                            </Text>
+                        </Flex.verticallyCenter>
                     </Button>
                 </Flex.spaceBetween>
 
@@ -200,6 +200,8 @@ class Employees extends Component {
                 <Modal
                     closeModal={this.closeModal}
                     modalIsOpen={modalIsOpen}
+                    icon="user-plus"
+                    modalTitle="Invite Employee"
                 >
                     <Text mb="1rem">We will email the registration link to your employee.</Text>
                     <form onSubmit={this.sendInvite}>
@@ -222,14 +224,14 @@ class Employees extends Component {
                                     <Loader sizes={['0.6rem', '0.7rem', '0.6rem']} bg="white" />
                                 )
                                     : (
-                                        <Flex>
+                                        <Flex.verticallyCenter>
                                             <IconContainer mr="0.5rem" ml="-0.7rem">
                                                 <FontAwesomeIcon
                                                     icon="paper-plane"
                                                 />
                                             </IconContainer>
                                             <Text>Send</Text>
-                                        </Flex>
+                                        </Flex.verticallyCenter>
                                     )}
                             </Button>
                         </Flex>

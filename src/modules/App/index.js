@@ -5,12 +5,14 @@ import { Dashboard, Employees, Sessions, Session } from "../../pages";
 import Sidenav from "../Sidenav";
 import { Flex, Box, Text, Button, Container, IconContainer, Column } from "../../atoms";
 import { FlexCard } from "../../components";
+import { Modal } from '../../modules';
 import { SettingsIconContainer } from './styles';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            modalIsOpen: false,
         }
     }
 
@@ -26,8 +28,18 @@ class App extends Component {
         );
     };
 
+    openModal = () => {
+        this.setState({ modalIsOpen: true });
+    }
+
+    closeModal = () => {
+        this.setState({ modalIsOpen: false });
+    }
+
     render() {
         const { user } = this.props;
+        const { modalIsOpen } = this.state;
+
         return (
             <>
                 <Box bg="primary">
@@ -44,15 +56,15 @@ class App extends Component {
                         </Text>
                             <Flex.center>
 
-                                <Button.secondary>
-                                    <Flex>
+                                <Button.secondary onClick={this.openModal}>
+                                    <Flex.verticallyCenter>
                                         <IconContainer mr="0.5rem" ml="-0.5rem">
                                             <FontAwesomeIcon
                                                 icon="code"
                                             />
                                         </IconContainer>
-                                        Get Script
-                            </Flex>
+                                        <Text>Get Script</Text>
+                                  </Flex.verticallyCenter>
                                 </Button.secondary>
                                 <SettingsIconContainer ml="2rem">
                                     <FontAwesomeIcon
@@ -107,6 +119,42 @@ class App extends Component {
                         </Switch>
                     </Box>
                 </Flex>
+
+                <Modal
+                    closeModal={this.closeModal}
+                    modalIsOpen={modalIsOpen}
+                    icon="code"
+                    modalTitle="Get Script"
+                >
+                    <Text mb="1rem">Add the following code to your website.</Text>
+                    <code>
+                        console.log('Hello World');
+                    </code>
+
+                    <Flex mt="1rem" justifyContent="flex-end">
+                        <Button mr="1rem">
+                            <Flex.verticallyCenter>
+                                <IconContainer mr="0.5rem" ml="-0.7rem">
+                                    <FontAwesomeIcon
+                                        icon="link"
+                                    />
+                                </IconContainer>
+                                <Text>Link</Text>
+                            </Flex.verticallyCenter>
+                        </Button>
+                        <Button>
+                            <Flex.verticallyCenter>
+                                <IconContainer mr="0.5rem" ml="-0.7rem">
+                                    <FontAwesomeIcon
+                                        icon="download"
+                                    />
+                                </IconContainer>
+                                <Text>Download</Text>
+                            </Flex.verticallyCenter>
+                        </Button>
+                    </Flex>
+                </Modal>
+
             </>
         );
     }

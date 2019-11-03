@@ -8,7 +8,7 @@ import { StyledReactModal, ModalHeader, StyledIconContainer } from './styles';
 ReactModal.setAppElement('#root');
 
 const Modal = (props) => {
-    const {modalIsOpen, closeModal } = props;
+    const { modalIsOpen, closeModal, icon, modalTitle } = props;
     return (
         <StyledReactModal
             isOpen={modalIsOpen}
@@ -25,12 +25,12 @@ const Modal = (props) => {
                     <Flex>
                         <IconContainer color="white" mr="0.5rem">
                             <FontAwesomeIcon
-                                icon="user-plus"
+                                icon={icon}
                             />
                         </IconContainer>
                         <Text fontSize="1.1rem" color="white" fontWeight="medium">
-                            Invite Employee
-                            </Text>
+                            {modalTitle}
+                        </Text>
                     </Flex>
                     <StyledIconContainer onClick={closeModal}>
                         <FontAwesomeIcon
@@ -41,37 +41,7 @@ const Modal = (props) => {
             </ModalHeader>
 
             {props.children}
-            {/* <Text mb="1rem">We will email the registration link to your employee.</Text>
-                <form>
-                    <TextField
-                        width="100%"
-                        type="text"
-                        name="email"
-                        aria-label="Employee's Email"
-                        placeholder="Employee's Email"
-                        autoComplete="off"
-                        // value={email}
-                        // onChange={this.handleChange}
-                        mb="1rem"
-                    />
-                    <br />
 
-                    <Flex justifyContent="flex-end">
-                        <Button.secondary mr="1rem">Cancel</Button.secondary>
-                        <Button onClick={() => alert("Send Email")}>
-                            <Flex>
-                                <IconContainer mr="0.5rem" ml="-0.7rem">
-                                    <FontAwesomeIcon
-                                        icon="paper-plane"
-                                    />
-                                </IconContainer>
-                                <Text>
-                                    Send
-                            </Text>
-                            </Flex>
-                        </Button>
-                    </Flex>
-                </form> */}
         </StyledReactModal>
     );
 }
