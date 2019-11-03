@@ -82,7 +82,6 @@ class Dashboard extends Component {
             completedSessionsCount,
             curEmployeeHasActiveSession
         } = this.state;
-
         return (
             <Column minHeight="100%">
                 <h1>Dashboard</h1>

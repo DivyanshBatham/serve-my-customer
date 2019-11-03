@@ -5,6 +5,7 @@ import { Box, Flex, Button, Text, IconContainer, Column, TextField } from '../..
 import { StyledRow, StyledIconContainer, StyledFlexCard } from './styles';
 import { Loader } from '../../components';
 import { Modal } from '../../modules';
+import axiosInstance from '../../services/axiosInstance';
 
 class Employees extends Component {
     constructor(props) {
@@ -56,16 +57,46 @@ class Employees extends Component {
     sendInvite = (e) => {
         e.preventDefault();
         const { sendingEmail, email } = this.state;
+        const { idToken } = this.props.user;
+
         if (!sendingEmail) {
-            alert("Sending Email to " + email);
             this.setState({
                 sendingEmail: true
-            }, () => {
-                setTimeout(() => {
+            }, async () => {
+
+                try {
+                    const res = await axiosInstance({
+                        method: 'post',
+                        url: '/api/inviteEmployee',
+                        data: {
+                            email,
+                        },
+                        headers: {
+                            Authorization: `Bearer ${idToken}`
+                        }
+                    })
+                    // TODO: Generate a success notification using res.message
                     this.setState({
                         sendingEmail: false,
-                    })
-                }, 5000);
+                    });
+                } catch (err) {
+                    console.error(err);
+                    // TODO: Generate an error notification using err.response.data.error
+                    this.setState({
+                        sendingEmail: false,
+                    });
+                    if (err.isAxiosError) {
+                        if (err.response) {
+                            console.log(err.response.data.error);
+                            // this.setState({
+                            //     error: err.response.data.error.message
+                            // })
+                        }
+                    }
+                    else {
+                        console.error(err.message, err.name);
+                    }
+                }
             });
         }
     }
