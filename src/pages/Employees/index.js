@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { store } from 'react-notifications-component';
 import { firestore, auth } from '../../config/clientSdk';
-import { Box, Flex, Button, Text, IconContainer, Column, TextField } from '../../atoms';
+import { Flex, Button, Text, IconContainer, Column, TextField } from '../../atoms';
 import { StyledRow, StyledIconContainer, StyledFlexCard } from './styles';
 import { Loader } from '../../components';
 import { Modal } from '../../modules';
@@ -77,9 +78,27 @@ class Employees extends Component {
                             Authorization: `Bearer ${freshIdToken}`
                         }
                     })
-                    // TODO: Generate a success notification using res.message
+                    store.addNotification({
+                        title: "Invitation Sent!",
+                        message: "email@example.com",
+                        type: "default",
+                        insert: "bottom",
+                        container: "bottom-right",
+                        dismiss: {
+                            duration: 2000,
+                            onScreen: true,
+                            pauseOnHover: true
+                        },
+                        slidingExit: {
+                            duration: 800,
+                            timingFunction: 'ease-out',
+                            delay: 0
+                        },
+                    });
                     this.setState({
                         sendingEmail: false,
+                        email: '',
+                        modalIsOpen: false
                     });
                 } catch (err) {
                     console.error(err);

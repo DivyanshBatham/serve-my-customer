@@ -26,4 +26,20 @@ export default createGlobalStyle`
         display: flex;
         flex-direction: column;
     }
+
+    .notification-item {
+        border-radius: 8px !important;
+        box-shadow: 5px 5px 25px 0 rgba(46,61,73,.2) !important;
+        
+        &:hover {
+            box-shadow: 2px 4px 8px 0 rgba(46,61,73,.2) !important,
+        }
+        .notification-message {
+            max-width: 100% !important;
+        }
+    }
+    .notification-default{
+        border-left: 8px solid ${props => props.theme.colors.darkBlue} !important;
+        background: ${props => props.theme.colors.primary} !important;
+    }
 `
