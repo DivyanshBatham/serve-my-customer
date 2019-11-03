@@ -19,12 +19,15 @@ module.exports = functions.firestore
         }
         console.log(token);
 
+        const inviteToken = "dummy.token.here";
+        
         const msg = {
             to: employeeEmail,
             from: 'no-reply@servemycustomer.com',
             templateId: SENDGRID_INVITATION_TEMPLATE_ID,
             dynamic_template_data: {
                 companyName,
+                ctaUrl: `https://serve-my-customer.firebaseapp.com/register?inviteToken=${inviteToken}&companyName=${companyName}`
             },
         };
 
