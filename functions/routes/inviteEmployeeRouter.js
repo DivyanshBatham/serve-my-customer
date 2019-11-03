@@ -24,7 +24,12 @@ router.post('/', async (req, res, next) => {
     try {
         const idToken = bearerHeader.split(' ')[1];
         const claims = await auth.verifyIdToken(idToken);
-        const { companyId } = claims;
+        const { companyId, admin: isAdmin } = claims;
+
+        if (!isAdmin)
+            return res.status(403).json({
+                "error": "Forbidden"
+            });
 
         // Get Company Doc using companyId:
         // const companyDoc = await firestore.doc(`companies/${companyId}`).get();
