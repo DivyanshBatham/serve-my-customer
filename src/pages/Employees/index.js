@@ -14,8 +14,12 @@ class Employees extends Component {
         this.state = {
             email: '',
             employees: null,
-            modalIsOpen: false,
+            inviteModal: false,
+            revokeModal: false,
             sendingEmail: false,
+            employeeEmailToRevoke: null,
+            employeeIdToRevoke: null,
+            revokingEmployee: false
         }
     }
 
@@ -41,18 +45,87 @@ class Employees extends Component {
         this.employeesListener();
     }
 
-    openModal = () => {
-        this.setState({ modalIsOpen: true });
+    openModal = (modalName, employeeEmailToRevoke, employeeIdToRevoke) => {
+        this.setState({
+            [modalName]: true,
+            employeeEmailToRevoke,
+            employeeIdToRevoke,
+        });
     }
 
-    closeModal = () => {
-        this.setState({ modalIsOpen: false });
+    closeModal = (modalName) => {
+        this.setState({ [modalName]: false });
     }
 
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
+    }
+
+    revokeEmployeeAccount = async () => {
+        const { employeeIdToRevoke, employeeEmailToRevoke, revokingEmployee } = this.state;
+
+        if (!revokingEmployee) {
+            this.setState({
+                revokingEmployee: true
+            }, async () => {
+                const freshIdToken = await auth.currentUser.getIdToken();
+                try {
+                    const res = await axiosInstance({
+                        method: 'post',
+                        url: '/api/revokeEmployee',
+                        data: {
+                            employeeId: employeeIdToRevoke,
+                        },
+                        headers: {
+                            Authorization: `Bearer ${freshIdToken}`
+                        }
+                    })
+                    store.addNotification({
+                        title: "Account Revoked!",
+                        message: employeeEmailToRevoke,
+                        type: "default",
+                        insert: "bottom",
+                        container: "bottom-right",
+                        dismiss: {
+                            duration: 2000,
+                            onScreen: true,
+                            pauseOnHover: true
+                        },
+                        slidingExit: {
+                            duration: 800,
+                            timingFunction: 'ease-out',
+                            delay: 0
+                        },
+                    });
+                    this.setState({
+                        employeeEmailToRevoke: null,
+                        employeeIdToRevoke: null,
+                        revokingEmployee: false,
+                        revokeModal: false
+                    });
+
+                } catch (err) {
+                    console.error(err);
+                    // TODO: Generate an error notification using err.response.data.error
+                    this.setState({
+                        revokingEmployee: false,
+                    });
+                    if (err.isAxiosError) {
+                        if (err.response) {
+                            console.log(err.response.data.error);
+                            // this.setState({
+                            //     error: err.response.data.error.message
+                            // })
+                        }
+                    }
+                    else {
+                        console.error(err.message, err.name);
+                    }
+                }
+            })
+        }
     }
 
     sendInvite = (e) => {
@@ -98,7 +171,7 @@ class Employees extends Component {
                     this.setState({
                         sendingEmail: false,
                         email: '',
-                        modalIsOpen: false
+                        inviteModal: false
                     });
                 } catch (err) {
                     console.error(err);
@@ -138,7 +211,8 @@ class Employees extends Component {
                         <Text mr="2rem">Role: {employee.role}</Text>
                     </Flex.verticallyCenter>
                     <Flex.verticallyCenter>
-                        <StyledIconContainer onClick={() => alert("Remove Employee")}>
+                        <StyledIconContainer onClick={() => this.openModal('revokeModal', employee.email, employee.id)}>
+                            {/* <StyledIconContainer onClick={() => this.revokeEmployeeAccount(employee.id)}> */}
                             <FontAwesomeIcon
                                 icon="user-times"
                             />
@@ -151,7 +225,7 @@ class Employees extends Component {
                 <StyledFlexCard
                     m="1rem 0"
                     boxShadow={employees && employees.length === 0 ? 'normal' : null}
-                    onClick={this.openModal}
+                    onClick={() => this.openModal('inviteModal')}
                 >
                     {employees && employees.length === 0 ? (
                         <>
@@ -173,7 +247,14 @@ class Employees extends Component {
     }
 
     render() {
-        const { email, modalIsOpen, sendingEmail } = this.state;
+        const {
+            email,
+            inviteModal,
+            sendingEmail,
+            revokeModal,
+            employeeEmailToRevoke,
+            revokingEmployee
+        } = this.state;
 
         return (
             <Column minHeight="100%">
@@ -181,7 +262,7 @@ class Employees extends Component {
                     <h1>
                         Employees
                     </h1>
-                    <Button onClick={this.openModal}>
+                    <Button onClick={() => this.openModal('inviteModal')}>
                         <Flex.verticallyCenter>
                             <IconContainer mr="0.5rem" ml="-0.5rem">
                                 <FontAwesomeIcon
@@ -198,8 +279,8 @@ class Employees extends Component {
                 <this.renderEmployees />
 
                 <Modal
-                    closeModal={this.closeModal}
-                    modalIsOpen={modalIsOpen}
+                    closeModal={() => this.closeModal('inviteModal')}
+                    modalIsOpen={inviteModal}
                     icon="user-plus"
                     modalTitle="Invite Employee"
                 >
@@ -236,6 +317,33 @@ class Employees extends Component {
                             </Button>
                         </Flex>
                     </form>
+                </Modal>
+
+                <Modal
+                    closeModal={() => this.closeModal('revokeModal')}
+                    modalIsOpen={revokeModal}
+                    icon="user-times"
+                    modalTitle="Revoke Employee Account"
+                >
+                    <Text mb="1rem">Are you sure you want to revoke <Text.bold>{employeeEmailToRevoke}</Text.bold> ?</Text>
+                    <Flex mt="1rem" justifyContent="flex-end">
+                        <Button mr="1rem" onClick={() => this.closeModal('revokeModal')}>
+                            <Flex.verticallyCenter>
+                                <Text>No</Text>
+                            </Flex.verticallyCenter>
+                        </Button>
+                        <Button width="173px" onClick={this.revokeEmployeeAccount}>
+                            {revokingEmployee ? (
+                                <Loader sizes={['0.6rem', '0.7rem', '0.6rem']} bg="white" />
+                            )
+                                : (
+                                    <Flex.verticallyCenter>
+                                        <Text>Yes, Revoke</Text>
+                                    </Flex.verticallyCenter>
+                                )}
+                        </Button>
+                    </Flex>
+
                 </Modal>
             </Column>
         );
