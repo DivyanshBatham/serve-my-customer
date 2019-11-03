@@ -15,9 +15,8 @@ const adminSdk = admin.initializeApp({
 //     credential: admin.credential.applicationDefault
 // });
 
-
 // Export separately
 const auth = adminSdk.auth();
 const firestore = adminSdk.firestore()
 
-module.exports = { auth, firestore };
+module.exports = { auth, firestore, admin };

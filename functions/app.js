@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const { indexRouter, registerRouter } = require('./routes');
+const { indexRouter, registerRouter, inviteEmployeeRouter } = require('./routes');
 
 const app = express();
 
@@ -11,5 +11,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
 app.use('/register', registerRouter);
+app.use('/inviteEmployee', inviteEmployeeRouter);
 
 module.exports = app;
