@@ -23,7 +23,7 @@ class Employees extends Component {
         const { companyId } = this.props.user;
 
         this.employeesListener =
-            firestore.collection(`companies/${companyId}/employees`)
+            firestore.collection(`companies/${companyId}/employees`).where('role', "==", "employee")
                 .onSnapshot((employees) => {
                     this.setState({
                         employees: employees.docs.map(employee => ({
@@ -107,7 +107,7 @@ class Employees extends Component {
         const { employees } = this.state;
         const { uid } = this.props.user;
 
-        if (employees && employees.length > 1) {
+        if (employees && employees.length > 0) {
             return employees.map((employee, index) => (
                 <StyledRow m="1rem 0" key={employee.id}>
                     <Flex.verticallyCenter>
@@ -119,17 +119,11 @@ class Employees extends Component {
                         <Text mr="2rem">Role: {employee.role}</Text>
                     </Flex.verticallyCenter>
                     <Flex.verticallyCenter>
-                        {
-                            employee.id !== uid ? (
-                                <StyledIconContainer onClick={() => alert("Remove Employee")}>
-                                    <FontAwesomeIcon
-                                        icon="user-times"
-                                    />
-                                </StyledIconContainer>
-                            ) : (
-                                    <Box size="1rem" borderRadius="100%" bg="primary" />
-                                )
-                        }
+                        <StyledIconContainer onClick={() => alert("Remove Employee")}>
+                            <FontAwesomeIcon
+                                icon="user-times"
+                            />
+                        </StyledIconContainer>
                     </Flex.verticallyCenter>
                 </StyledRow>
             ))
@@ -137,10 +131,10 @@ class Employees extends Component {
             return (
                 <StyledFlexCard
                     m="1rem 0"
-                    boxShadow={employees && employees.length === 1 ? 'normal' : null}
+                    boxShadow={employees && employees.length === 0 ? 'normal' : null}
                     onClick={this.openModal}
                 >
-                    {employees && employees.length === 1 ? (
+                    {employees && employees.length === 0 ? (
                         <>
                             <IconContainer size="2rem" fontSize="2rem" mb="0.5rem">
                                 <FontAwesomeIcon
