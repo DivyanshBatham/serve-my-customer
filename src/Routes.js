@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import { Login, Register, Home, VerifyEmail } from './pages';
+import { Login, Register, Home, VerifyEmail, Invite } from './pages';
 import { App } from './modules';
 import { AuthContext } from './context/AuthContext';
 
@@ -51,6 +51,7 @@ class Routes extends Component {
           <Route exact path="/" component={Home} />
           <this.AuthRoute path="/login" component={Login} />
           <this.AuthRoute path="/register" component={Register} />
+          <this.AuthRoute path="/invite/:token" component={Invite} />
           <this.PrivateRoute path="/app" component={App} />
         </Switch>
       </BrowserRouter>

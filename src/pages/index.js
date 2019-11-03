@@ -4,5 +4,6 @@ export { default as Sessions } from './Sessions';
 export { default as Session } from './Session';
 export { default as Login } from './Auth/Login';
 export { default as Register } from './Auth/Register';
+export { default as Invite } from './Auth/Invite';
 export { default as VerifyEmail } from './Auth/VerifyEmail';
 export { default as Home } from './Home';
