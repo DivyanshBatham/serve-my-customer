@@ -6,6 +6,7 @@ const {
     registerRouter,
     inviteEmployeeRouter,
     registerEmployeeRouter,
+    revokeEmployeeRouter,
     scriptRouter
 } = require('./routes');
 
@@ -19,6 +20,7 @@ app.use('/', indexRouter);
 app.use('/register', registerRouter);
 app.use('/inviteEmployee', inviteEmployeeRouter);
 app.use('/registerEmployee', registerEmployeeRouter);
+app.use('/revokeEmployee', revokeEmployeeRouter);
 app.use('/script', scriptRouter);
 
 module.exports = app;
