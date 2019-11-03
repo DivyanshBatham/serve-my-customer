@@ -88,17 +88,22 @@ class Session extends Component {
     endSession = () => {
         const { companyId, uid } = this.props.user;
         const { sessionId } = this.props.match.params;
+        const { session } = this.state;
 
-        firestore.doc(`companies/${companyId}/sessions/${sessionId}`).update({
-            status: 'completed',
-            employeeId: uid,
-            employeeRef: `companies/${companyId}/employees/${uid}`,
-            endTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        }).catch(err => console.error("Error updating document: ", err))
+        if (session.employeeId === uid)
+            firestore.doc(`companies/${companyId}/sessions/${sessionId}`).update({
+                status: 'completed',
+                employeeId: uid,
+                employeeRef: `companies/${companyId}/employees/${uid}`,
+                endTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            }).catch(err => console.error("Error updating document: ", err))
     }
 
-    renderButton = (status) => {
-        switch (status) {
+    renderButton = () => {
+        const { session } = this.state;
+        const { uid } = this.props.user;
+
+        switch (session.status) {
             case 'pending':
                 return (
                     <Button onClick={this.startSession}>
@@ -116,7 +121,7 @@ class Session extends Component {
                 )
             case 'active':
             case 'inactive':
-                return (
+                return (session.employeeId === uid ? (
                     <Button.secondary onClick={this.endSession}>
                         <Flex>
                             <IconContainer mr="0.5rem" ml="-0.5rem">
@@ -129,7 +134,10 @@ class Session extends Component {
                             </Text>
                         </Flex>
                     </Button.secondary>
-                )
+                ) : (
+                        null
+                    ));
+
             default:
                 return null;
         }
@@ -146,7 +154,7 @@ class Session extends Component {
                 <Column minHeight="100%" maxHeight="70vh">
                     <Flex.spaceBetween>
                         <h1>Session {sessionId}</h1>
-                        {session && this.renderButton(session.status)}
+                        {this.renderButton()}
                     </Flex.spaceBetween>
 
                     <StyledRow m="1rem 0" key={session.id}>
