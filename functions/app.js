@@ -5,7 +5,8 @@ const {
     indexRouter,
     registerRouter,
     inviteEmployeeRouter,
-    registerEmployeeRouter
+    registerEmployeeRouter,
+    scriptRouter
 } = require('./routes');
 
 const app = express();
@@ -18,5 +19,6 @@ app.use('/', indexRouter);
 app.use('/register', registerRouter);
 app.use('/inviteEmployee', inviteEmployeeRouter);
 app.use('/registerEmployee', registerEmployeeRouter);
+app.use('/script', scriptRouter);
 
 module.exports = app;

@@ -3,4 +3,5 @@ module.exports = {
     registerRouter: require('./registerRouter'), 
     inviteEmployeeRouter: require('./inviteEmployeeRouter'), 
     registerEmployeeRouter: require('./registerEmployeeRouter'), 
+    scriptRouter: require('./scriptRouter'), 
 };
