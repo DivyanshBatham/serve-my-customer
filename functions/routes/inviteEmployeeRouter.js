@@ -1,6 +1,9 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
+const functions = require('firebase-functions');
 const router = express.Router();
 const { auth, firestore, admin } = require('../config/adminSdk');
+const { sendgrid, SENDGRID_INVITATION_TEMPLATE_ID } = require('../config/sendgrid');
 
 router.post('/', async (req, res, next) => {
 
@@ -32,8 +35,8 @@ router.post('/', async (req, res, next) => {
             });
 
         // Get Company Doc using companyId:
-        // const companyDoc = await firestore.doc(`companies/${companyId}`).get();
-        // const { companyName } = companyDoc.data();
+        const companyDoc = await firestore.doc(`companies/${companyId}`).get();
+        const { companyName } = companyDoc.data();
 
         // Create Employee Invite Document:
         await firestore.collection(`companies/${companyId}/invites`).doc(email).set({
@@ -41,15 +44,30 @@ router.post('/', async (req, res, next) => {
             invitedAt: admin.firestore.FieldValue.serverTimestamp(),
         });
 
-        // TODO: From trigger:
-        // // Generate Invite Token:
-        // const inviteToken = await auth.createCustomToken(email, {
-        //     companyId,
-        //     companyName
-        // });
+        // Create Invite Token:
+        const inviteToken = jwt.sign(
+            {
+                email,
+                companyId,
+                companyName,
+            },
+            functions.config().jwt.secret,
+            { expiresIn: '7d' }
+        );
+        
+        // Generate email message
+        const msg = {
+            to: email,
+            from: 'no-reply@servemycustomer.com',
+            templateId: SENDGRID_INVITATION_TEMPLATE_ID,
+            dynamic_template_data: {
+                companyName,
+                ctaUrl: `https://serve-my-customer.firebaseapp.com/register?inviteToken=${inviteToken}&companyName=${companyName}`
+            },
+        };
 
-        // console.log(inviteToken);
-        // // Send Email: (companyId, companyName, email)
+        // Send email
+        await sendgrid.send(msg);
 
         return res.status(201).json({
             "message": "Email Sent",
