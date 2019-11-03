@@ -8,4 +8,4 @@ exports.api = functions.https.onRequest(expressApp);
 // Cloud Firestore Triggers:
 exports.createCompanyDocument = createCompanyTrigger;
 exports.deleteCompanyDocument = deleteCompanyTrigger;
-exports.inviteEmployeeTrigger = inviteEmployeeTrigger;
+// exports.inviteEmployeeTrigger = inviteEmployeeTrigger;

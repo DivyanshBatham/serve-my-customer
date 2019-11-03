@@ -1,4 +1,5 @@
 const functions = require('firebase-functions');
+const jwt = require('jsonwebtoken');
 const { firestore } = require('../config/adminSdk');
 const { sendgrid, SENDGRID_INVITATION_TEMPLATE_ID } = require('../config/sendgrid');
 
