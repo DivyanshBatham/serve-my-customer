@@ -38,7 +38,19 @@ router.post('/', async (req, res, next) => {
         const companyDoc = await firestore.doc(`companies/${companyId}`).get();
         const { companyName } = companyDoc.data();
 
-        // Create Employee Invite Document:
+        // Create User (Employee):
+        const user = await auth.createUser({
+            email,
+            emailVerified: false,
+        })
+
+        // Add Custom Claim:
+        await auth.setCustomUserClaims(user.uid, {
+            admin: false,
+            companyId
+        });
+
+        // Create Employee Invite Document: (Can be used to track invites)
         await firestore.collection(`companies/${companyId}/invites`).doc(email).set({
             email,
             invitedAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -47,6 +59,7 @@ router.post('/', async (req, res, next) => {
         // Create Invite Token:
         const inviteToken = jwt.sign(
             {
+                sub: user.uid,
                 email,
                 companyId,
                 companyName,
@@ -54,7 +67,7 @@ router.post('/', async (req, res, next) => {
             functions.config().jwt.secret,
             { expiresIn: '7d' }
         );
-        
+
         // Generate email message
         const msg = {
             to: email,
@@ -62,7 +75,7 @@ router.post('/', async (req, res, next) => {
             templateId: SENDGRID_INVITATION_TEMPLATE_ID,
             dynamic_template_data: {
                 companyName,
-                ctaUrl: `https://serve-my-customer.firebaseapp.com/register?inviteToken=${inviteToken}&companyName=${companyName}`
+                ctaUrl: `https://serve-my-customer.firebaseapp.com/invite/${inviteToken}`
             },
         };
 

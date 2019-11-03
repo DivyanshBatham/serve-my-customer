@@ -1,6 +1,8 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
+const functions = require('firebase-functions');
 const router = express.Router();
-const { auth } = require('../config/adminSdk');
+const { auth, firestore } = require('../config/adminSdk');
 
 router.post('/', async (req, res, next) => {
 
@@ -24,11 +26,21 @@ router.post('/', async (req, res, next) => {
       companyId: user.uid
     });
 
+    // Create Company Document:
+    await firestore.collection('companies').doc(user.uid).set({
+      companyName: `${user.displayName}'s Company`,
+    });
+
+    // Create Employee Document:
+    await firestore.collection(`companies/${user.uid}/employees`).doc(user.uid).set({
+      email: user.email,
+      name: user.displayName,
+      role: isAdmin ? 'admin' : 'employee'
+    });
+
     // Generate Custom Token:
     const customToken = await auth.createCustomToken(user.uid);
 
-    // Company Document gets created via createCompanyTrigger
-    
     res.status(201).json({
       "data": user,
       "token": customToken
