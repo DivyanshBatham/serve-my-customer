@@ -15,6 +15,7 @@ export const StyledLink = styled(Flex.center)`
     transition: ${props => props.theme.transition};
     color: ${props => props.theme.colors.black};
     cursor: pointer;
+    margin-top: 1.7rem;
 
     &.active {
         background-color: ${props => props.theme.colors.primary};
@@ -34,7 +35,7 @@ export const StyledIconContainer = styled(IconContainer)`
 export const StyledNav = styled.nav`
     display: flex;
     flex-direction: column;
-    justify-content:space-evenly; 
+    /* justify-content:space-evenly;  */
     /* width:200px; */
     position:sticky;
     top:0;
