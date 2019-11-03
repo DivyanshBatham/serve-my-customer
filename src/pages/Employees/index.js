@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { firestore } from '../../config/clientSdk';
+import { firestore, auth } from '../../config/clientSdk';
 import { Box, Flex, Button, Text, IconContainer, Column, TextField } from '../../atoms';
 import { StyledRow, StyledIconContainer, StyledFlexCard } from './styles';
 import { Loader } from '../../components';
@@ -57,13 +57,15 @@ class Employees extends Component {
     sendInvite = (e) => {
         e.preventDefault();
         const { sendingEmail, email } = this.state;
-        const { idToken } = this.props.user;
-
+        // const { idToken } = this.props.user; // This token might have expired
+        // console.log("idToken : ", idToken);
         if (!sendingEmail) {
             this.setState({
                 sendingEmail: true
             }, async () => {
-
+                // TODO: Check for this:
+                const freshIdToken = await auth.currentUser.getIdToken();
+                // console.log("freshIdToken : ", freshIdToken);
                 try {
                     const res = await axiosInstance({
                         method: 'post',
@@ -72,7 +74,7 @@ class Employees extends Component {
                             email,
                         },
                         headers: {
-                            Authorization: `Bearer ${idToken}`
+                            Authorization: `Bearer ${freshIdToken}`
                         }
                     })
                     // TODO: Generate a success notification using res.message
