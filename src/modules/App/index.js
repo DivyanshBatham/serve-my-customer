@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dashboard, Employees, Sessions, Session } from "../../pages";
@@ -7,10 +7,15 @@ import { Flex, Box, Text, Button, Container, IconContainer, Column } from "../..
 import { FlexCard } from "../../components";
 import { SettingsIconContainer } from './styles';
 
-const App = (props) => {
-    const { user } = props;
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+    }
 
-    const RouteWithUserAsProps = ({ component: Component, ...rest }) => {
+    RouteWithUserAsProps = ({ component: Component, ...rest }) => {
+        const { user } = this.props;
         return (
             <Route
                 {...rest}
@@ -21,87 +26,90 @@ const App = (props) => {
         );
     };
 
-    return (
-        <>
-            <Box bg="primary">
-                <Container>
-                    <Flex.verticallyCenter justifyContent="space-between" height="20vh">
-                        <Text
-                            color="white"
-                            fontSize="2rem"
-                            fontWeight="medium"
-                            fontFamily="pacifico"
-                            as="h1"
-                        >
-                            Serve My Customer
+    render() {
+        const { user } = this.props;
+        return (
+            <>
+                <Box bg="primary">
+                    <Container>
+                        <Flex.verticallyCenter justifyContent="space-between" height="20vh">
+                            <Text
+                                color="white"
+                                fontSize="2rem"
+                                fontWeight="medium"
+                                fontFamily="pacifico"
+                                as="h1"
+                            >
+                                Serve My Customer
                         </Text>
-                        <Flex.center>
+                            <Flex.center>
 
-                            <Button.secondary>
-                                <Flex>
-                                    <IconContainer mr="0.5rem" ml="-0.5rem">
-                                        <FontAwesomeIcon
-                                            icon="code"
-                                        />
-                                    </IconContainer>
-                                    Get Script
+                                <Button.secondary>
+                                    <Flex>
+                                        <IconContainer mr="0.5rem" ml="-0.5rem">
+                                            <FontAwesomeIcon
+                                                icon="code"
+                                            />
+                                        </IconContainer>
+                                        Get Script
                             </Flex>
-                            </Button.secondary>
-                            <SettingsIconContainer ml="2rem">
-                                <FontAwesomeIcon
-                                    icon="cog"
-                                />
-                            </SettingsIconContainer>
-                        </Flex.center>
-                    </Flex.verticallyCenter>
-                </Container>
-            </Box>
-            <Flex flex="1">
-                <Sidenav user={user} />
-                <Box flex="1" m="1.5rem 2.5rem 1.5rem 0">
-                    <Switch>
-                        <Redirect exact
-                            from='/app'
-                            to='/app/dashboard' />
-                        <RouteWithUserAsProps
-                            exact
-                            path={`/app/dashboard`}
-                            component={Dashboard}
-                        />
-                        {
-                            user.admin &&
-                            <RouteWithUserAsProps
-                                exact
-                                path={`/app/employees`}
-                                component={Employees}
-                            />
-                        }
-                        <Redirect exact
-                            from='/app/sessions'
-                            to='/app/sessions/pending' />
-                        <RouteWithUserAsProps
-                            exact
-                            path={`/app/sessions/:status(pending|active|inactive|completed)`}
-                            component={Sessions}
-                        />
-                        <RouteWithUserAsProps
-                            exact
-                            path={`/app/sessions/:sessionId`}
-                            component={Session}
-                        />
-                        <Route path="*">
-                            <Column minHeight="100%">
-                                <FlexCard>
-                                    <Text.span fontSize="2.1rem" fontWeight="medium">404</Text.span>
-                                    <Text.span fontSize="1.1rem">Page Not Found</Text.span>
-                                </FlexCard>
-                            </Column>
-                        </Route>
-                    </Switch>
+                                </Button.secondary>
+                                <SettingsIconContainer ml="2rem">
+                                    <FontAwesomeIcon
+                                        icon="cog"
+                                    />
+                                </SettingsIconContainer>
+                            </Flex.center>
+                        </Flex.verticallyCenter>
+                    </Container>
                 </Box>
-            </Flex>
-        </>
-    );
+                <Flex flex="1">
+                    <Sidenav user={user} />
+                    <Box flex="1" m="1.5rem 2.5rem 1.5rem 0">
+                        <Switch>
+                            <Redirect exact
+                                from='/app'
+                                to='/app/dashboard' />
+                            <this.RouteWithUserAsProps
+                                exact
+                                path={`/app/dashboard`}
+                                component={Dashboard}
+                            />
+                            {
+                                user.admin &&
+                                <this.RouteWithUserAsProps
+                                    exact
+                                    path={`/app/employees`}
+                                    component={Employees}
+                                />
+                            }
+                            <Redirect exact
+                                from='/app/sessions'
+                                to='/app/sessions/pending' />
+                            <this.RouteWithUserAsProps
+                                exact
+                                path={`/app/sessions/:status(pending|active|inactive|completed)`}
+                                component={Sessions}
+                            />
+                            <this.RouteWithUserAsProps
+                                exact
+                                path={`/app/sessions/:sessionId`}
+                                component={Session}
+                            />
+                            <Route path="*">
+                                <Column minHeight="100%">
+                                    <FlexCard>
+                                        <Text.span fontSize="2.1rem" fontWeight="medium">404</Text.span>
+                                        <Text.span fontSize="1.1rem">Page Not Found</Text.span>
+                                    </FlexCard>
+                                </Column>
+                            </Route>
+                        </Switch>
+                    </Box>
+                </Flex>
+            </>
+        );
+    }
 }
 
 export default App;
