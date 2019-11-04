@@ -177,7 +177,10 @@ class Sessions extends Component {
                             pendingSessionsCount :
                             <Loader bg={status === "pending" ? 'white' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
                         </StatNumber>
-                        <StyledCardNotifier bg={pendingSessionsCount > 0 && status !== 'pending' ? 'primary' : 'white'} />
+                        {
+                            pendingSessionsCount > 0 &&
+                            <StyledCardNotifier bg={status !== 'pending' ? 'primary' : 'white'} />
+                        }
                     </StyledCard>
 
                     <StyledCard as={NavLink} to="/app/sessions/active">
@@ -187,7 +190,10 @@ class Sessions extends Component {
                             activeSessionsCount :
                             <Loader bg={status === "active" ? 'white' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
                         </StatNumber>
-                        <StyledCardNotifier bg={curEmployeeHasActiveSession && status !== 'active' ? 'primary' : 'white'} />
+                        {
+                            curEmployeeHasActiveSession &&
+                            <StyledCardNotifier bg={status !== 'active' ? 'primary' : 'white'} />
+                        }
                     </StyledCard>
 
                     <StyledCard as={NavLink} to="/app/sessions/inactive">
