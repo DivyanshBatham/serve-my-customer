@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { auth } from '../../config/clientSdk';
+import { store } from 'react-notifications-component';
+import axiosInstance from '../../services/axiosInstance';
 import { Dashboard, Employees, Sessions, Session } from "../../pages";
 import Sidenav from "../Sidenav";
 import { Flex, Box, Text, Button, Container, IconContainer, Column } from "../../atoms";
@@ -36,6 +39,75 @@ class App extends Component {
         this.setState({ modalIsOpen: false });
     }
 
+    downloadScript = async () => {
+        try {
+            store.addNotification({
+                title: "Starting Download!",
+                message: "in 3 seconds",
+                type: "default",
+                insert: "bottom",
+                container: "bottom-right",
+                dismiss: {
+                    duration: 3000,
+                    onScreen: true,
+                    pauseOnHover: true
+                },
+                slidingExit: {
+                    duration: 800,
+                    timingFunction: 'ease-out',
+                    delay: 0
+                },
+            });
+            
+            this.setState({
+                modalIsOpen: false
+            });
+
+            const freshIdToken = await auth.currentUser.getIdToken();
+            const res = await axiosInstance({
+                method: 'get',
+                url: '/api/script',
+                headers: {
+                    Authorization: `Bearer ${freshIdToken}`
+                },
+                responseType: 'blob'
+            })
+            
+            var data = new Blob([res.data]);
+            if (typeof window.navigator.msSaveBlob === 'function') {
+                // If it is IE that support download blob directly.
+                window.navigator.msSaveBlob(data, 'script.js');
+            } else {
+                var blob = data;
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = 'script.js';
+
+                document.body.appendChild(link);
+
+                link.click();
+            }
+
+        } catch (err) {
+            console.error(err);
+            // TODO: Generate an error notification using err.response.data.error
+            // this.setState({
+            //     revokingEmployee: false,
+            // });
+            // if (err.isAxiosError) {
+            //     if (err.response) {
+            //         console.log(err.response.data.error);
+            //         // this.setState({
+            //         //     error: err.response.data.error.message
+            //         // })
+            //     }
+            // }
+            // else {
+            //     console.error(err.message, err.name);
+            // }
+        }
+    }
+
     render() {
         const { user } = this.props;
         const { modalIsOpen } = this.state;
@@ -64,7 +136,7 @@ class App extends Component {
                                             />
                                         </IconContainer>
                                         <Text>Get Script</Text>
-                                  </Flex.verticallyCenter>
+                                    </Flex.verticallyCenter>
                                 </Button.secondary>
                                 <SettingsIconContainer ml="2rem">
                                     <FontAwesomeIcon
@@ -142,7 +214,7 @@ class App extends Component {
                                 <Text>Link</Text>
                             </Flex.verticallyCenter>
                         </Button>
-                        <Button>
+                        <Button onClick={this.downloadScript}>
                             <Flex.verticallyCenter>
                                 <IconContainer mr="0.5rem" ml="-0.7rem">
                                     <FontAwesomeIcon
