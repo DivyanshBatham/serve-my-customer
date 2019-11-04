@@ -1,0 +1,155 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400|Poppins:400,500|Pacifico&display=swap");
+
+$black: #383838;
+$lightBlack: #808080;
+$white: #fff;
+$blue: #3464e0;
+$lightBlue: #87d3f3;
+$darkBlue: #1a44aa;
+$offWhite: #f1f4f9;
+
+$normal: 5px 5px 25px 0 rgba(46, 61, 73, 0.2);
+$hover: 2px 4px 8px 0 rgba(46, 61, 73, 0.2);
+$transition: all 0.3s ease;
+
+.serve-my-customer {
+  font-family: 'Poppins', sans-serif;
+
+  .mb-05 {
+    margin-bottom: 0.5rem;
+  }
+
+  .mt-05 {
+    margin-top: 0.5rem;
+  }
+
+  .mt--35 {
+    margin-top: -3.5rem;
+  }
+
+  &__hand {
+    font-size: 2rem;
+    margin-right: 1rem;
+  }
+
+  .flex-end {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+
+
+  &__button {
+    padding: 0.7rem 2.5rem;
+    border-radius: 0.5rem;
+    box-shadow: $normal;
+    transition: $transition;
+    font-weight: 500;
+    color: $white;
+    background-color: $blue;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__floatingbutton {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 2rem;
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $blue;
+    border: none;
+    border-radius: 100%;
+    box-shadow: 5px 5px 25px 0 rgba(46, 61, 73, 0.2);
+    cursor: pointer;
+    color: white;
+    font-size: 1.2rem;
+
+    &:hover,
+    &:focus {
+      outline: none;
+      box-shadow: 2px 4px 8px 0 rgba(46, 61, 73, 0.2);
+    }
+  }
+
+  &__container {
+    position: fixed;
+    bottom: 5.5rem;
+    right: 1.5rem;
+    background-color: $offWhite;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: $normal;
+    overflow: hidden;
+    width: 350px;
+
+    &.hide {
+      display: none;
+    }
+  }
+
+  &__header {
+    margin: -1rem -1rem 1rem -1rem;
+    padding: 1rem 2rem 3.5rem;
+    background: $blue;
+
+    &__heading {
+      font-size: 2rem;
+      color: $white;
+      font-family: "Pacifico", cursive;
+      font-weight: 500;
+    }
+  }
+
+  &__card {
+    background: $white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: $hover;
+
+    &.mt {
+      margin-top: 1rem;
+    }
+
+    &__heading {
+      font-weight: 700;
+      padding-bottom: 0.5rem;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 0rem;
+
+    input {
+      box-sizing: border-box;
+      padding: 0.7rem 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      background: $offWhite;
+      transition: $transition;
+      margin-bottom: 0.7rem;
+      font-size: 0.9rem;
+      font-family: 'Poppins', sans-serif;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+  }
+}
