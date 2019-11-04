@@ -9,7 +9,7 @@ router.post('/', async (req, res, next) => {
   const { password, phoneNumber, displayName } = req.body;
 
   const bearerHeader = req.headers['authorization'];
-
+  
   if (typeof bearerHeader === 'undefined')
     return res.status(401).json({
       "error": "inviteToken is required"

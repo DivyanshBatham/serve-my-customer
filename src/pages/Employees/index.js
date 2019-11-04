@@ -153,7 +153,7 @@ class Employees extends Component {
                     })
                     store.addNotification({
                         title: "Invitation Sent!",
-                        message: "email@example.com",
+                        message: email,
                         type: "default",
                         insert: "bottom",
                         container: "bottom-right",

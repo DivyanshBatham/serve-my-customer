@@ -34,7 +34,7 @@ class Invite extends Component {
             try {
                 const res = await axiosInstance({
                     method: 'post',
-                    url: '/api/register/employee',
+                    url: '/api/registerEmployee',
                     data: {
                         password,
                         displayName,

@@ -35,7 +35,7 @@ router.post('/', async (req, res, next) => {
     await firestore.collection(`companies/${user.uid}/employees`).doc(user.uid).set({
       email: user.email,
       name: user.displayName,
-      role: isAdmin ? 'admin' : 'employee'
+      role: 'admin'
     });
 
     // Generate Custom Token:
