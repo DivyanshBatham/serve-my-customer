@@ -146,8 +146,7 @@ class Session extends Component {
     render() {
         const { sessionId } = this.props.match.params;
         const { session, message, sessionExists } = this.state;
-        const { uid } = this.props.user;
-
+        const { uid, companyId } = this.props.user;
 
         if (session && sessionExists) {
             return (
@@ -166,6 +165,8 @@ class Session extends Component {
                     </StyledRow>
 
                     <Chat
+                        sessionId={sessionId}
+                        companyId={companyId}
                     // data-simplebar
                     // sessionId={sessionId}
                     // data-simplebar-auto-hide="false" 

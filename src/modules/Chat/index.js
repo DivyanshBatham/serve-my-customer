@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { firestore } from '../../config/clientSdk';
 import { Box, Text, Flex } from '../../atoms';
 import { Loader, FlexCard } from '../../components';
-import { AuthContext } from '../../context/AuthContext';
 // import SimpleBar from 'simplebar-react';
 import { Message, Timestamp, MessageStatus } from './styles';
 // import 'simplebar';
 import 'simplebar/dist/simplebar.min.css';
 
 class Chat extends Component {
-    static contextType = AuthContext;
     constructor(props) {
         super(props);
         this.state = {}
     }
 
     componentDidMount() {
-        const { companyId } = this.context.user;
-        const { sessionId } = this.props.match.params;
+        const { sessionId, companyId } = this.props;
 
         this.messagesListener =
             firestore.collection(`companies/${companyId}/sessions/${sessionId}/messages`).orderBy("timestamp")
@@ -42,7 +38,7 @@ class Chat extends Component {
     }
 
     scrollToBottom = () => {
-        if (this.state.messages)
+        if (this.state.messages && this.props.sessionId && this.props.companyId)
             this.messagesEnd.scrollIntoView({ behavior: "smooth" });
         // this.messagesEnd.scrollIntoView();
     }
@@ -50,7 +46,9 @@ class Chat extends Component {
 
     render() {
         const { messages } = this.state;
-        return (messages ? (
+        const { sessionId, companyId } = this.props;
+
+        return (sessionId && companyId && messages ? (
             <Box bg="white" borderRadius="0.5rem" mb="1rem" p="1rem 1rem 0rem 1rem"
                 height="100%" overflowY="auto" flex='1'
             >
@@ -115,4 +113,4 @@ class Chat extends Component {
     }
 }
 
-export default withRouter(Chat);
+export default Chat;
