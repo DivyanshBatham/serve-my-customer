@@ -64,7 +64,7 @@ class Session extends Component {
                 message: message,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 clientTimestamp: new Date(),
-                author: 'employee'
+                sender: 'employee'
             })
 
             this.setState({
@@ -167,6 +167,7 @@ class Session extends Component {
                     <Chat
                         sessionId={sessionId}
                         companyId={companyId}
+                        sender="employee"
                     // data-simplebar
                     // sessionId={sessionId}
                     // data-simplebar-auto-hide="false" 

@@ -46,28 +46,28 @@ class Chat extends Component {
 
     render() {
         const { messages } = this.state;
-        const { sessionId, companyId } = this.props;
+        const { sessionId, companyId, sender } = this.props;
 
         return (sessionId && companyId && messages ? (
             <Box bg="white" borderRadius="0.5rem" mb="1rem" p="1rem 1rem 0rem 1rem"
                 height="100%" overflowY="auto" flex='1'
             >
                 {messages.map(message =>
-                    <Flex flexDirection={message.author === 'employee' ? "row-reverse" : "row"} key={message.id}>
+                    <Flex flexDirection={message.sender === sender ? "row-reverse" : "row"} key={message.id}>
                         <Message>
                             <Text.span>{message.message}</Text.span>
 
                             <Flex.verticallyCenter justifyContent="flex-end">
                                 <Timestamp>
                                     {
-                                        message.author === 'employee' ?
+                                        message.sender === sender ?
                                             new Date(message.clientTimestamp.toDate()).toLocaleTimeString(undefined, { timeStyle: 'short', hour12: true })
                                             :
                                             new Date(message.timestamp.toDate()).toLocaleTimeString(undefined, { timeStyle: 'short', hour12: true })
                                     }
                                 </Timestamp>
                                 {
-                                    message.author === 'employee' &&
+                                    message.sender === sender &&
                                     <MessageStatus>
                                         {
                                             message.timestamp ?
