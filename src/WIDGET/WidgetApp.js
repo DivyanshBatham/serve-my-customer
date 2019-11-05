@@ -27,6 +27,9 @@ class WidgetApp extends Component {
             sessionId: "WjnebljTdmgxaf3e8AOT",
             companyId: "LxfIdcIJAWU00AfIjixX772f19J3",
             message: '',
+            name: '',
+            email: '',
+            subject: ''
         }
     }
 
@@ -36,25 +39,34 @@ class WidgetApp extends Component {
         }));
     }
 
-    startSession = () => {
-        this.setState({
-            startingSession: true, // Show loader in Button
-        }, async () => {
-            try {
-                // Add Session Document to Firestore:
-                setTimeout(() => {
+    startSession = (e) => {
+        e.preventDefault();
+        const { companyId, name, email, subject } = this.state;
+        if (name && email && subject) {
+            this.setState({
+                startingSession: true, // Show loader in Button
+            }, async () => {
+                try {
+                    // Add Session Document to Firestore:
+                    const sessionRef = await firestore.collection(`companies/${companyId}/sessions/`).add({
+                        customerName: name,
+                        customerEmail: email,
+                        subject: subject,
+                        status: 'pending',
+                        startTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    })
+                    
                     this.setState({
                         step: 2,
-                        sessionId: "WjnebljTdmgxaf3e8AOT",
+                        sessionId: sessionRef.id,
                     });
-                }, 200);
 
+                } catch (err) {
+                    console.error(err);
+                }
 
-            } catch (err) {
-                console.error(err);
-            }
-
-        })
+            })
+        }
     }
 
     handleChange = (e) => {
@@ -86,7 +98,17 @@ class WidgetApp extends Component {
     }
 
     render() {
-        const { showContainer, step, sessionId, companyId, startingSession, message } = this.state;
+        const {
+            showContainer,
+            step,
+            sessionId,
+            companyId,
+            startingSession,
+            message,
+            name,
+            email,
+            subject
+        } = this.state;
         return (
             <>
                 {
@@ -121,12 +143,33 @@ class WidgetApp extends Component {
                             </Card>
 
                             <Card>
-                                <Form>
-                                    <TextField placeholder="Name" />
-                                    <TextField placeholder="Email" />
-                                    <TextField placeholder="Subject" />
+                                <Form onSubmit={this.startSession}>
+                                    <TextField
+                                        type="text"
+                                        name="name"
+                                        value={name}
+                                        disabled={(step === 2 && sessionId && companyId)}
+                                        onChange={this.handleChange}
+                                        placeholder="Name"
+                                    />
+                                    <TextField
+                                        type="text"
+                                        name="email"
+                                        value={email}
+                                        disabled={(step === 2 && sessionId && companyId)}
+                                        onChange={this.handleChange}
+                                        placeholder="Email"
+                                    />
+                                    <TextField
+                                        type="text"
+                                        name="subject"
+                                        value={subject}
+                                        disabled={(step === 2 && sessionId && companyId)}
+                                        onChange={this.handleChange}
+                                        placeholder="Subject"
+                                    />
                                     <Flex justifyContent="flex-end">
-                                        <Button onClick={this.startSession} width="256px" mt="0.5rem">
+                                        <Button type="submit" width="256px" mt="0.5rem">
                                             {startingSession ? (
                                                 <Loader bg="white" sizes={['0.6rem', '0.7rem', '0.6rem']} />
                                             ) : (
