@@ -11,10 +11,11 @@ import { Box, Text } from '../../atoms';
 
 export const Message = styled(Box)`
     background-color: rgba(52, 100, 224, 0.1);
-    max-width: 40%;
+    max-width: 80%;
     margin-bottom: 1rem;
     padding: 0.7rem 1rem;
     border-radius: 0.5rem;
+    font-size: 0.9rem;
 `
 
 export const Timestamp = styled(Text.span)`
