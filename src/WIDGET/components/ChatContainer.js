@@ -16,6 +16,10 @@ const ChatContainer = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+
+    > div {
+        box-shadow: ${props => props.theme.shadows.hover};
+    }
 `;
 
 ChatContainer.displayName = 'ChatContainer';
