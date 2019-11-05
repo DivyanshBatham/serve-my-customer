@@ -8,7 +8,6 @@ const Card = styled.div`
     padding: 1rem;
     border-radius: 8px;
     box-shadow: ${props => props.theme.shadows.hover};
-    transition: ${props => props.theme.transition}; 
 `;
 
 Card.displayName = 'Card';
