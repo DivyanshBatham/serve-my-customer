@@ -7,3 +7,6 @@ firebase-debug.log
 # config 
 config/serviceAccountKey.json
 .runtimeconfig.json
+
+# widget dist
+dist/
