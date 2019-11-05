@@ -3,6 +3,7 @@ import IconContainer from '../atoms/IconContainer';
 import Text from '../atoms/Text';
 import Flex from '../atoms/Flex';
 import Button from '../atoms/Button';
+import { Loader } from '../components/Loaders';
 import FloatingButton from './components/FloatingButton';
 import FloatingContainer from './components/FloatingContainer';
 import Header from './components/Header';
@@ -19,8 +20,9 @@ class WidgetApp extends Component {
         this.state = {
             showContainer: true,
             step: 1,
+            startingSession: false,
             sessionId: null,
-            companyId: null,
+            companyId: "LxfIdcIJAWU00AfIjixX772f19J3",
         }
     }
 
@@ -30,23 +32,29 @@ class WidgetApp extends Component {
         }));
     }
 
-    componentDidMount = () => {
-        setTimeout(() => {
-            this.setState({
-                step: 2
-            })
-        }, 5000);
+    startSession = () => {
+        this.setState({
+            startingSession: true, // Show loader in Button
+        }, async () => {
+            try {
+                // Add Session Document to Firestore:
+                setTimeout(() => {
+                    this.setState({
+                        step: 2,
+                        sessionId: "WjnebljTdmgxaf3e8AOT",
+                    });
+                }, 2000);
 
-        setTimeout(() => {
-            this.setState({
-                sessionId:"WjnebljTdmgxaf3e8AOT",
-                companyId:"LxfIdcIJAWU00AfIjixX772f19J3",
-            })
-        }, 7000);
+
+            } catch (err) {
+                console.error(err);
+            }
+
+        })
     }
 
     render() {
-        const { showContainer, step, sessionId, companyId } = this.state;
+        const { showContainer, step, sessionId, companyId, startingSession } = this.state;
         return (
             <>
                 {
@@ -87,34 +95,36 @@ class WidgetApp extends Component {
                                     <TextField placeholder="Subject" />
                                 </Form>
                                 <Flex justifyContent="flex-end">
-                                    <Button>
-                                        <Flex.verticallyCenter>
-                                            <IconContainer mr="0.5rem" ml="-0.5rem">
-                                                <svg fill="white" height="16" width="16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="paper-plane" className="svg-inline--fa fa-paper-plane fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"></path></svg>
-                                            </IconContainer>
-                                            <Text>
-                                                Start Conversation
-                                        </Text>
-                                        </Flex.verticallyCenter>
+                                    <Button onClick={this.startSession} width="256px">
+                                        {startingSession ? (
+                                            <Loader bg="white" sizes={['0.6rem', '0.7rem', '0.6rem']} />
+                                        ) : (
+                                                <Flex.verticallyCenter>
+                                                    <IconContainer mr="0.5rem" ml="-0.5rem">
+                                                        <svg fill="white" height="16" width="16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="paper-plane" className="svg-inline--fa fa-paper-plane fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"></path></svg>
+                                                    </IconContainer>
+                                                    <Text>
+                                                        Start Conversation
+                                                     </Text>
+                                                </Flex.verticallyCenter>
+                                            )
+                                        }
+
                                     </Button>
                                 </Flex>
                             </Card>
 
                             <ChatContainer>
-                                <Chat
-                                    sessionId={sessionId}
-                                    companyId={companyId}
-                                />
-                                {/* <Card >
-                                    Chat will appear here
-                                    flex: 1
-                                    overflow: scroll
+                                {step === 2 && sessionId && companyId &&
+                                    <>
+                                        <Chat
+                                            sessionId={sessionId}
+                                            companyId={companyId}
+                                        />
+                                        <Card>Something</Card>
+                                    </>
+                                }
 
-                                    TODO: Set -ve top margin after chat starts
-                                </Card> */}
-
-
-                                <Card>Something</Card>
                                 {/* <TextField
                                     type="text"
                                     placeholder="Type a message"
