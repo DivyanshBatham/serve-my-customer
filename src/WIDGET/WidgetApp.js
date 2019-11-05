@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import firebase, { firestore } from '../config/clientSdk';
 import IconContainer from '../atoms/IconContainer';
 import Text from '../atoms/Text';
 import Flex from '../atoms/Flex';
@@ -25,6 +26,7 @@ class WidgetApp extends Component {
             // sessionId: null,
             sessionId: "WjnebljTdmgxaf3e8AOT",
             companyId: "LxfIdcIJAWU00AfIjixX772f19J3",
+            message: '',
         }
     }
 
@@ -55,8 +57,36 @@ class WidgetApp extends Component {
         })
     }
 
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+
+    sendMessageIfEnter = (e) => {
+        if (e.key === 'Enter')
+            this.handleSendMessage();
+    }
+
+    handleSendMessage = () => {
+        const { message, step, sessionId, companyId } = this.state;
+
+        if (message && step === 2 && sessionId && companyId) {
+            firestore.collection(`companies/${companyId}/sessions/${sessionId}/messages`).doc().set({
+                message: message,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                clientTimestamp: new Date(),
+                sender: 'user'
+            })
+
+            this.setState({
+                message: ''
+            })
+        }
+    }
+
     render() {
-        const { showContainer, step, sessionId, companyId, startingSession } = this.state;
+        const { showContainer, step, sessionId, companyId, startingSession, message } = this.state;
         return (
             <>
                 {
@@ -122,14 +152,15 @@ class WidgetApp extends Component {
                                         <Chat
                                             sessionId={sessionId}
                                             companyId={companyId}
+                                            sender="user"
                                         />
                                         <ChatTextField
                                             type="text"
                                             placeholder="Type a message"
                                             name="message"
-                                            // value={message}
+                                            value={message}
                                             autoComplete="off"
-                                            // disabled={!(session && session.status !== 'pending' && session.status !== 'completed' && session.employeeId === uid)}
+                                            disabled={!(step === 2 && sessionId && companyId)}
                                             onChange={this.handleChange}
                                             onKeyPress={this.sendMessageIfEnter}
                                         />
