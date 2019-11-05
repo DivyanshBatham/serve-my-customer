@@ -5,7 +5,7 @@
   },
   "functions": {
     "predeploy": [
-      "npm run predeploy:functions",
+      "npm run build:parcel",
       "npm --prefix \"$RESOURCE_DIR\" run lint"
     ]
   },

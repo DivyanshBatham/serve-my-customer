@@ -26,8 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy:functions": "npm --prefix ./widget run build:parcel && mv ./widget/dist/* ./functions/dist/ ",
-    "deploy:functions": "firebase deploy --only functions"
+    "build:parcel": "parcel build src/WIDGET/index.js -d functions/dist --out-file serve-my-customer.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
   }
 }
