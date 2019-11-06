@@ -106,6 +106,13 @@ class WidgetApp extends Component {
         }
     }
 
+    setSession = (sessionId) => {
+        this.setState({
+            sessionId,
+            step: 2,
+        })
+    }
+
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -237,7 +244,10 @@ class WidgetApp extends Component {
                                         Your conversations
                                     </Text>
 
-                                    <Conversation key={servemycustomer.sessions[0].id}>
+                                    <Conversation
+                                        onClick={() => this.setSession(servemycustomer.sessions[0].id)}
+                                        key={servemycustomer.sessions[0].id}
+                                    >
                                         <Subject>{servemycustomer.sessions[0].subject}</Subject>
                                         <Text ml="0.5rem" fontSize="0.8rem" color="lightBlack">
                                             {timeAgo.format(servemycustomer.sessions[0].startTimestamp)}
@@ -247,7 +257,7 @@ class WidgetApp extends Component {
                                     {servemycustomer.sessions.slice(1).map(session => (
                                         <React.Fragment key={session.id}>
                                             <Hr />
-                                            <Conversation >
+                                            <Conversation onClick={() => this.setSession(session.id)} >
                                                 <Subject>{session.subject}</Subject>
                                                 <Text ml="0.5rem" fontSize="0.8rem" color="lightBlack">
                                                     {timeAgo.format(session.startTimestamp)}
