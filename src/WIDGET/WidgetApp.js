@@ -106,9 +106,10 @@ class WidgetApp extends Component {
         }
     }
 
-    setSession = (sessionId) => {
+    setSession = (sessionId, subject) => {
         this.setState({
             sessionId,
+            subject,
             step: 2,
         })
     }
@@ -245,7 +246,7 @@ class WidgetApp extends Component {
                                     </Text>
 
                                     <Conversation
-                                        onClick={() => this.setSession(servemycustomer.sessions[0].id)}
+                                        onClick={() => this.setSession(servemycustomer.sessions[0].id, servemycustomer.sessions[0].subject)}
                                         key={servemycustomer.sessions[0].id}
                                     >
                                         <Subject>{servemycustomer.sessions[0].subject}</Subject>
@@ -257,7 +258,7 @@ class WidgetApp extends Component {
                                     {servemycustomer.sessions.slice(1).map(session => (
                                         <React.Fragment key={session.id}>
                                             <Hr />
-                                            <Conversation onClick={() => this.setSession(session.id)} >
+                                            <Conversation onClick={() => this.setSession(session.id, session.subject)} >
                                                 <Subject>{session.subject}</Subject>
                                                 <Text ml="0.5rem" fontSize="0.8rem" color="lightBlack">
                                                     {timeAgo.format(session.startTimestamp)}
@@ -271,6 +272,11 @@ class WidgetApp extends Component {
                             <ChatContainer>
                                 {step === 2 && sessionId && companyId &&
                                     <>
+                                        <Card mb="1rem">
+                                            <Subject>
+                                                Sub: {subject}
+                                            </Subject>
+                                        </Card>
                                         <Chat
                                             sessionId={sessionId}
                                             companyId={companyId}
