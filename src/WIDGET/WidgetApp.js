@@ -37,7 +37,7 @@ class WidgetApp extends Component {
             step: 1,
             startingSession: false,
             sessionId: '',
-            companyId: "LxfIdcIJAWU00AfIjixX772f19J3",
+            companyId: '<<<CompanyId>>>',
             message: '',
             name: servemycustomer.user && (servemycustomer.user.name || ''),
             email: servemycustomer.user && (servemycustomer.user.email || ''),

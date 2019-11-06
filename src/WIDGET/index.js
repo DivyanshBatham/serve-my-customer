@@ -6,8 +6,6 @@ import theme from '../theme';
 
 import WidgetApp from './WidgetApp';
 
-const companyId = "<<<CompanyId>>>";
-
 // Getting body:
 const body = document.querySelector('body');
 
