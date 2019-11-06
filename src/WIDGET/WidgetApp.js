@@ -15,21 +15,34 @@ import TextField from './components/TextField';
 import ChatTextField from './components/ChatTextField';
 import ChatContainer from './components/ChatContainer';
 import Chat from '../modules/Chat';
+import Conversation from './components/Conversation';
+import ConversationsContainer from './components/ConversationsContainer';
+import Hr from './components/Hr';
+import Subject from './components/Subject';
+
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
+TimeAgo.addLocale(en);
+const timeAgo = new TimeAgo('en-US');
 
 class WidgetApp extends Component {
     constructor(props) {
         super(props);
+        const servemycustomer = JSON.parse(localStorage.getItem('servemycustomer')) || {
+            user: {},
+            sessions: []
+        };
         this.state = {
             showContainer: true,
             step: 1,
             startingSession: false,
-            // sessionId: null,
-            sessionId: "WjnebljTdmgxaf3e8AOT",
+            sessionId: '',
             companyId: "LxfIdcIJAWU00AfIjixX772f19J3",
             message: '',
-            name: '',
-            email: '',
-            subject: ''
+            name: servemycustomer.user && (servemycustomer.user.name || ''),
+            email: servemycustomer.user && (servemycustomer.user.email || ''),
+            subject: '',
+            servemycustomer: servemycustomer
         }
     }
 
@@ -41,7 +54,7 @@ class WidgetApp extends Component {
 
     startSession = (e) => {
         e.preventDefault();
-        const { companyId, name, email, subject } = this.state;
+        const { companyId, name, email, subject, servemycustomer } = this.state;
         if (name && email && subject) {
             this.setState({
                 startingSession: true, // Show loader in Button
@@ -51,11 +64,35 @@ class WidgetApp extends Component {
                     const sessionRef = await firestore.collection(`companies/${companyId}/sessions/`).add({
                         customerName: name,
                         customerEmail: email,
-                        subject: subject,
+                        subject,
                         status: 'pending',
                         startTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     })
-                    
+
+                    const sessionDoc = await sessionRef.get();
+                    const { status, startTimestamp } = sessionDoc.data();
+
+                    let servemycustomerNewSession = servemycustomer;
+                    servemycustomerNewSession = {
+                        user: {
+                            name,
+                            email
+                        },
+                        sessions: [
+                            {
+                                id: sessionRef.id,
+                                subject,
+                                startTimestamp: startTimestamp.toDate().getTime(),
+                                status
+
+                            },
+                            ...servemycustomer.sessions
+                        ]
+                    };
+
+                    localStorage.setItem('servemycustomer', JSON.stringify(servemycustomerNewSession));
+
+
                     this.setState({
                         step: 2,
                         sessionId: sessionRef.id,
@@ -107,7 +144,8 @@ class WidgetApp extends Component {
             message,
             name,
             email,
-            subject
+            subject,
+            servemycustomer
         } = this.state;
         return (
             <>
@@ -132,11 +170,11 @@ class WidgetApp extends Component {
                                 <Flex.verticallyCenter>
                                     <Text fontSize="2rem" mr="1rem">
                                         👋
-                                </Text>
+                                    </Text>
                                     <div>
                                         <Text fontWeight="bold">
                                             We'r online and ready to help
-                                    </Text>
+                                        </Text>
                                         <Text>The team typically replies in few minutes.</Text>
                                     </div>
                                 </Flex.verticallyCenter>
@@ -144,22 +182,26 @@ class WidgetApp extends Component {
 
                             <Card>
                                 <Form onSubmit={this.startSession}>
-                                    <TextField
-                                        type="text"
-                                        name="name"
-                                        value={name}
-                                        disabled={(step === 2 && sessionId && companyId)}
-                                        onChange={this.handleChange}
-                                        placeholder="Name"
-                                    />
-                                    <TextField
-                                        type="text"
-                                        name="email"
-                                        value={email}
-                                        disabled={(step === 2 && sessionId && companyId)}
-                                        onChange={this.handleChange}
-                                        placeholder="Email"
-                                    />
+                                    {!servemycustomer.user.name && !servemycustomer.user.email &&
+                                        <>
+                                            <TextField
+                                                type="text"
+                                                name="name"
+                                                value={name}
+                                                disabled={(step === 2 && sessionId && companyId)}
+                                                onChange={this.handleChange}
+                                                placeholder="Name"
+                                            />
+                                            <TextField
+                                                type="text"
+                                                name="email"
+                                                value={email}
+                                                disabled={(step === 2 && sessionId && companyId)}
+                                                onChange={this.handleChange}
+                                                placeholder="Email"
+                                            />
+                                        </>
+                                    }
                                     <TextField
                                         type="text"
                                         name="subject"
@@ -188,6 +230,33 @@ class WidgetApp extends Component {
                                     </Flex>
                                 </Form>
                             </Card>
+
+                            {servemycustomer.user.name && servemycustomer.user.email && servemycustomer.sessions.length > 0 &&
+                                <ConversationsContainer>
+                                    <Text fontWeight="medium" mb="0.5rem">
+                                        Your conversations
+                                    </Text>
+
+                                    <Conversation key={servemycustomer.sessions[0].id}>
+                                        <Subject>{servemycustomer.sessions[0].subject}</Subject>
+                                        <Text ml="0.5rem" fontSize="0.8rem" color="lightBlack">
+                                            {timeAgo.format(servemycustomer.sessions[0].startTimestamp)}
+                                        </Text>
+                                    </Conversation>
+
+                                    {servemycustomer.sessions.slice(1).map(session => (
+                                        <React.Fragment key={session.id}>
+                                            <Hr />
+                                            <Conversation >
+                                                <Subject>{session.subject}</Subject>
+                                                <Text ml="0.5rem" fontSize="0.8rem" color="lightBlack">
+                                                    {timeAgo.format(session.startTimestamp)}
+                                                </Text>
+                                            </Conversation>
+                                        </React.Fragment>
+                                    ))}
+                                </ConversationsContainer>
+                            }
 
                             <ChatContainer>
                                 {step === 2 && sessionId && companyId &&
