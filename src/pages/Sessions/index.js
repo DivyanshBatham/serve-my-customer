@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import TimeAgo from 'react-timeago'
 import { firestore } from '../../config/clientSdk';
 import { Column, Flex, Text, Box } from '../../atoms';
 import { Loader, FlexCard } from '../../components';
@@ -18,7 +19,9 @@ class Sessions extends Component {
         const { companyId, uid } = this.props.user;
 
         this.activeSessionsListener =
-            firestore.collection(`companies/${companyId}/sessions`).where('status', "==", "active")
+            firestore.collection(`companies/${companyId}/sessions`)
+                .where('status', "==", "active")
+                .orderBy('startTimestamp')
                 .onSnapshot((activeSessions) => {
                     let length = activeSessions.docs.length;
                     let activeSessionsData = [];
@@ -48,7 +51,9 @@ class Sessions extends Component {
                 });
 
         this.pendingSessionsListener =
-            firestore.collection(`companies/${companyId}/sessions`).where('status', "==", "pending")
+            firestore.collection(`companies/${companyId}/sessions`)
+                .where('status', "==", "pending")
+                .orderBy('receivedTimestamp')
                 .onSnapshot((pendingSessions) => {
                     let length = pendingSessions.docs.length;
                     this.setState({
@@ -63,7 +68,9 @@ class Sessions extends Component {
                 });
 
         this.inactiveSessionsListener =
-            firestore.collection(`companies/${companyId}/sessions`).where('status', "==", "inactive")
+            firestore.collection(`companies/${companyId}/sessions`)
+                .where('status', "==", "inactive")
+                .orderBy('startTimestamp')
                 .onSnapshot((inactiveSessions) => {
                     let length = inactiveSessions.docs.length;
                     this.setState({
@@ -78,7 +85,9 @@ class Sessions extends Component {
                 });
 
         this.completedSessionsListener =
-            firestore.collection(`companies/${companyId}/sessions`).where('status', "==", "completed")
+            firestore.collection(`companies/${companyId}/sessions`)
+                .where('status', "==", "completed")
+                .orderBy('endTimestamp', 'desc')
                 .onSnapshot((completedSessions) => {
                     let length = completedSessions.docs.length;
                     this.setState({
@@ -108,19 +117,23 @@ class Sessions extends Component {
             completedSessions,
         } = this.state;
 
-        let sessions;
+        let sessions, timestampField;
         switch (status) {
             case 'pending':
                 sessions = pendingSessions;
+                timestampField = 'receivedTimestamp';
                 break;
             case 'active':
                 sessions = activeSessions;
+                timestampField = 'startTimestamp';
                 break;
             case 'inactive':
                 sessions = inactiveSessions;
+                timestampField = 'startTimestamp';
                 break;
             default:
                 sessions = completedSessions;
+                timestampField = 'endTimestamp';
                 break;
         }
 
@@ -128,13 +141,18 @@ class Sessions extends Component {
             return (
                 sessions.map((session, index) => (
                     <StyledRow as={Link} to={`/app/sessions/${session.id}`} mb="1rem" key={session.id}>
-                        <Flex.verticallyCenter>
-                            <Text mr="2rem">{index + 1}.</Text>
-                            <Text mr="2rem">{session.customerName}</Text>
-                            <Text.italics mr="2rem">{session.customerEmail}</Text.italics>
-                            <Text mr="2rem">Subject: {session.subject}</Text>
+                        <Flex.verticallyCenter  flex="1">
+                            <Text mr="1rem" minWidth="25px">{index + 1}.</Text>
+                            <Text mr="1rem" minWidth="200px">{session.customerName}</Text>
+                            <Text.italics mr="1rem" minWidth="260px">{session.customerEmail}</Text.italics>
+                            <Text mr="1rem" flex="1">Subject: {session.subject}</Text>
+                            <Text mr="1rem">
+                                {
+                                    <TimeAgo date={session[timestampField].toDate()}/>
+                                }
+                            </Text>
                         </Flex.verticallyCenter>
-                        <Flex.verticallyCenter>
+                        <Flex.verticallyCenter width="1rem">
                             {
                                 session.isCurEmployeeSession &&
                                 <Box size="1rem" borderRadius="100%" bg="primary" />

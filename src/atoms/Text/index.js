@@ -3,12 +3,16 @@ import {
   color,
   space,
   typography,
+  flexbox,
+  layout
 } from 'styled-system';
 
 const Text = styled.div`
   ${color}
   ${space}
   ${typography}
+  ${flexbox}
+  ${layout}
 `;
 
 Text.displayName = 'Text';
