@@ -20,11 +20,15 @@ export const Message = styled(Box)`
 
 export const Timestamp = styled(Text.span)`
     font-size: 0.8rem;
+    display: flex;
+    align-items: center;
     color: ${props => props.theme.colors.lightBlack};
 `
 
 export const MessageStatus = styled(Text.span)`
     font-size: 0.6rem;
     margin-left: 0.3rem;
+    display: flex;
+    align-items: center;
     color: ${props => props.theme.colors.lightBlack};
 `
