@@ -6,7 +6,7 @@ import { Loader, FlexCard } from '../../components';
 // import SimpleBar from 'simplebar-react';
 import { Message, Timestamp, MessageStatus } from './styles';
 // import 'simplebar';
-import 'simplebar/dist/simplebar.min.css';
+// import 'simplebar/dist/simplebar.min.css';
 
 class Chat extends Component {
     constructor(props) {

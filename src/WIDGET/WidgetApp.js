@@ -31,19 +31,22 @@ class WidgetApp extends Component {
         super(props);
         const servemycustomer = JSON.parse(localStorage.getItem('servemycustomer')) || {
             user: {},
-            sessions: []
+            sessions: {}
         };
+        const currentSessionId = servemycustomer.user.currentSessionId;
+
         this.state = {
-            showContainer: false,
-            step: 1,
+            showContainer: true,
+            step: currentSessionId ? 2 : 1,
             startingSession: false,
-            sessionId: '',
+            sessionId: currentSessionId || '',
             companyId: 'LxfIdcIJAWU00AfIjixX772f19J3',
             message: '',
             name: servemycustomer.user && (servemycustomer.user.name || ''),
             email: servemycustomer.user && (servemycustomer.user.email || ''),
-            subject: '',
-            servemycustomer: servemycustomer
+            subject: currentSessionId && (servemycustomer.sessions[currentSessionId].subject || ''),
+            servemycustomer: servemycustomer,
+            userDetailsExists: servemycustomer.user && servemycustomer.user.name && servemycustomer.user.email,
         }
     }
 
@@ -55,7 +58,7 @@ class WidgetApp extends Component {
 
     startSession = (e) => {
         e.preventDefault();
-        const { companyId, name, email, subject, servemycustomer } = this.state;
+        const { companyId, name, email, subject } = this.state;
         if (name && email && subject) {
             this.setState({
                 startingSession: true, // Show loader in Button
@@ -70,29 +73,7 @@ class WidgetApp extends Component {
                         receivedTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     })
 
-                    const sessionDoc = await sessionRef.get();
-                    const { status, receivedTimestamp } = sessionDoc.data();
-
-                    let servemycustomerNewSession = servemycustomer;
-                    servemycustomerNewSession = {
-                        user: {
-                            name,
-                            email
-                        },
-                        sessions: [
-                            {
-                                id: sessionRef.id,
-                                subject,
-                                receivedTimestamp: receivedTimestamp.toDate().getTime(),
-                                status
-
-                            },
-                            ...servemycustomer.sessions
-                        ]
-                    };
-
-                    localStorage.setItem('servemycustomer', JSON.stringify(servemycustomerNewSession));
-
+                    this.setSessionListener(sessionRef.id);
 
                     this.setState({
                         step: 2,
@@ -143,6 +124,56 @@ class WidgetApp extends Component {
         }
     }
 
+    setSessionListener = (sessionId) => {
+        // If there is already a realtime session listener, terminate it:
+        if (this.sessionsListener)
+            this.sessionsListener();
+
+        // Set a realtime listener for current session:
+        const { companyId } = this.state;
+        this.sessionsListener =
+            firestore.doc(`companies/${companyId}/sessions/${sessionId}`)
+                .onSnapshot((session) => {
+                    const { servemycustomer } = this.state;
+
+                    if (!session.metadata.hasPendingWrites) {
+                        const { status, subject, receivedTimestamp, customerName, customerEmail } = session.data()
+
+                        // Update localStorage & state about the change in status:
+                        let servemycustomerUpdated = servemycustomer;
+
+                        servemycustomerUpdated = {
+                            user: {
+                                name: customerName,
+                                email: customerEmail,
+                                currentSessionId: sessionId,
+                            },
+                            sessions: {
+                                ...servemycustomer.sessions,
+                                [sessionId]: {
+                                    status,
+                                    subject,
+                                    receivedTimestamp: receivedTimestamp.toDate(),
+                                }
+                            }
+                        };
+
+                        localStorage.setItem('servemycustomer', JSON.stringify(servemycustomerUpdated));
+
+                        this.setState({
+                            servemycustomer: servemycustomerUpdated
+                        });
+                    }
+
+                }, (err) => {
+                    console.log(err);
+                });
+    }
+
+    componentWillUnmount() {
+        this.sessionsListener();
+    }
+
     render() {
         const {
             showContainer,
@@ -154,7 +185,8 @@ class WidgetApp extends Component {
             name,
             email,
             subject,
-            servemycustomer
+            servemycustomer,
+            userDetailsExists
         } = this.state;
         return (
             <>
@@ -167,7 +199,6 @@ class WidgetApp extends Component {
                                 fontSize="2rem"
                                 fontWeight="medium"
                                 fontFamily="pacifico"
-                                as="h1"
                             >
                                 Serve My Customer
                         </Text>
@@ -191,7 +222,7 @@ class WidgetApp extends Component {
 
                             <Card>
                                 <Form onSubmit={this.startSession}>
-                                    {!servemycustomer.user.name && !servemycustomer.user.email &&
+                                    {!userDetailsExists &&
                                         <>
                                             <TextField
                                                 type="text"
@@ -240,35 +271,27 @@ class WidgetApp extends Component {
                                 </Form>
                             </Card>
 
-                            {servemycustomer.user.name && servemycustomer.user.email && servemycustomer.sessions.length > 0 &&
+                            {userDetailsExists && Object.entries(servemycustomer.sessions).length > 0 &&
                                 <ConversationsContainer>
                                     <Text fontWeight="medium" mb="0.5rem">
                                         Your conversations
                                     </Text>
-
-                                    <Conversation
-                                        onClick={() => this.setSession(servemycustomer.sessions[0].id, servemycustomer.sessions[0].subject)}
-                                        key={servemycustomer.sessions[0].id}
-                                    >
-                                        <Subject>{servemycustomer.sessions[0].subject}</Subject>
-                                        <Text ml="0.5rem" fontSize="0.8rem" color="lightBlack">
-                                            {<TimeAgo date={servemycustomer.sessions[0].receivedTimestamp} formatter={formatter} />}
-                                            {/* {timeAgo.format(servemycustomer.sessions[0].receivedTimestamp)} */}
-                                        </Text>
-                                    </Conversation>
-
-                                    {servemycustomer.sessions.slice(1).map(session => (
-                                        <React.Fragment key={session.id}>
-                                            <Hr />
-                                            <Conversation onClick={() => this.setSession(session.id, session.subject)} >
-                                                <Subject>{session.subject}</Subject>
-                                                <Text ml="0.5rem" fontSize="0.8rem" color="lightBlack">
-                                                    {<TimeAgo date={session.receivedTimestamp} formatter={formatter} />}
-                                                    {/* {timeAgo.format(session.receivedTimestamp)} */}
-                                                </Text>
-                                            </Conversation>
-                                        </React.Fragment>
-                                    ))}
+                                    {
+                                        Object.keys(servemycustomer.sessions).map((sessionId, index) => (
+                                            <React.Fragment>
+                                                {index > 0 && <Hr />}
+                                                <Conversation
+                                                    onClick={() => this.setSession(sessionId, servemycustomer.sessions[sessionId].subject)}
+                                                    key={sessionId}
+                                                >
+                                                    <Subject>{servemycustomer.sessions[sessionId].subject}</Subject>
+                                                    <Text ml="0.5rem" fontSize="0.8rem" color="lightBlack">
+                                                        {<TimeAgo date={servemycustomer.sessions[sessionId].receivedTimestamp} formatter={formatter} />}
+                                                    </Text>
+                                                </Conversation>
+                                            </React.Fragment>
+                                        ))
+                                    }
                                 </ConversationsContainer>
                             }
 
