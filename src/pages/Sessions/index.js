@@ -5,6 +5,10 @@ import { firestore } from '../../config/clientSdk';
 import { Column, Flex, Text, Box } from '../../atoms';
 import { Loader, FlexCard } from '../../components';
 import { StyledCard, StatNumber, StyledCardNotifier, StyledRow, StyledIconContainer } from './styles';
+import englishString from 'react-timeago/lib/language-strings/en-short'
+import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
+ 
+const formatter = buildFormatter(englishString)
 
 class Sessions extends Component {
     constructor(props) {
@@ -148,7 +152,7 @@ class Sessions extends Component {
                             <Text mr="1rem" flex="1">Subject: {session.subject}</Text>
                             <Text mr="1rem">
                                 {
-                                    <TimeAgo date={session[timestampField].toDate()}/>
+                                    <TimeAgo date={session[timestampField].toDate()} formatter={formatter}/>
                                 }
                             </Text>
                         </Flex.verticallyCenter>

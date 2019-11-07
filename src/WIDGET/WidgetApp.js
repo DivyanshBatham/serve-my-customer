@@ -19,11 +19,12 @@ import Conversation from './components/Conversation';
 import ConversationsContainer from './components/ConversationsContainer';
 import Hr from './components/Hr';
 import Subject from './components/Subject';
+import TimeAgo from 'react-timeago'
+import englishString from 'react-timeago/lib/language-strings/en-short'
+import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
 
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
-TimeAgo.addLocale(en);
-const timeAgo = new TimeAgo('en-US');
+const formatter = buildFormatter(englishString)
+
 
 class WidgetApp extends Component {
     constructor(props) {
@@ -33,11 +34,11 @@ class WidgetApp extends Component {
             sessions: []
         };
         this.state = {
-            showContainer: true,
+            showContainer: false,
             step: 1,
             startingSession: false,
             sessionId: '',
-            companyId: '<<<CompanyId>>>',
+            companyId: 'LxfIdcIJAWU00AfIjixX772f19J3',
             message: '',
             name: servemycustomer.user && (servemycustomer.user.name || ''),
             email: servemycustomer.user && (servemycustomer.user.email || ''),
@@ -66,11 +67,11 @@ class WidgetApp extends Component {
                         customerEmail: email,
                         subject,
                         status: 'pending',
-                        startTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                        receivedTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     })
 
                     const sessionDoc = await sessionRef.get();
-                    const { status, startTimestamp } = sessionDoc.data();
+                    const { status, receivedTimestamp } = sessionDoc.data();
 
                     let servemycustomerNewSession = servemycustomer;
                     servemycustomerNewSession = {
@@ -82,7 +83,7 @@ class WidgetApp extends Component {
                             {
                                 id: sessionRef.id,
                                 subject,
-                                startTimestamp: startTimestamp.toDate().getTime(),
+                                receivedTimestamp: receivedTimestamp.toDate().getTime(),
                                 status
 
                             },
@@ -251,7 +252,8 @@ class WidgetApp extends Component {
                                     >
                                         <Subject>{servemycustomer.sessions[0].subject}</Subject>
                                         <Text ml="0.5rem" fontSize="0.8rem" color="lightBlack">
-                                            {timeAgo.format(servemycustomer.sessions[0].startTimestamp)}
+                                            {<TimeAgo date={servemycustomer.sessions[0].receivedTimestamp} formatter={formatter} />}
+                                            {/* {timeAgo.format(servemycustomer.sessions[0].receivedTimestamp)} */}
                                         </Text>
                                     </Conversation>
 
@@ -261,7 +263,8 @@ class WidgetApp extends Component {
                                             <Conversation onClick={() => this.setSession(session.id, session.subject)} >
                                                 <Subject>{session.subject}</Subject>
                                                 <Text ml="0.5rem" fontSize="0.8rem" color="lightBlack">
-                                                    {timeAgo.format(session.startTimestamp)}
+                                                    {<TimeAgo date={session.receivedTimestamp} formatter={formatter} />}
+                                                    {/* {timeAgo.format(session.receivedTimestamp)} */}
                                                 </Text>
                                             </Conversation>
                                         </React.Fragment>
