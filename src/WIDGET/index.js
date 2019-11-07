@@ -5,6 +5,7 @@ import { ThemeProvider } from 'styled-components'
 import theme from '../theme';
 
 import WidgetApp from './WidgetApp';
+import './fontawesome-lib-widget';
 
 // Getting body:
 const body = document.querySelector('body');
