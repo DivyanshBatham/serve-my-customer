@@ -2,7 +2,7 @@ import React from 'react';
 import ReactModal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { Button, TextField, Flex, Text, Box, IconContainer } from '../../atoms';
+import { Flex, Text, IconContainer } from '../../atoms';
 import { StyledReactModal, ModalHeader, StyledIconContainer } from './styles';
 
 ReactModal.setAppElement('#root');

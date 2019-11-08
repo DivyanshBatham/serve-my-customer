@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import firebase, { firestore } from '../../config/clientSdk';
-import { Flex, Button, IconContainer, Text, Column, Box, TextField } from '../../atoms';
+import { Flex, Button, IconContainer, Text, Column, TextField } from '../../atoms';
 import { StyledRow } from './styles';
 import { Chat } from '../../modules';
 import { Loader, FlexCard } from '../../components';

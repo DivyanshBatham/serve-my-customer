@@ -4,7 +4,7 @@ import TimeAgo from 'react-timeago'
 import { firestore } from '../../config/clientSdk';
 import { Column, Flex, Text, Box } from '../../atoms';
 import { Loader, FlexCard } from '../../components';
-import { StyledCard, StatNumber, StyledCardNotifier, StyledRow, StyledIconContainer } from './styles';
+import { StyledCard, StatNumber, StyledCardNotifier, StyledRow } from './styles';
 import englishString from 'react-timeago/lib/language-strings/en-short'
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
  
