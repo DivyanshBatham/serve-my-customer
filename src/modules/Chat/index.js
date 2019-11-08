@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { firestore } from '../../config/clientSdk';
 import { Box, Text, Flex } from '../../atoms';
 import { Loader, FlexCard } from '../../components';
@@ -11,10 +10,33 @@ import { Message, Timestamp, MessageStatus } from './styles';
 class Chat extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            loading: true,
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.sessionId !== this.props.sessionId) {
+            this.setMessageListener(true);
+        }
     }
 
     componentDidMount() {
+        this.setMessageListener()
+    }
+
+    componentWillUnmount() {
+        this.messagesListener();
+    }
+
+    setMessageListener = () => {
+        if (this.messagesListener) {
+            this.messagesListener();
+            this.setState({
+                loading: true,
+            })
+        }
+
         const { sessionId, companyId } = this.props;
 
         this.messagesListener =
@@ -24,17 +46,14 @@ class Chat extends Component {
                         messages: messages.docs.map(message => ({
                             id: message.id,
                             ...message.data()
-                        }))
+                        })),
+                        loading: false,
                     })
                     this.scrollToBottom();
 
                 }, (err) => {
                     console.log(err);
                 });
-    }
-
-    componentWillUnmount() {
-        this.messagesListener();
     }
 
     scrollToBottom = () => {
@@ -45,10 +64,10 @@ class Chat extends Component {
 
 
     render() {
-        const { messages } = this.state;
-        const { sessionId, companyId, sender } = this.props;
+        const { messages, loading } = this.state;
+        const { sender } = this.props;
 
-        return (sessionId && companyId && messages ? (
+        return (!loading ? (
             <Box bg="white" borderRadius="0.5rem" mb="1rem" p="1rem 1rem 0rem 1rem"
                 height="100%" overflowY="auto" flex='1'
             >
