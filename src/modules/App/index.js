@@ -76,12 +76,12 @@ class App extends Component {
             var data = new Blob([res.data]);
             if (typeof window.navigator.msSaveBlob === 'function') {
                 // If it is IE that support download blob directly.
-                window.navigator.msSaveBlob(data, 'script.js');
+                window.navigator.msSaveBlob(data, 'serve-my-customer.js');
             } else {
                 var blob = data;
                 var link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
-                link.download = 'script.js';
+                link.download = 'serve-my-customer.js';
 
                 document.body.appendChild(link);
 
