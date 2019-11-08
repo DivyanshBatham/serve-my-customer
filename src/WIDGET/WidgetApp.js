@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import firebase, { firestore } from '../config/clientSdk';
 import IconContainer from '../atoms/IconContainer';
 import Text from '../atoms/Text';
@@ -46,7 +45,7 @@ class WidgetApp extends Component {
             step: currentSessionId ? 2 : 1,
             ongoingSession: false,
             sessionId: currentSessionId || '',
-            companyId: 'LxfIdcIJAWU00AfIjixX772f19J3',
+            companyId: '<<<companyId>>>',
             message: '',
             name: (servemycustomer.user && servemycustomer.user.name) || '',
             email: (servemycustomer.user && servemycustomer.user.email) || '',
@@ -331,7 +330,7 @@ class WidgetApp extends Component {
                                         Your conversations
                                     </Text>
                                     {
-                                        Object.keys(servemycustomer.sessions).map((sessionId, index) => (
+                                        Object.keys(servemycustomer.sessions).reverse().map((sessionId, index) => (
                                             <React.Fragment key={sessionId}>
                                                 {index > 0 && <Hr />}
                                                 <Conversation
