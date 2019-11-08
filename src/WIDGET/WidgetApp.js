@@ -44,7 +44,7 @@ class WidgetApp extends Component {
         this.state = {
             showContainer: true,
             step: currentSessionId ? 2 : 1,
-            startingSession: false,
+            ongoingSession: false,
             sessionId: currentSessionId || '',
             companyId: 'LxfIdcIJAWU00AfIjixX772f19J3',
             message: '',
@@ -64,29 +64,31 @@ class WidgetApp extends Component {
 
     startSession = (e) => {
         e.preventDefault();
-        const { companyId, name, email, subject } = this.state;
-        if (name && email && subject) {
-            this.setState({
-                startingSession: true, // Show loader in Button
-            }, async () => {
-                try {
-                    // Add Session Document to Firestore:
-                    const sessionRef = await firestore.collection(`companies/${companyId}/sessions/`).add({
-                        customerName: name,
-                        customerEmail: email,
-                        subject,
-                        status: 'pending',
-                        receivedTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    })
+        const { companyId, name, email, subject, ongoingSession } = this.state;
+        if (!ongoingSession) {
+            if (name && email && subject) {
+                this.setState({
+                    ongoingSession: true, // Show loader in Button
+                }, async () => {
+                    try {
+                        // Add Session Document to Firestore:
+                        const sessionRef = await firestore.collection(`companies/${companyId}/sessions/`).add({
+                            customerName: name,
+                            customerEmail: email,
+                            subject,
+                            status: 'pending',
+                            receivedTimestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                        })
 
-                    this.setSessionListener(sessionRef.id);
+                        this.setSessionListener(sessionRef.id);
 
 
-                } catch (err) {
-                    console.error(err);
-                }
+                    } catch (err) {
+                        console.error(err);
+                    }
 
-            })
+                })
+            }
         }
     }
 
@@ -185,7 +187,7 @@ class WidgetApp extends Component {
                         servemycustomer: servemycustomerUpdated,
                         step: 2,
                         sessionId: sessionId,
-                        startingSession: false,
+                        ongoingSession: status !== 'completed',
                         subject: '',
                         // subjectDisplay: subject,
                     });
@@ -221,7 +223,7 @@ class WidgetApp extends Component {
             step,
             sessionId,
             companyId,
-            startingSession,
+            ongoingSession,
             message,
             name,
             email,
@@ -304,7 +306,7 @@ class WidgetApp extends Component {
                                     />
                                     <Flex justifyContent="flex-end">
                                         <Button type="submit" width="256px" mt="0.5rem">
-                                            {startingSession ? (
+                                            {ongoingSession ? (
                                                 <Loader bg="white" sizes={['0.6rem', '0.7rem', '0.6rem']} />
                                             ) : (
                                                     <Flex.verticallyCenter>
@@ -361,7 +363,7 @@ class WidgetApp extends Component {
                                             sender="user"
                                         />
                                         {
-                                            servemycustomer.sessions[sessionId].status !== 'completed' ? (
+                                            servemycustomer.sessions[sessionId].status !== 'completed' && (
                                                 <ChatTextField
                                                     type="text"
                                                     placeholder="Type a message"
@@ -374,33 +376,38 @@ class WidgetApp extends Component {
                                                     onKeyPress={this.sendMessageIfEnter}
                                                 />
 
-                                            ) : (
-                                                    <Card p="0.7rem 1rem">
-                                                        <Flex justifyContent="space-between">
-                                                            <Text display="flex" alignItems="center" fontSize="0.9rem">How would you rate us?</Text>
-                                                            <Flex flex="1" justifyContent="space-evenly">
-                                                                <Rating
-                                                                    onClick={() => this.sendRating('happy')}
-                                                                    className={servemycustomer.sessions[sessionId].rating === 'happy' ? 'active' : 'null'}
-                                                                >
-                                                                    <svg height="25.59" width="25.59" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="smile" className="svg-inline--fa fa-smile fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm80 168c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm194.8 170.2C334.3 380.4 292.5 400 248 400s-86.3-19.6-114.8-53.8c-13.6-16.3 11-36.7 24.6-20.5 22.4 26.9 55.2 42.2 90.2 42.2s67.8-15.4 90.2-42.2c13.4-16.2 38.1 4.2 24.6 20.5z"></path></svg>
-                                                                </Rating>
-                                                                <Rating
-                                                                    onClick={() => this.sendRating('neutral')}
-                                                                    className={servemycustomer.sessions[sessionId].rating === 'neutral' ? 'active' : null}
-                                                                >
-                                                                    <svg height="25.59" width="25.59" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="meh" className="svg-inline--fa fa-meh fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm-80 168c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm176 192H152c-21.2 0-21.2-32 0-32h192c21.2 0 21.2 32 0 32zm-16-128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"></path></svg>
-                                                                </Rating>
-                                                                <Rating
-                                                                    onClick={() => this.sendRating('sad')}
-                                                                    className={servemycustomer.sessions[sessionId].rating === 'sad' ? 'active' : null}
-                                                                >
-                                                                    <svg height="25.59" width="25.59" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="frown" className="svg-inline--fa fa-frown fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm80 168c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm170.2 218.2C315.8 367.4 282.9 352 248 352s-67.8 15.4-90.2 42.2c-13.5 16.3-38.1-4.2-24.6-20.5C161.7 339.6 203.6 320 248 320s86.3 19.6 114.7 53.8c13.6 16.2-11 36.7-24.5 20.4z"></path></svg>
-                                                                </Rating>
-                                                            </Flex>
+                                            )}
+
+                                        {
+                                            servemycustomer.sessions[sessionId].status === 'completed'
+                                            && servemycustomer.user.currentSessionId === sessionId
+                                            && (
+                                                <Card p="0.7rem 1rem" mt="1rem">
+                                                    <Flex justifyContent="space-between">
+                                                        <Text display="flex" alignItems="center" fontSize="0.9rem">How would you rate us?</Text>
+                                                        <Flex flex="1" justifyContent="space-evenly">
+                                                            <Rating
+                                                                onClick={() => this.sendRating('happy')}
+                                                                className={servemycustomer.sessions[sessionId].rating === 'happy' ? 'active' : 'null'}
+                                                            >
+                                                                <svg height="25.59" width="25.59" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="smile" className="svg-inline--fa fa-smile fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm80 168c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm194.8 170.2C334.3 380.4 292.5 400 248 400s-86.3-19.6-114.8-53.8c-13.6-16.3 11-36.7 24.6-20.5 22.4 26.9 55.2 42.2 90.2 42.2s67.8-15.4 90.2-42.2c13.4-16.2 38.1 4.2 24.6 20.5z"></path></svg>
+                                                            </Rating>
+                                                            <Rating
+                                                                onClick={() => this.sendRating('neutral')}
+                                                                className={servemycustomer.sessions[sessionId].rating === 'neutral' ? 'active' : null}
+                                                            >
+                                                                <svg height="25.59" width="25.59" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="meh" className="svg-inline--fa fa-meh fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm-80 168c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm176 192H152c-21.2 0-21.2-32 0-32h192c21.2 0 21.2 32 0 32zm-16-128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"></path></svg>
+                                                            </Rating>
+                                                            <Rating
+                                                                onClick={() => this.sendRating('sad')}
+                                                                className={servemycustomer.sessions[sessionId].rating === 'sad' ? 'active' : null}
+                                                            >
+                                                                <svg height="25.59" width="25.59" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="frown" className="svg-inline--fa fa-frown fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm80 168c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm170.2 218.2C315.8 367.4 282.9 352 248 352s-67.8 15.4-90.2 42.2c-13.5 16.3-38.1-4.2-24.6-20.5C161.7 339.6 203.6 320 248 320s86.3 19.6 114.7 53.8c13.6 16.2-11 36.7-24.5 20.4z"></path></svg>
+                                                            </Rating>
                                                         </Flex>
-                                                    </Card>
-                                                )
+                                                    </Flex>
+                                                </Card>
+                                            )
                                         }
                                     </>
                                 }

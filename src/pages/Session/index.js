@@ -183,6 +183,7 @@ class Session extends Component {
                         disabled={!(session && session.status !== 'pending' && session.status !== 'completed' && session.employeeId === uid)}
                         onChange={this.handleChange}
                         onKeyPress={this.sendMessageIfEnter}
+                        mt="1rem"
                     />
                 </Column>
             );
