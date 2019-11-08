@@ -6,12 +6,12 @@ router.get('/', (req, res, next) => {
 
     try {
         let data = fs.readFileSync('./dist/serve-my-customer.js', 'utf8')
-        
+
         let output = data.replace('<<<companyId>>>', 'LxfIdcIJAWU00AfIjixX772f19J3');
 
-        fs.writeFileSync('./dist/output.js', output);
-        
-        res.download('./dist/output.js')
+        res.attachment('serve-my-customer.js');
+        res.type('application/javascript');
+        res.send(output);
 
     } catch (err) {
         console.log(err);

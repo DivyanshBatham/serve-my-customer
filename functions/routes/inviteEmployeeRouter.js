@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const functions = require('firebase-functions');
 const router = express.Router();
 const { auth, firestore, admin } = require('../config/adminSdk');
-const { sendgrid, SENDGRID_INVITATION_TEMPLATE_ID } = require('../config/sendgrid');
+const sendInviteEmail = require('../helpers/sendInviteEmail');
 
 router.post('/', async (req, res, next) => {
 
@@ -69,19 +69,20 @@ router.post('/', async (req, res, next) => {
         );
 
         // Generate email message
-        const msg = {
-            to: email,
-            from: 'no-reply@servemycustomer.com',
-            templateId: SENDGRID_INVITATION_TEMPLATE_ID,
-            dynamic_template_data: {
-                companyName,
-                ctaUrl: `https://serve-my-customer.firebaseapp.com/invite/${inviteToken}`
-            },
-        };
+        // const msg = {
+        //     to: email,
+        //     from: 'no-reply@servemycustomer.com',
+        //     templateId: SENDGRID_INVITATION_TEMPLATE_ID,
+        //     dynamic_template_data: {
+        //         companyName,
+        //         ctaUrl: `https://serve-my-customer.firebaseapp.com/invite/${inviteToken}`
+        //     },
+        // };
 
         // Send email
-        await sendgrid.send(msg);
-
+        // await sendgrid.send(msg);
+        await sendInviteEmail(email, companyName, inviteToken)
+            
         return res.status(201).json({
             "message": "Email Sent",
         })
