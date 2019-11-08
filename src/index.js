@@ -9,7 +9,7 @@ import './fontawesome-lib';
 import AuthContextProvider from './context/AuthContext';
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
-import './WIDGET/index';
+// import './WIDGET/index';
 
 ReactDOM.render(
     <ThemeProvider theme={theme}>
