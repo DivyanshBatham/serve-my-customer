@@ -10,3 +10,6 @@ config/serviceAccountKey.json
 
 # widget dist
 dist/
+
+# test
+test/
