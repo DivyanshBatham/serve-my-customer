@@ -15,7 +15,7 @@ class Routes extends Component {
         render={props =>
           user ? (
             user.emailVerified ?
-              <Component {...props} user={user}/> :
+              <Component {...props} user={user} /> :
               <VerifyEmail {...props} user={user} />
           ) : (
               <Redirect
@@ -48,7 +48,10 @@ class Routes extends Component {
     return (
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Switch>
-          <Route exact path="/" component={Home} />
+          {/* <Route exact path="/" component={Home} /> */}
+          <Redirect exact
+            from='/'
+            to='/login' />
           <this.AuthRoute path="/login" component={Login} />
           <this.AuthRoute path="/register" component={Register} />
           <this.AuthRoute path="/invite/:token" component={Invite} />
