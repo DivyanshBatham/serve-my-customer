@@ -199,21 +199,7 @@ class App extends Component {
                     modalTitle="Get Script"
                 >
                     <Text mb="1rem">Add the following code to your website.</Text>
-                    <code>
-                        console.log('Hello World');
-                    </code>
-
                     <Flex mt="1rem" justifyContent="flex-end">
-                        <Button mr="1rem">
-                            <Flex.verticallyCenter>
-                                <IconContainer mr="0.5rem" ml="-0.7rem">
-                                    <FontAwesomeIcon
-                                        icon="link"
-                                    />
-                                </IconContainer>
-                                <Text>Link</Text>
-                            </Flex.verticallyCenter>
-                        </Button>
                         <Button onClick={this.downloadScript}>
                             <Flex.verticallyCenter>
                                 <IconContainer mr="0.5rem" ml="-0.7rem">
