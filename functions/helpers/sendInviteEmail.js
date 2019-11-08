@@ -13,7 +13,7 @@ const mailTransport = nodemailer.createTransport({
 const sendVerificationEmail = (email, companyName, inviteToken) => {
 
     const mailOptions = {
-        from: `"Candids" <${functions.config().nodemailer.email}>`,
+        from: `"Serve My Customer" <${functions.config().nodemailer.email}>`,
         to: email,
         subject: "Invitation to join Serve My Customer",
         text: "Invitation to join Serve My Customer",
