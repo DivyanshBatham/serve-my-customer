@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Login, Register, Home, VerifyEmail, Invite } from './pages';
 import { App } from './modules';
+import { FullPageLoader } from './components';
 import { AuthContext } from './context/AuthContext';
 
 class Routes extends Component {
@@ -45,19 +46,24 @@ class Routes extends Component {
   };
 
   render() {
+    const { fetchingAuthState } = this.context;
+
     return (
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <Switch>
-          {/* <Route exact path="/" component={Home} /> */}
-          <Redirect exact
-            from='/'
-            to='/login' />
-          <this.AuthRoute path="/login" component={Login} />
-          <this.AuthRoute path="/register" component={Register} />
-          <this.AuthRoute path="/invite/:token" component={Invite} />
-          <this.PrivateRoute path="/app" component={App} />
-        </Switch>
-      </BrowserRouter>
+      fetchingAuthState ?
+        <FullPageLoader />
+        :
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
+          <Switch>
+            {/* <Route exact path="/" component={Home} /> */}
+            <Redirect exact
+              from='/'
+              to='/login' />
+            <this.AuthRoute path="/login" component={Login} />
+            <this.AuthRoute path="/register" component={Register} />
+            <this.AuthRoute path="/invite/:token" component={Invite} />
+            <this.PrivateRoute path="/app" component={App} />
+          </Switch>
+        </BrowserRouter>
     );
   }
 }
