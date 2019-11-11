@@ -29,10 +29,10 @@ export default createGlobalStyle`
 
     .notification-item {
         border-radius: 8px !important;
-        box-shadow: 5px 5px 25px 0 rgba(46,61,73,.2) !important;
+        box-shadow: ${props => props.theme.shadows.normal} !important;
         
         &:hover {
-            box-shadow: 2px 4px 8px 0 rgba(46,61,73,.2) !important,
+            box-shadow: ${props => props.theme.shadows.hover} !important,
         }
         .notification-message {
             max-width: 100% !important;
