@@ -2,23 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Routes from './Routes';
 import * as serviceWorker from './serviceWorker';
-import { ThemeProvider } from 'styled-components'
-import theme from './theme';
 import GlobalStyle from './globalStyles';
 import './fontawesome-lib';
 import AuthContextProvider from './context/AuthContext';
+import DynamicThemeProvider from './context/DynamicThemeProvider';
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 // import './WIDGET/index';
 
 ReactDOM.render(
-    <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <ReactNotification />
-        <AuthContextProvider>
+    <AuthContextProvider>
+        <DynamicThemeProvider>
+            <GlobalStyle />
+            <ReactNotification />
             <Routes />
-        </AuthContextProvider>
-    </ThemeProvider>,
+        </DynamicThemeProvider>
+    </AuthContextProvider>,
     document.getElementById('root')
 );
 
