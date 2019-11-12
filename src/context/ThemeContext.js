@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components'
 import { firestore } from '../config/clientSdk';
 import { AuthContext } from './AuthContext';
+import { fetchUserTheme, expandTheme } from '../helpers';
 import baseTheme from '../theme';
 
 export const ThemeContext = React.createContext();
@@ -20,7 +21,7 @@ const DynamicThemeProvider = (props) => {
         if (cachedTheme) {
             try {
                 console.log("Expand with cachedTheme");
-                expandTheme(baseTheme, JSON.parse(cachedTheme));
+                setTheme(expandTheme(baseTheme, JSON.parse(cachedTheme)));
             } catch (err) {
                 console.log("Failed parsing cached theme, so not expanding");
             }
@@ -29,29 +30,17 @@ const DynamicThemeProvider = (props) => {
 
 
     useEffect(() => {
-        async function fetchCompanyData(companyId) {
-            try {
-                const companyDoc = await firestore.doc(`companies/${companyId}`).get();
-                const { theme } = companyDoc.data();
-                console.log("userTheme fetched, update the theme now:")
-                setUserTheme(theme);
-            } catch (err) {
-                console.log("Unable to fetch userTheme");
-            }
-        }
-
         if (user) {
-            fetchCompanyData(user.companyId);
+            fetchUserTheme(user.companyId).then(userTheme => {
+                setUserTheme(userTheme);
+            })
         }
     }, [user]);
 
     useEffect(() => {
         if (contextTheme) {
             console.log("Expand with contextTheme on top of userTheme");
-            // console.log(expandTheme(baseTheme, contextTheme));
-            
-            // expandTheme(baseTheme, userTheme);
-            expandTheme(expandTheme(baseTheme, userTheme), contextTheme);
+            setTheme(expandTheme(expandTheme(baseTheme, userTheme), contextTheme));
         }
     }, [contextTheme, userTheme]);
 
@@ -60,7 +49,7 @@ const DynamicThemeProvider = (props) => {
             // Caching userTheme for next time:
             console.log("Expand with userTheme");
             localStorage.setItem('theme', JSON.stringify(userTheme));
-            expandTheme(baseTheme, userTheme);
+            setTheme(expandTheme(baseTheme, userTheme));
         }
     }, [userTheme]);
 
@@ -72,20 +61,6 @@ const DynamicThemeProvider = (props) => {
                 theme: contextTheme
             })
         }
-    }
-
-    function expandTheme(curTheme, newTheme) {
-        let combinedTheme = { ...curTheme };
-        for (var key in newTheme) {
-            if (newTheme.hasOwnProperty(key)) {
-                combinedTheme[key] = {
-                    ...curTheme[key],
-                    ...newTheme[key],
-                }
-            }
-        }
-        setTheme(combinedTheme);
-        return combinedTheme;
     }
 
     return (
