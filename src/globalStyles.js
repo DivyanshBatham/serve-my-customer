@@ -6,7 +6,7 @@ export default createGlobalStyle`
         padding: 0;
         font-family: 'Poppins', sans-serif;
         font-size: 16px;
-        background-color: ${props => props.theme.colors.offWhite};
+        background-color: ${props => props.theme.colors.background};
         color: ${props => props.theme.colors.black}
     }
 
