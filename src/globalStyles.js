@@ -35,8 +35,12 @@ export default createGlobalStyle`
             max-width: 100% !important;
         }
     }
-    .notification-default{
-        border-left: 8px solid ${props => props.theme.colors.darkBlue} !important;
+    .notification-default {
+        border-left: 8px solid ${props => props.theme.colors.primaryDark} !important;
         background: ${props => props.theme.colors.primary} !important;
+
+        .timer {
+            background: ${props => props.theme.colors.primaryDark} !important;
+        }
     }
 `

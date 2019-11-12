@@ -4,7 +4,7 @@ export default {
         lightBlack: '#808080',
         white: '#fff',
         primary: '#3464E0',
-        darkBlue: '#1A44AA',
+        primaryDark: '#1A44AA',
         offWhite: '#F1F4F9',
     },
     fonts: {
