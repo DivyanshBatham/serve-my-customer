@@ -10,8 +10,10 @@ import { Flex, Box, Text, Button, Container, IconContainer, Column } from "../..
 import { FlexCard } from "../../components";
 import { Modal } from '../../modules';
 import { SettingsIconContainer } from './styles';
+import { ThemeContext } from '../../context/ThemeContext';
 
 class App extends Component {
+    static contextType = ThemeContext;
     constructor(props) {
         super(props);
         this.state = {
@@ -58,7 +60,7 @@ class App extends Component {
                     delay: 0
                 },
             });
-            
+
             this.setState({
                 modalIsOpen: false
             });
@@ -72,7 +74,7 @@ class App extends Component {
                 },
                 responseType: 'blob'
             })
-            
+
             var data = new Blob([res.data]);
             if (typeof window.navigator.msSaveBlob === 'function') {
                 // If it is IE that support download blob directly.
@@ -108,10 +110,18 @@ class App extends Component {
         }
     }
 
+    setTheme = () => {
+        const { contextTheme, setContextTheme } = this.context;
+        setContextTheme({
+            colors: {
+                primary: ['#ffb301','#f57c00','#e91e63','#8bc34a'][~~(Math.random()*4)]
+            }
+        })
+    }
+
     render() {
         const { user } = this.props;
         const { modalIsOpen } = this.state;
-
         return (
             <>
                 <Box bg="primary">
@@ -138,7 +148,7 @@ class App extends Component {
                                         <Text>Get Script</Text>
                                     </Flex.verticallyCenter>
                                 </Button.secondary>
-                                <SettingsIconContainer ml="2rem">
+                                <SettingsIconContainer ml="2rem" onClick={this.setTheme}>
                                     <FontAwesomeIcon
                                         icon="cog"
                                     />

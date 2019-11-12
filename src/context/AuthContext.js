@@ -32,13 +32,6 @@ class AuthContextProvider extends Component {
                         companyId,
                         admin
                     },
-                    userTheme: {}
-                    // userTheme: {
-                    //     colors: {
-                    //         primary: '#6800BF',
-                    //         // primary: 'yellow',
-                    //     }
-                    // }
                 });
             } else {
                 this.setState({
