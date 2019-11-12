@@ -3,7 +3,7 @@ import {IconContainer, Flex } from '../../atoms';
 
 export const StyledLink = styled(Flex.center)`
     text-decoration: none;
-    background-color: white;
+    background-color: ${props => props.theme.colors.white};
     flex-direction: column;
     display: inline-flex;
     height: 100px;
@@ -19,7 +19,7 @@ export const StyledLink = styled(Flex.center)`
 
     &.active {
         background-color: ${props => props.theme.colors.primary};
-        color: white;
+        color: ${props => props.theme.colors.white};
     }
 
     &:hover {

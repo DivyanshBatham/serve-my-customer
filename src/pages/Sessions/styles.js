@@ -3,7 +3,7 @@ import { Row, IconContainer, Box, Text } from '../../atoms';
 import { flexbox } from 'styled-system';
 
 export const StyledCard = styled(Box)`
-    background-color: white;
+    background-color: ${props => props.theme.colors.white};
     height: 140px;
     width: 180px;
     border-radius: 0.5rem;
@@ -29,11 +29,11 @@ export const StyledCard = styled(Box)`
         }
     }
     &.active {
-        color: white;
+        color: ${props => props.theme.colors.white};
         background-color: ${props => props.theme.colors.primary};
 
         strong {
-            color: white;
+            color: ${props => props.theme.colors.white};
         }
     }
 `
@@ -56,7 +56,7 @@ export const StatNumber = styled(Text.bold)`
 `
 
 export const StyledRow = styled(Row)`
-    background-color: white;
+    background-color: ${props => props.theme.colors.white};
     border-radius: 0.5rem;
     padding: 0.7rem 1rem;
     justify-content: space-between;

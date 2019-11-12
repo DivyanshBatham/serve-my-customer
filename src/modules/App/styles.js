@@ -3,6 +3,6 @@ import {IconContainer} from '../../atoms';
 
 export const SettingsIconContainer = styled(IconContainer)`
     font-size:1.4rem;
-    color: white;
+    color: ${props => props.theme.colors.white};
     cursor: pointer;
 `

@@ -20,7 +20,7 @@ const Button = styled.button`
   transition: ${props => props.theme.transition};
   font-family: ${props => props.theme.fonts.poppins};
   font-weight: ${props => props.theme.fontWeights.medium};
-  color: white;
+  color: ${props => props.theme.colors.white};
   background-color: ${props => props.theme.colors.primary};
   border: none;
   font-size: 1rem;
@@ -42,7 +42,7 @@ const Button = styled.button`
 Button.displayName = 'Button';
 
 Button.secondary = styled(Button)`
-  background-color: white;
+  background-color: ${props => props.theme.colors.white};
   color: ${props => props.theme.colors.black};
 `
 

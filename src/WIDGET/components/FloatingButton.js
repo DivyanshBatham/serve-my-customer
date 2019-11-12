@@ -14,7 +14,7 @@ const FloatingButton = styled.button`
     border-radius: 100%;
     box-shadow: 5px 5px 25px 0 rgba(46, 61, 73, 0.2);
     cursor: pointer;
-    color: white;
+    color: ${props => props.theme.colors.white};
     font-size: 1.2rem;
 
     &:hover,

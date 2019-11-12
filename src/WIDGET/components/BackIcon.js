@@ -4,7 +4,7 @@ const BackIcon = styled.div`
     position: absolute;
     transition: ${props => props.theme.transition};
     left: 2rem;
-    color: white;
+    color: ${props => props.theme.colors.white};
     font-size: 2rem;
     font-weight: medium;
     font-family: ${props => props.theme.fonts.pacifico};
