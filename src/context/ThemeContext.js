@@ -68,7 +68,7 @@ const DynamicThemeProvider = (props) => {
             setContextTheme,
             contextTheme
         }}>
-            <ThemeProvider theme={theme} x={'x'}>
+            <ThemeProvider theme={theme}>
                 {props.children}
             </ThemeProvider>
         </ThemeContext.Provider>

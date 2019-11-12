@@ -41,11 +41,11 @@ class WidgetApp extends Component {
         currentSessionId = currentSessionId && servemycustomer.sessions[currentSessionId].rating ? '' : currentSessionId;
 
         this.state = {
-            showContainer: true,
+            showContainer: false,
             step: currentSessionId ? 2 : 1,
             ongoingSession: false,
             sessionId: currentSessionId || '',
-            companyId: '<<<companyId>>>',
+            companyId: this.props.companyId,
             message: '',
             name: (servemycustomer.user && servemycustomer.user.name) || '',
             email: (servemycustomer.user && servemycustomer.user.email) || '',
