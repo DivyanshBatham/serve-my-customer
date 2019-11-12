@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { auth } from '../../config/clientSdk';
 import { store } from 'react-notifications-component';
 import axiosInstance from '../../services/axiosInstance';
-import { Dashboard, Employees, Sessions, Session } from "../../pages";
+import { Dashboard, Employees, Sessions, Session, Settings } from "../../pages";
 import Sidenav from "../Sidenav";
 import { Flex, Box, Text, Button, Container, IconContainer, Column } from "../../atoms";
 import { FlexCard } from "../../components";
@@ -114,7 +114,7 @@ class App extends Component {
         const { contextTheme, setContextTheme } = this.context;
         setContextTheme({
             colors: {
-                primary: ['#ffb301','#f57c00','#e91e63','#8bc34a'][~~(Math.random()*4)]
+                primary: ['#ffb301', '#f57c00', '#e91e63', '#8bc34a'][~~(Math.random() * 4)]
             }
         })
     }
@@ -148,9 +148,9 @@ class App extends Component {
                                         <Text>Get Script</Text>
                                     </Flex.verticallyCenter>
                                 </Button.secondary>
-                                <SettingsIconContainer ml="2rem" onClick={this.setTheme}>
+                                <SettingsIconContainer ml="2rem" onClick={() => auth.signOut()}>
                                     <FontAwesomeIcon
-                                        icon="cog"
+                                        icon="sign-out-alt"
                                     />
                                 </SettingsIconContainer>
                             </Flex.center>
@@ -189,6 +189,11 @@ class App extends Component {
                                 exact
                                 path={`/app/sessions/:sessionId`}
                                 component={Session}
+                            />
+                            <this.RouteWithUserAsProps
+                                exact
+                                path={`/app/settings`}
+                                component={Settings}
                             />
                             <Route path="*">
                                 <Column minHeight="100%">

@@ -7,3 +7,4 @@ export { default as Register } from './Auth/Register';
 export { default as Invite } from './Auth/Invite';
 export { default as VerifyEmail } from './Auth/VerifyEmail';
 export { default as Home } from './Home';
+export { default as Settings } from './Settings';
