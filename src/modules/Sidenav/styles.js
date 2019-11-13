@@ -39,6 +39,7 @@ export const StyledNav = styled.nav`
     /* width:200px; */
     position:sticky;
     top:0;
-    max-height: 80vh;
+    /* max-height: 80vh; */
+    align-self: start;
     margin: 0 2.5rem;
 `
