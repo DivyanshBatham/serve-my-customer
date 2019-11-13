@@ -190,9 +190,12 @@ class App extends Component {
                                 path={`/app/sessions/:sessionId`}
                                 component={Session}
                             />
+                            <Redirect exact
+                                from='/app/settings'
+                                to='/app/settings/profile' />
                             <this.RouteWithUserAsProps
                                 exact
-                                path={`/app/settings`}
+                                path={`/app/settings/:page(profile|company|theme|security|delete)`}
                                 component={Settings}
                             />
                             <Route path="*">
