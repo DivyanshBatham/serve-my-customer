@@ -43,4 +43,14 @@ export default createGlobalStyle`
             background: ${props => props.theme.colors.primaryDark} !important;
         }
     }
+
+    .twitter-picker {
+        position: absolute !important;
+        /* top: calc(50% + 5px); */
+        top: calc(100% + 5px);
+        left: calc(-50% + 12px);
+        border-radius: 0.5rem !important;
+        box-shadow: 2px 4px 36px 0 rgba(46,61,73,.3) !important;
+        z-index: 5000 !important;
+    }
 `
