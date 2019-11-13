@@ -32,7 +32,7 @@ const DynamicThemeProvider = (props) => {
     useEffect(() => {
         if (user) {
             fetchUserTheme(user.companyId).then(userTheme => {
-                setUserTheme(userTheme);
+                setUserTheme(userTheme || {});
             })
         }
     }, [user]);
@@ -66,7 +66,8 @@ const DynamicThemeProvider = (props) => {
     return (
         <ThemeContext.Provider value={{
             setContextTheme,
-            contextTheme
+            contextTheme,
+            userTheme
         }}>
             <ThemeProvider theme={theme}>
                 {props.children}
