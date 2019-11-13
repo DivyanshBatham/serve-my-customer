@@ -14,18 +14,10 @@ const ThemeSettings = () => {
                 <ThemeCard>
                     Classic Blue
                 </ThemeCard>
-                <ThemeCard>
-                    Classic Blue
+                <ThemeCard className="active">
+                    Majestic Purple
                 </ThemeCard>
-                <ThemeCard>
-                    Classic Blue
-                </ThemeCard>
-                <ThemeCard>
-                    Classic Blue
-                </ThemeCard>
-                <ThemeCard>
-                    Classic Blue
-                </ThemeCard>
+                
                 <ThemeCard>
                     Custom
                 </ThemeCard>
