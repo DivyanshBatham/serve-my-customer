@@ -9,13 +9,13 @@ export const ThemeCardContainer = styled(Box)`
 `
 
 export const ThemeCard = styled(Box)`
-    color: ${props => props.theme.colors.black};
     cursor: pointer;
     padding: 1rem;
     border-radius: 0.5rem;
     font-weight: ${props => props.theme.fontWeights.medium};
     color: ${props => props.theme.colors.black};
     box-shadow: ${props => props.theme.shadows.normal};
+    background-color: ${props => props.theme.colors.tertiaryBackground};
     transition: ${props => props.theme.transition}, color 0s;
 
     &:hover {
