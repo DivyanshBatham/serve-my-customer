@@ -13,7 +13,7 @@ export const StyledLink = styled(Flex.center)`
     border-radius: 0.5rem;
     box-shadow: ${props => props.theme.shadows.normal};
     transition: ${props => props.theme.transition}, color 0s;
-    color: ${props => props.theme.colors.black};
+    color: ${props => props.theme.colors.primaryText};
     cursor: pointer;
     margin-top: 1.7rem;
 

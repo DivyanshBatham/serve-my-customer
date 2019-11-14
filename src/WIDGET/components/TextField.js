@@ -5,7 +5,7 @@ const TextField = styled.input`
   padding: 0.7rem 1rem;
   border-radius: 0.5rem;
   border: none;
-  color: ${props => props.theme.colors.black};
+  color: ${props => props.theme.colors.primaryText};
   background-color: ${props => props.theme.colors.tertiaryBackground};
   transition: ${props => props.theme.transition}; 
   margin-bottom: 0.7rem;

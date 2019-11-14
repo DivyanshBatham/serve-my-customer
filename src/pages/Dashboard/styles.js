@@ -16,7 +16,7 @@ export const StyledCard = styled(Box)`
     font-family: ${props => props.theme.fonts.poppins};
     font-weight: ${props => props.theme.fontWeights.medium};
     text-decoration: none;
-    color: ${props => props.theme.colors.black};
+    color: ${props => props.theme.colors.primaryText};
     cursor: pointer;
 
     &:hover {

@@ -16,7 +16,7 @@ export const StyledCard = styled(Box)`
     font-family: ${props => props.theme.fonts.poppins};
     font-weight: ${props => props.theme.fontWeights.medium};
     text-decoration: none;
-    color: ${props => props.theme.colors.black};
+    color: ${props => props.theme.colors.primaryText};
     cursor: pointer;
 
 
@@ -61,7 +61,7 @@ export const StyledRow = styled(Row)`
     padding: 0.7rem 1rem;
     justify-content: space-between;
     text-decoration: none;
-    color: ${props => props.theme.colors.black};
+    color: ${props => props.theme.colors.primaryText};
     box-shadow: ${props => props.theme.shadows.normal};
     transition: ${props => props.theme.transition};
     ${flexbox};

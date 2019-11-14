@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import TextField from './TextField';
 
 const ChatTextField = styled(TextField)`
-    color: ${props => props.theme.colors.black}; 
+    color: ${props => props.theme.colors.primaryText}; 
     background-color: ${props => props.theme.colors.secondaryBackground};
     box-shadow: ${props => props.theme.shadows.hover};
     margin-top: 1rem;

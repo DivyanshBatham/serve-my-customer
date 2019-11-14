@@ -43,7 +43,7 @@ Button.displayName = 'Button';
 
 Button.secondary = styled(Button)`
   background-color: ${props => props.theme.colors.secondaryBackground};
-  color: ${props => props.theme.colors.black};
+  color: ${props => props.theme.colors.primaryText};
 `
 
 export default Button;

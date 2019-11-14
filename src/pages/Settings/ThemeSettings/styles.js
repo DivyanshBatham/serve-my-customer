@@ -13,7 +13,7 @@ export const ThemeCard = styled(Box)`
     padding: 1rem;
     border-radius: 0.5rem;
     font-weight: ${props => props.theme.fontWeights.medium};
-    color: ${props => props.theme.colors.black};
+    color: ${props => props.theme.colors.primaryText};
     box-shadow: ${props => props.theme.shadows.normal};
     background-color: ${props => props.theme.colors.tertiaryBackground};
     transition: ${props => props.theme.transition}, color 0s;
