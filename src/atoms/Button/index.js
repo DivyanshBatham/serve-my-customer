@@ -46,4 +46,11 @@ Button.secondary = styled(Button)`
   color: ${props => props.theme.colors.primaryText};
 `
 
+Button.tertiary = styled(Button)`
+  background-color: ${props => props.theme.colors.tertiaryText};
+  /* color: ${props => props.theme.colors.primaryBackground}; */
+  /* Harcoding this for now: */
+  color: #3B3F42;
+`
+
 export default Button;

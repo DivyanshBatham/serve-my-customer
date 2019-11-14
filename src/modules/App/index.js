@@ -138,7 +138,7 @@ class App extends Component {
                         </Text>
                             <Flex.center>
 
-                                <Button.secondary onClick={this.openModal}>
+                                <Button.tertiary onClick={this.openModal}>
                                     <Flex.verticallyCenter>
                                         <IconContainer mr="0.5rem" ml="-0.5rem">
                                             <FontAwesomeIcon
@@ -147,7 +147,7 @@ class App extends Component {
                                         </IconContainer>
                                         <Text>Get Script</Text>
                                     </Flex.verticallyCenter>
-                                </Button.secondary>
+                                </Button.tertiary>
                                 <SettingsIconContainer ml="2rem" onClick={() => auth.signOut()}>
                                     <FontAwesomeIcon
                                         icon="sign-out-alt"
