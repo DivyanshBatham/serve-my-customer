@@ -5,7 +5,7 @@ export default {
         white: '#fff',
         primary: '#3464E0',
         primaryDark: '#1A44AA',
-        background: '#F1F4F9',
+        primaryBackground: '#F1F4F9',
     },
     fonts: {
         poppins: "'Poppins', sans-serif",

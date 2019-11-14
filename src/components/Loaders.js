@@ -52,7 +52,7 @@ const Loader = (props) => {
 
 const FullPageLoader = () => {
   return (
-    <Flex.center height="100vh" bg="background">
+    <Flex.center height="100vh" bg="primaryBackground">
       <Loader sizes={['1rem','1.1rem','1rem']}/>
     </Flex.center>
   )
