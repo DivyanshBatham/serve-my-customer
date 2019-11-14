@@ -29,7 +29,7 @@ export const ModalHeader = styled(Box)`
 export const StyledIconContainer = styled(IconContainer)`
     cursor: pointer;
     /* TODO: This variable should be changed: */
-    color: ${props => props.theme.colors.primaryBackground};
+    color: ${props => props.theme.colors.tertiaryText};
     transition: ${props => props.theme.transition};
     height: 1.1rem;
     width: 1.1rem;

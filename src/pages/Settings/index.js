@@ -14,7 +14,6 @@ class Settings extends Component {
     }
 
     render() {
-        console.log(this.props.user);
         return (
             <Column minHeight="100%">
                 <h1>Settings</h1>
