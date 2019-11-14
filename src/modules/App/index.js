@@ -128,7 +128,7 @@ class App extends Component {
                     <Container>
                         <Flex.verticallyCenter justifyContent="space-between" height="20vh">
                             <Text
-                                color="white"
+                                color="tertiaryText"
                                 fontSize="2rem"
                                 fontWeight="medium"
                                 fontFamily="pacifico"

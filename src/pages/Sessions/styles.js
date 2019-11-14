@@ -29,11 +29,11 @@ export const StyledCard = styled(Box)`
         }
     }
     &.active {
-        color: ${props => props.theme.colors.white};
+        color: ${props => props.theme.colors.tertiaryText};
         background-color: ${props => props.theme.colors.primary};
 
         strong {
-            color: ${props => props.theme.colors.white};
+            color: ${props => props.theme.colors.tertiaryText};
         }
     }
 `

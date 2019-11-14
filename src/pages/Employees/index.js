@@ -302,7 +302,7 @@ class Employees extends Component {
                         <Flex justifyContent="flex-end">
                             <Button width="142px">
                                 {sendingEmail ? (
-                                    <Loader sizes={['0.6rem', '0.7rem', '0.6rem']} bg="white" />
+                                    <Loader sizes={['0.6rem', '0.7rem', '0.6rem']} bg="tertiaryText" />
                                 )
                                     : (
                                         <Flex.verticallyCenter>
@@ -334,7 +334,7 @@ class Employees extends Component {
                         </Button>
                         <Button width="173px" onClick={this.revokeEmployeeAccount}>
                             {revokingEmployee ? (
-                                <Loader sizes={['0.6rem', '0.7rem', '0.6rem']} bg="white" />
+                                <Loader sizes={['0.6rem', '0.7rem', '0.6rem']} bg="tertiaryText" />
                             )
                                 : (
                                     <Flex.verticallyCenter>

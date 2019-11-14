@@ -19,7 +19,7 @@ export const StyledLink = styled(Flex.center)`
 
     &.active {
         background-color: ${props => props.theme.colors.primary};
-        color: ${props => props.theme.colors.white};
+        color: ${props => props.theme.colors.tertiaryText};
     }
 
     &:hover {

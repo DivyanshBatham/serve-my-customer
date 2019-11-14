@@ -35,6 +35,6 @@ export const StyledIconContainer = styled(IconContainer)`
     width: 1.1rem;
     font-size: 1.1rem;
     &:hover {
-        color: ${props => props.theme.colors.white}
+        color: ${props => props.theme.colors.tertiaryText}
     }
 `

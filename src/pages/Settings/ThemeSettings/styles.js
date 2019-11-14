@@ -25,6 +25,6 @@ export const ThemeCard = styled(Box)`
     &.active {
         background-color: ${props => props.theme.colors.primary};
         box-shadow: ${props => props.theme.shadows.hover};
-        color: ${props => props.theme.colors.white};
+        color: ${props => props.theme.colors.tertiaryText};
     }
 `
