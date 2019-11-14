@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Login, Register, Home, VerifyEmail, Invite } from './pages';
 import { App } from './modules';
 import { FullPageLoader } from './components';
 import { AuthContext } from './context/AuthContext';
+import { ThemeContext } from './context/ThemeContext';
 
-class Routes extends Component {
-  static contextType = AuthContext;
+const Routes = () => {
+  const { fetchingAuthState, user } = useContext(AuthContext);
+  const { fetchingUserTheme } = useContext(ThemeContext);
 
-  PrivateRoute = ({ component: Component, ...rest }) => {
-    const { user } = this.context;
+  const PrivateRoute = ({ component: Component, ...rest }) => {
     return (
       <Route
         {...rest}
@@ -31,8 +32,7 @@ class Routes extends Component {
     );
   };
 
-  AuthRoute = ({ component: Component, ...rest }) => {
-    const { user } = this.context;
+  const AuthRoute = ({ component: Component, ...rest }) => {
     return (
       <Route
         {...rest}
@@ -45,27 +45,23 @@ class Routes extends Component {
     );
   };
 
-  render() {
-    const { fetchingAuthState } = this.context;
-
-    return (
-      fetchingAuthState ?
-        <FullPageLoader />
-        :
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
-          <Switch>
-            {/* <Route exact path="/" component={Home} /> */}
-            <Redirect exact
-              from='/'
-              to='/login' />
-            <this.AuthRoute path="/login" component={Login} />
-            <this.AuthRoute path="/register" component={Register} />
-            <this.AuthRoute path="/invite/:token" component={Invite} />
-            <this.PrivateRoute path="/app" component={App} />
-          </Switch>
-        </BrowserRouter>
-    );
-  }
+  return (
+    fetchingAuthState || fetchingUserTheme ?
+      <FullPageLoader />
+      :
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <Switch>
+          {/* <Route exact path="/" component={Home} /> */}
+          <Redirect exact
+            from='/'
+            to='/login' />
+          <AuthRoute path="/login" component={Login} />
+          <AuthRoute path="/register" component={Register} />
+          <AuthRoute path="/invite/:token" component={Invite} />
+          <PrivateRoute path="/app" component={App} />
+        </Switch>
+      </BrowserRouter>
+  );
 }
 
 export default Routes;
