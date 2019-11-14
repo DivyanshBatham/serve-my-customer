@@ -11,5 +11,6 @@ export const Color = styled(Box)`
     height: 2rem;
     border-radius: 0.5rem;
     background: ${props => props.theme.colors[props.color]};
+    box-shadow: 0 0 0 1px lightgray;
     cursor: pointer;
 `

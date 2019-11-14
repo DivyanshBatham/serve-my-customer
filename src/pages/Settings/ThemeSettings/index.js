@@ -38,6 +38,39 @@ const ThemeSettings = () => {
                     <Text ml="1rem">Primary Dark</Text>
                 </Flex.verticallyCenter>
 
+                <div/>
+
+                <Flex.verticallyCenter>
+                    <ColorPicker colorField="primaryBackground" />
+                    <Text ml="1rem">Primary Background</Text>
+                </Flex.verticallyCenter>
+                
+                <Flex.verticallyCenter>
+                    <ColorPicker colorField="secondaryBackground" />
+                    <Text ml="1rem">Secondary Background</Text>
+                </Flex.verticallyCenter>
+                
+                <Flex.verticallyCenter>
+                    <ColorPicker colorField="tertiaryBackground" />
+                    <Text ml="1rem">Tertiary Background</Text>
+                </Flex.verticallyCenter>
+
+                <Flex.verticallyCenter>
+                    <ColorPicker colorField="primaryText" />
+                    <Text ml="1rem">Primary Text</Text>
+                </Flex.verticallyCenter>
+                
+                <Flex.verticallyCenter>
+                    <ColorPicker colorField="secondaryText" />
+                    <Text ml="1rem">Secondary Text</Text>
+                </Flex.verticallyCenter>
+                
+                <Flex.verticallyCenter>
+                    <ColorPicker colorField="tertiaryText" />
+                    <Text ml="1rem">Tertiary Text</Text>
+                </Flex.verticallyCenter>
+
+
             </ThemeCardContainer>
 
         </>
