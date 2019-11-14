@@ -6,7 +6,7 @@ import { Swatch, Color } from './styles';
 const ColorPicker = ({ colorField }) => {
     const swatchRef = useRef();
     const [showColorPicker, setShowColorPicker] = useState(false);
-    const { setContextTheme, contextTheme } = useContext(ThemeContext);
+    const { contextTheme, setContextThemeAndUpdateTheme } = useContext(ThemeContext);
 
     useEffect(() => {
         // add when mounted
@@ -28,7 +28,7 @@ const ColorPicker = ({ colorField }) => {
     };
 
     const handleChangeComplete = (pickedColor) => {
-        setContextTheme({
+        setContextThemeAndUpdateTheme({
             ...contextTheme,
             colors: {
                 ...(contextTheme && contextTheme.colors),

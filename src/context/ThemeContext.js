@@ -3,71 +3,89 @@ import { ThemeProvider } from 'styled-components'
 import { firestore } from '../config/clientSdk';
 import { AuthContext } from './AuthContext';
 import { fetchUserTheme, expandTheme } from '../helpers';
-import baseTheme from '../theme';
+import themes from '../theme/index';
 
 export const ThemeContext = React.createContext();
 
 const DynamicThemeProvider = (props) => {
     let { user } = useContext(AuthContext);
-    const [contextTheme, setContextTheme] = useState(null);
-    const [userTheme, setUserTheme] = useState(null);
-    const [theme, setTheme] = useState(baseTheme);
+
+    const defaultThemeName = "classicBlue"; // Default Theme
+    const [themeName, setThemeName] = useState(defaultThemeName);
+    const [fetchingUserTheme, setFetchingUserTheme] = useState(true);
+    const [contextTheme, setContextTheme] = useState({}); // When Saving, save this as doc to firestore (partial theme)
+    const [userThemeBase, setUserThemeBase] = useState(null); // Whatever comes from firestore (partial theme)
+    const [theme, setTheme] = useState(themes[defaultThemeName]); // For passing to Provider (full theme)
     const cachedTheme = localStorage.getItem('theme');
 
 
     useEffect(() => {
-        console.log("If cache is present set theme");
-        let cachedTheme = localStorage.getItem('theme');
-        if (cachedTheme) {
+        console.log("Checking for cachedTheme...");
+        let cachedTheme = JSON.parse(localStorage.getItem('theme'));
+        let cachedThemeBase = JSON.parse(localStorage.getItem('themeBase'));
+        if (cachedTheme && cachedThemeBase) {
             try {
-                console.log("Expand with cachedTheme");
-                setTheme(expandTheme(baseTheme, JSON.parse(cachedTheme)));
+                console.log("Found cachedTheme - Setting");
+                setTheme(expandTheme(themes[cachedThemeBase], cachedTheme));
             } catch (err) {
                 console.log("Failed parsing cached theme, so not expanding");
             }
         }
     }, [cachedTheme]);
 
-
     useEffect(() => {
+        console.log("useEffect( [user] )");
         if (user) {
-            fetchUserTheme(user.companyId).then(userTheme => {
-                setUserTheme(userTheme || {});
+            console.log("Fetching userTheme...");
+            fetchUserTheme(user.companyId).then(({ userTheme, userThemeBase }) => {
+
+                if (userThemeBase && userTheme) {
+                    localStorage.setItem('theme', JSON.stringify(userTheme));
+                    localStorage.setItem('themeBase', JSON.stringify(userThemeBase));
+                    console.log("Found userTheme - Setting");
+
+                    if (Object.entries(userTheme).length === 0 && userTheme.constructor === Object)
+                        setThemeName(userThemeBase);
+                    else
+                        setThemeName('customTheme');
+
+                    setUserThemeBase(userThemeBase);
+                    setTheme(expandTheme(themes[userThemeBase], userTheme));
+                } else {
+                    setTheme(themes[defaultThemeName]);
+                    localStorage.removeItem('theme');
+                    localStorage.removeItem('themeBase');
+                }
+                setFetchingUserTheme(false);
             })
         }
     }, [user]);
 
-    useEffect(() => {
-        if (contextTheme) {
-            console.log("Expand with contextTheme on top of userTheme");
-            setTheme(expandTheme(expandTheme(baseTheme, userTheme), contextTheme));
-        }
-    }, [contextTheme, userTheme]);
-
-    useEffect(() => {
-        if (userTheme) {
-            // Caching userTheme for next time:
-            console.log("Expand with userTheme");
-            localStorage.setItem('theme', JSON.stringify(userTheme));
-            setTheme(expandTheme(baseTheme, userTheme));
-        }
-    }, [userTheme]);
+    const setContextThemeAndUpdateTheme = (t) => {
+        setThemeName('customTheme');
+        setContextTheme(t);
+        setTheme(expandTheme(theme, t));
+    }
 
     const saveTheme = async () => {
         if (user) {
-            setUserTheme(contextTheme);
-            setContextTheme(null);
-            await firestore.doc(`companies/${user.companyId}`).update({
-                theme: contextTheme
+            firestore.doc(`companies/${user.companyId}`).update({
+                userTheme: contextTheme,
+                userThemeBase: userThemeBase || defaultThemeName
+            }).then(() => {
+                localStorage.setItem('theme', JSON.stringify(contextTheme));
+                localStorage.setItem('themeBase', JSON.stringify(userThemeBase || defaultThemeName));
             })
         }
     }
 
     return (
         <ThemeContext.Provider value={{
-            setContextTheme,
             contextTheme,
-            userTheme
+            themeName,
+            fetchingUserTheme,
+            setContextThemeAndUpdateTheme,
+            saveTheme
         }}>
             <ThemeProvider theme={theme}>
                 {props.children}
