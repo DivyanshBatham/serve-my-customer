@@ -42,7 +42,7 @@ const Button = styled.button`
 Button.displayName = 'Button';
 
 Button.secondary = styled(Button)`
-  background-color: ${props => props.theme.colors.white};
+  background-color: ${props => props.theme.colors.secondaryBackground};
   color: ${props => props.theme.colors.black};
 `
 

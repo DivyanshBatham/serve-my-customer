@@ -3,7 +3,7 @@ import { Box } from '../../atoms';
 
 export const StyledLink = styled.div`
     text-decoration: none;
-    background-color: ${props => props.theme.colors.white};
+    background-color: ${props => props.theme.colors.secondaryBackground};
     padding: 0.7rem 1.5rem;
     border-radius: 0.5rem;
     box-shadow: ${props => props.theme.shadows.normal};
@@ -35,7 +35,7 @@ export const StyledNav = styled.nav`
 
 export const SettingsContainer = styled(Box)`
     flex: 1;
-    background-color: ${props => props.theme.colors.white};
+    background-color: ${props => props.theme.colors.secondaryBackground};
     margin-left: 2rem;
     padding: 0.7rem 1.5rem;
     border-radius: 0.5rem;

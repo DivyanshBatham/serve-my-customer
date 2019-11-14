@@ -68,7 +68,7 @@ class Chat extends Component {
         const { sender } = this.props;
 
         return (!loading ? (
-            <Box bg="white" borderRadius="0.5rem" p="1rem 1rem 0rem 1rem"
+            <Box bg="secondaryBackground" borderRadius="0.5rem" p="1rem 1rem 0rem 1rem"
                 height="100%" overflowY="auto" flex='1'
             >
                 {messages.map(message =>

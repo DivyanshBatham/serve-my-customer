@@ -3,7 +3,7 @@ import {IconContainer, Flex } from '../../atoms';
 
 export const StyledLink = styled(Flex.center)`
     text-decoration: none;
-    background-color: ${props => props.theme.colors.white};
+    background-color: ${props => props.theme.colors.secondaryBackground};
     flex-direction: column;
     display: inline-flex;
     height: 100px;

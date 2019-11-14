@@ -6,6 +6,7 @@ export default {
         primary: '#3464E0',
         primaryDark: '#1A44AA',
         primaryBackground: '#F1F4F9',
+        secondaryBackground: '#FFFFFF',
     },
     fonts: {
         poppins: "'Poppins', sans-serif",

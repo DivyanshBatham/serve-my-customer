@@ -4,7 +4,7 @@ import { Box, Text } from '../../atoms';
 
 export const StyledCard = styled(Box)`
     position: relative;
-    background-color: ${props => props.theme.colors.white};
+    background-color: ${props => props.theme.colors.secondaryBackground};
     height: 140px;
     width: 180px;
     border-radius: 0.5rem;

@@ -10,7 +10,7 @@ import { Box, Text } from '../../atoms';
 // `
 
 export const Message = styled(Box)`
-    background-color: rgba(52, 100, 224, 0.1);
+    background-color: ${props => props.theme.colors.primaryBackground};
     max-width: 80%;
     margin-bottom: 1rem;
     padding: 0.7rem 1rem;
