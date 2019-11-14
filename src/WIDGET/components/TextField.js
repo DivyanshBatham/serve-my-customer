@@ -12,7 +12,7 @@ const TextField = styled.input`
   font-size: 0.9rem;
 
   ::placeholder {
-    color: ${props => props.theme.colors.lightBlack}; 
+    color: ${props => props.theme.colors.secondaryText}; 
   }
   
   &:focus {

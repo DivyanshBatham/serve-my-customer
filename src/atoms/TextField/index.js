@@ -23,7 +23,7 @@ const TextField = styled.input`
   background-color: ${props => props.theme.colors.secondaryBackground}; 
 
   ::placeholder {
-    color: ${props => props.theme.colors.lightBlack}; 
+    color: ${props => props.theme.colors.secondaryText}; 
   }
 
   &:focus {

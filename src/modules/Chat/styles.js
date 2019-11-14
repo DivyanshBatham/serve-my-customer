@@ -22,7 +22,7 @@ export const Timestamp = styled(Text.span)`
     font-size: 0.8rem;
     display: flex;
     align-items: center;
-    color: ${props => props.theme.colors.lightBlack};
+    color: ${props => props.theme.colors.secondaryText};
 `
 
 export const MessageStatus = styled(Text.span)`
@@ -30,5 +30,5 @@ export const MessageStatus = styled(Text.span)`
     margin-left: 0.3rem;
     display: flex;
     align-items: center;
-    color: ${props => props.theme.colors.lightBlack};
+    color: ${props => props.theme.colors.secondaryText};
 `

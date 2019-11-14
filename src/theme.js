@@ -1,7 +1,7 @@
 export default {
     colors: {
         primaryText: '#383838',
-        lightBlack: '#808080',
+        secondaryText: '#808080',
         white: '#fff',
         primary: '#3464E0',
         primaryDark: '#1A44AA',
@@ -11,7 +11,7 @@ export default {
 
         // Dark Mode:
         // primaryText: 'white',
-        // lightBlack: '#bbb',
+        // secondaryText: '#bbb',
         // white: '#fff',
         // primary: 'crimson',
         // primaryDark: '#1A44AA',

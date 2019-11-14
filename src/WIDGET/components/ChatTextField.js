@@ -10,7 +10,7 @@ const ChatTextField = styled(TextField)`
     margin-bottom: 0rem;
 
     ::placeholder {
-        color: ${props => props.theme.colors.lightBlack}; 
+        color: ${props => props.theme.colors.secondaryText}; 
     }
 `
 

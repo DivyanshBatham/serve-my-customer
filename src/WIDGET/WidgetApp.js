@@ -338,7 +338,7 @@ class WidgetApp extends Component {
                                                     key={sessionId}
                                                 >
                                                     <Subject>{servemycustomer.sessions[sessionId].subject}</Subject>
-                                                    <Text ml="0.5rem" fontSize="0.8rem" color="lightBlack">
+                                                    <Text ml="0.5rem" fontSize="0.8rem" color="secondaryText">
                                                         {<TimeAgo date={servemycustomer.sessions[sessionId].receivedTimestamp} formatter={formatter} />}
                                                     </Text>
                                                 </Conversation>
