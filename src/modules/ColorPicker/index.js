@@ -28,13 +28,14 @@ const ColorPicker = ({ colorField }) => {
     };
 
     const handleChangeComplete = (pickedColor) => {
-        setContextThemeAndUpdateTheme({
-            ...contextTheme,
-            colors: {
-                ...(contextTheme && contextTheme.colors),
-                [colorField]: pickedColor.hex
-            }
-        });
+        setContextThemeAndUpdateTheme(colorField, pickedColor.hex);
+        // setContextThemeAndUpdateTheme({
+        //     ...contextTheme,
+        //     colors: {
+        //         ...(contextTheme && contextTheme.colors),
+        //         [colorField]: pickedColor.hex
+        //     }
+        // });
     };
 
     return (

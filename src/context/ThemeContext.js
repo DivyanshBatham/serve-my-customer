@@ -14,9 +14,10 @@ const DynamicThemeProvider = (props) => {
     const [themeName, setThemeName] = useState(defaultThemeName);
     const [fetchingUserTheme, setFetchingUserTheme] = useState(true);
     const [contextTheme, setContextTheme] = useState({}); // When Saving, save this as doc to firestore (partial theme)
+    const [contextThemeBase, setContextThemeBase] = useState(null); // When Saving, save this as doc to firestore (partial theme)
     const [userThemeBase, setUserThemeBase] = useState(null); // Whatever comes from firestore (partial theme)
+    const [userTheme, setUserTheme] = useState({}); // Whatever comes from firestore (partial theme)
     const [theme, setTheme] = useState(themes[defaultThemeName]); // For passing to Provider (full theme)
-    const cachedTheme = localStorage.getItem('theme');
 
 
     useEffect(() => {
@@ -31,51 +32,127 @@ const DynamicThemeProvider = (props) => {
                 console.log("Failed parsing cached theme, so not expanding");
             }
         }
-    }, [cachedTheme]);
+    }, []);
 
     useEffect(() => {
         console.log("useEffect( [user] )");
         if (user) {
             console.log("Fetching userTheme...");
-            fetchUserTheme(user.companyId).then(({ userTheme, userThemeBase }) => {
+            fetchUserTheme(user.companyId).then(({ currentTheme, userTheme, userThemeBase }) => {
 
-                if (userThemeBase && userTheme) {
-                    localStorage.setItem('theme', JSON.stringify(userTheme));
-                    localStorage.setItem('themeBase', JSON.stringify(userThemeBase));
-                    console.log("Found userTheme - Setting");
-
-                    if (Object.entries(userTheme).length === 0 && userTheme.constructor === Object)
-                        setThemeName(userThemeBase);
-                    else
-                        setThemeName('customTheme');
-
+                if (userTheme && userThemeBase) {
+                    setUserTheme(userTheme);
                     setUserThemeBase(userThemeBase);
-                    setTheme(expandTheme(themes[userThemeBase], userTheme));
-                } else {
-                    setTheme(themes[defaultThemeName]);
-                    localStorage.removeItem('theme');
-                    localStorage.removeItem('themeBase');
                 }
+
+                if (currentTheme) {
+                    if (currentTheme === 'userTheme') {
+                        console.log("Found userTheme - Setting");
+                        setThemeName('userTheme');
+                        setTheme(expandTheme(themes[userThemeBase], userTheme));
+                        localStorage.setItem('theme', JSON.stringify(userTheme));
+                        localStorage.setItem('themeBase', JSON.stringify(userThemeBase));
+                    } else {
+                        setThemeName(currentTheme);
+                        setTheme(themes[currentTheme]);
+                        localStorage.setItem('theme', JSON.stringify(currentTheme));
+                        localStorage.setItem('themeBase', JSON.stringify({}));
+                    }
+                }
+
                 setFetchingUserTheme(false);
             })
         }
     }, [user]);
 
-    const setContextThemeAndUpdateTheme = (t) => {
-        setThemeName('customTheme');
-        setContextTheme(t);
-        setTheme(expandTheme(theme, t));
+    const setContextThemeAndUpdateTheme = (colorField, color) => {
+        if (themeName !== 'customTheme') {
+            if (themeName === 'userTheme') {
+                setThemeName('customTheme');
+                const newContextTheme = {
+                    colors: {
+                        ...(userTheme && userTheme.colors),
+                        [colorField]: color
+                    }
+                };
+                setContextTheme(newContextTheme);
+                setContextThemeBase(userThemeBase);
+                setTheme(expandTheme(themes[userThemeBase], newContextTheme));
+            }
+            else {
+                setThemeName('customTheme');
+                const newContextTheme = {
+                    colors: {
+                        [colorField]: color
+                    }
+                };
+                setContextTheme(newContextTheme);
+                setContextThemeBase(themeName);
+                setTheme(expandTheme(themes[themeName], newContextTheme));
+            }
+        } else {
+            const newContextTheme = {
+                colors: {
+                    ...(contextTheme && contextTheme.colors),  
+                    [colorField]: color
+                }
+            };
+            setContextTheme(newContextTheme);
+            setTheme(expandTheme(themes[contextThemeBase], newContextTheme));
+        }
     }
 
     const saveTheme = async () => {
         if (user) {
-            firestore.doc(`companies/${user.companyId}`).update({
-                userTheme: contextTheme,
-                userThemeBase: userThemeBase || defaultThemeName
-            }).then(() => {
-                localStorage.setItem('theme', JSON.stringify(contextTheme));
-                localStorage.setItem('themeBase', JSON.stringify(userThemeBase || defaultThemeName));
-            })
+            if (themeName === 'customTheme') {
+                firestore.doc(`companies/${user.companyId}`).update({
+                    currentTheme: 'userTheme',
+                    userTheme: contextTheme,
+                    userThemeBase: contextThemeBase,
+                }).then(() => {
+                    localStorage.setItem('theme', JSON.stringify(contextTheme));
+                    localStorage.setItem('themeBase', JSON.stringify(contextThemeBase));
+                    setUserTheme(contextTheme);
+                    setUserThemeBase(contextThemeBase);
+                    setThemeName('userTheme');
+                })
+            } else if (themeName === 'userTheme') {
+                firestore.doc(`companies/${user.companyId}`).update({
+                    currentTheme: 'userTheme',
+                }).then(() => {
+                    localStorage.setItem('theme', JSON.stringify(userTheme));
+                    localStorage.setItem('themeBase', JSON.stringify(userThemeBase));
+                })
+            } else {
+                firestore.doc(`companies/${user.companyId}`).update({
+                    currentTheme: themeName
+                }).then(() => {
+                    localStorage.setItem('theme', JSON.stringify({}));
+                    localStorage.setItem('themeBase', JSON.stringify(themeName));
+                })
+            }
+            setContextTheme({});
+        }
+    }
+
+    const setPreBuiltTheme = (tName) => {
+        if (tName === 'userTheme') {
+            setThemeName('userTheme');
+            // setContextThemeBase(userThemeBase);
+            setTheme(expandTheme(themes[userThemeBase], userTheme));
+
+        } else if (tName === 'customTheme') {
+            // setContextTheme({});
+            setThemeName('customTheme');
+            // setContextThemeBase(userThemeBase);
+            setTheme(expandTheme(themes[contextThemeBase], contextTheme));
+
+            // if (userTheme && userThemeBase)
+            //     setTheme(expandTheme(themes[userThemeBase], userTheme));
+        } else {
+            setThemeName(tName);
+            setContextThemeBase(tName);
+            setTheme(themes[tName]);
         }
     }
 
@@ -85,7 +162,9 @@ const DynamicThemeProvider = (props) => {
             themeName,
             fetchingUserTheme,
             setContextThemeAndUpdateTheme,
-            saveTheme
+            saveTheme,
+            userTheme,
+            setPreBuiltTheme
         }}>
             <ThemeProvider theme={theme}>
                 {props.children}

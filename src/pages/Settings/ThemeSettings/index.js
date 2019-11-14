@@ -5,7 +5,7 @@ import { ColorPicker } from '../../../modules';
 import { ThemeContext } from '../../../context/ThemeContext';
 
 const ThemeSettings = () => {
-    const { themeName, saveTheme } = useContext(ThemeContext);
+    const { themeName, saveTheme, setPreBuiltTheme, userTheme } = useContext(ThemeContext);
     // console.warn("THEME NAME: ", themeName);
     return (
         <>
@@ -14,27 +14,47 @@ const ThemeSettings = () => {
             <Text>Pick one of our pre-built theme or create your own from scratch.</Text>
 
             <ThemeCardContainer>
-                <ThemeCard className={themeName === 'classicBlue' ? "active" : null}>
+                <ThemeCard
+                    onClick={() => setPreBuiltTheme('classicBlue')}
+                    className={themeName === 'classicBlue' ? "active" : null}>
                     Classic Blue
                 </ThemeCard>
 
-                <ThemeCard className={themeName === 'ninjaRed' ? "active" : null}>
+                <ThemeCard
+                    onClick={() => setPreBuiltTheme('ninjaRed')}
+                    className={themeName === 'ninjaRed' ? "active" : null}>
                     Ninja Red
                 </ThemeCard>
 
-                <ThemeCard className={themeName === 'blackWhite' ? "active" : null}>
+                <ThemeCard
+                    onClick={() => setPreBuiltTheme('blackWhite')}
+                    className={themeName === 'blackWhite' ? "active" : null}>
                     Black & White
                 </ThemeCard>
 
-                <ThemeCard className={themeName === 'customTheme' ? "active" : null}>
-                    Custom
+                {
+                    Object.entries(userTheme).length !== 0 &&
+                    userTheme.constructor === Object && (
+                        <ThemeCard
+                            onClick={() => setPreBuiltTheme('userTheme')}
+                            className={themeName === 'userTheme' ? "active" : null}
+                        >
+                            Your Theme
+                        </ThemeCard>
+                    )
+                }
+
+                <ThemeCard
+                    onClick={() => setPreBuiltTheme('customTheme')}
+                    className={themeName === 'customTheme' ? "active" : null}>
+                    New Theme
                 </ThemeCard>
             </ThemeCardContainer>
 
             {/* <h3>Customize</h3> */}
             <h3>Create Your Own:</h3>
 
-            <Button onClick={saveTheme}>Save</Button>
+
 
             <ThemeCardContainer>
 
@@ -81,6 +101,11 @@ const ThemeSettings = () => {
 
 
             </ThemeCardContainer>
+
+
+
+            <Button.tertiary onClick={() => alert('Reset')} mr="1rem">Cancel</Button.tertiary>
+            <Button onClick={saveTheme}>Save</Button>
 
         </>
     );
