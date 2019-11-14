@@ -7,7 +7,17 @@ export default {
         primaryDark: '#1A44AA',
         primaryBackground: '#F1F4F9',
         secondaryBackground: '#FFFFFF',
-        tertiaryBackground: 'whitesmoke',
+        tertiaryBackground: '#F1F4F9',
+
+        // Dark Mode:
+        // black: 'white',
+        // lightBlack: '#bbb',
+        // white: '#fff',
+        // primary: 'crimson',
+        // primaryDark: '#1A44AA',
+        // primaryBackground: '#3B3F42',
+        // secondaryBackground: '#4B4D50',
+        // tertiaryBackground: '#666666',
     },
     fonts: {
         poppins: "'Poppins', sans-serif",
