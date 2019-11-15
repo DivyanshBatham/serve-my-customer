@@ -13,6 +13,7 @@ const DynamicThemeProvider = (props) => {
     const defaultThemeName = "classicBlue"; // Default Theme
     const [themeName, setThemeName] = useState(defaultThemeName);
     const [fetchingUserTheme, setFetchingUserTheme] = useState(true);
+    const [savingTheme, setSavingTheme] = useState(false);
     const [contextTheme, setContextTheme] = useState({}); // When Saving, save this as doc to firestore (partial theme)
     const [contextThemeBase, setContextThemeBase] = useState(null); // When Saving, save this as doc to firestore (partial theme)
     const [userThemeBase, setUserThemeBase] = useState(null); // Whatever comes from firestore (partial theme)
@@ -106,35 +107,34 @@ const DynamicThemeProvider = (props) => {
     }
 
     const saveTheme = async () => {
+        setSavingTheme(true);
         if (user) {
             if (themeName === 'customTheme') {
-                firestore.doc(`companies/${user.companyId}`).update({
+                await firestore.doc(`companies/${user.companyId}`).update({
                     currentTheme: 'userTheme',
                     userTheme: contextTheme,
                     userThemeBase: contextThemeBase,
-                }).then(() => {
-                    localStorage.setItem('theme', JSON.stringify(contextTheme));
-                    localStorage.setItem('themeBase', JSON.stringify(contextThemeBase));
-                    setUserTheme(contextTheme);
-                    setUserThemeBase(contextThemeBase);
-                    setThemeName('userTheme');
                 })
+                localStorage.setItem('theme', JSON.stringify(contextTheme));
+                localStorage.setItem('themeBase', JSON.stringify(contextThemeBase));
+                setUserTheme(contextTheme);
+                setUserThemeBase(contextThemeBase);
+                setThemeName('userTheme');
             } else if (themeName === 'userTheme') {
-                firestore.doc(`companies/${user.companyId}`).update({
+                await firestore.doc(`companies/${user.companyId}`).update({
                     currentTheme: 'userTheme',
-                }).then(() => {
-                    localStorage.setItem('theme', JSON.stringify(userTheme));
-                    localStorage.setItem('themeBase', JSON.stringify(userThemeBase));
                 })
+                localStorage.setItem('theme', JSON.stringify(userTheme));
+                localStorage.setItem('themeBase', JSON.stringify(userThemeBase));
             } else {
-                firestore.doc(`companies/${user.companyId}`).update({
+                await firestore.doc(`companies/${user.companyId}`).update({
                     currentTheme: themeName
-                }).then(() => {
-                    localStorage.setItem('theme', JSON.stringify({}));
-                    localStorage.setItem('themeBase', JSON.stringify(themeName));
                 })
+                localStorage.setItem('theme', JSON.stringify({}));
+                localStorage.setItem('themeBase', JSON.stringify(themeName));
             }
             setContextTheme({});
+            setSavingTheme(false);
         }
     }
 
@@ -164,7 +164,8 @@ const DynamicThemeProvider = (props) => {
             setContextThemeAndUpdateTheme,
             saveTheme,
             userTheme,
-            setPreBuiltTheme
+            setPreBuiltTheme,
+            savingTheme
         }}>
             <ThemeProvider theme={theme}>
                 {props.children}
