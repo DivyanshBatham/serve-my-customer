@@ -28,7 +28,7 @@ class Settings extends Component {
                         <StyledLink as={NavLink} to="/app/settings/theme">
                             Theme (Admin)
                         </StyledLink>
-                        <StyledLink as={NavLink} to="/app/settings/templates">
+                        {/* <StyledLink as={NavLink} to="/app/settings/templates">
                             Message Templates (Admin)
                         </StyledLink>
                         <StyledLink as={NavLink} to="/app/settings/blocked">
@@ -36,7 +36,7 @@ class Settings extends Component {
                         </StyledLink>
                         <StyledLink as={NavLink} to="/app/settings/notifications">
                             Notifications
-                        </StyledLink>
+                        </StyledLink> */}
                         <StyledLink as={NavLink} to="/app/settings/security">
                             Security
                         </StyledLink>
