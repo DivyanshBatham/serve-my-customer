@@ -22,23 +22,26 @@ const DynamicThemeProvider = (props) => {
 
 
     useEffect(() => {
-        console.log("Checking for cachedTheme...");
-        let cachedTheme = JSON.parse(localStorage.getItem('theme'));
-        let cachedThemeBase = JSON.parse(localStorage.getItem('themeBase'));
+        // console.log("Checking for cachedTheme...");
+        let cachedTheme, cachedThemeBase
+        try {
+            cachedTheme = JSON.parse(localStorage.getItem('theme'));
+            cachedThemeBase = JSON.parse(localStorage.getItem('themeBase'));
+        } catch (err) {
+            // console.log("Failed parsing cached theme, so not expanding");
+            localStorage.removeItem('theme');
+            localStorage.removeItem('themeBase');
+        }
         if (cachedTheme && cachedThemeBase) {
-            try {
-                console.log("Found cachedTheme - Setting");
-                setTheme(expandTheme(themes[cachedThemeBase], cachedTheme));
-            } catch (err) {
-                console.log("Failed parsing cached theme, so not expanding");
-            }
+            // console.log("Found cachedTheme - Setting");
+            setTheme(expandTheme(themes[cachedThemeBase], cachedTheme));
         }
     }, []);
 
     useEffect(() => {
-        console.log("useEffect( [user] )");
+        // console.log("useEffect( [user] )");
         if (user) {
-            console.log("Fetching userTheme...");
+            // console.log("Fetching userTheme...");
             fetchUserTheme(user.companyId).then(({ currentTheme, userTheme, userThemeBase }) => {
 
                 if (userTheme && userThemeBase) {
@@ -48,7 +51,7 @@ const DynamicThemeProvider = (props) => {
 
                 if (currentTheme) {
                     if (currentTheme === 'userTheme') {
-                        console.log("Found userTheme - Setting");
+                        // console.log("Found userTheme - Setting");
                         setThemeName('userTheme');
                         setTheme(expandTheme(themes[userThemeBase], userTheme));
                         setContextTheme(userTheme);
