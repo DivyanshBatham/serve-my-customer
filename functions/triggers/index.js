@@ -1,6 +1,6 @@
 
 module.exports = {
-    createCompanyTrigger: require('./createCompanyTrigger'),
+    // createCompanyTrigger: require('./createCompanyTrigger'),
     deleteCompanyTrigger: require('./deleteCompanyTrigger'),
-    inviteEmployeeTrigger: require('./inviteEmployeeTrigger'),
+    // inviteEmployeeTrigger: require('./inviteEmployeeTrigger'),
 };
