@@ -44,11 +44,11 @@ const ThemeSettings = () => {
                     )
                 }
 
-                <ThemeCard
+                {/* <ThemeCard
                     onClick={() => setPreBuiltTheme('customTheme')}
                     className={themeName === 'customTheme' ? "active" : null}>
                     New Theme
-                </ThemeCard>
+                </ThemeCard> */}
             </ThemeCardContainer>
 
             <h3>Customize Current Theme:</h3>
