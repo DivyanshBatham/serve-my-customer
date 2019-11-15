@@ -4,7 +4,7 @@ import { space } from 'styled-system'
 
 const ChatContainer = styled.div`
     ${space}
-    /* background-color: ${props => props.theme.colors.white}; */
+    /* background-color: ${props => props.theme.colors.secondaryBackground}; */
     /* padding: 1rem; */
     /* border-radius: 8px; */
     /* box-shadow: ${props => props.theme.shadows.hover}; */

@@ -14,7 +14,7 @@ export const AuthTextField = styled(TextField)`
 
 export const AuthLink = styled(Text)`
     text-decoration: none;
-    color: ${props => props.theme.colors.black};
+    color: ${props => props.theme.colors.primaryText};
 
     &:hover {
         text-decoration: underline

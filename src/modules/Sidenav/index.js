@@ -1,13 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { auth } from '../../config/clientSdk';
 import { Box } from '../../atoms';
 import { StyledLink, StyledIconContainer, StyledNav } from './styles';
-
-const Logout = () => {
-    auth.signOut();
-}
 
 const Sidenav = (props) => {
     const { user } = props;
@@ -50,13 +45,13 @@ const Sidenav = (props) => {
             </Box>
 
             <Box m="0 auto">
-                <StyledLink onClick={Logout}>
+                <StyledLink as={NavLink} to="/app/settings">
                     <StyledIconContainer>
                         <FontAwesomeIcon
-                            icon="sign-out-alt"
+                            icon="cog"
                         />
                     </StyledIconContainer>
-                    Logout
+                    Settings
                 </StyledLink>
             </Box>
         </StyledNav>

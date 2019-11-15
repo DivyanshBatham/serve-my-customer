@@ -9,7 +9,7 @@ const Conversation = styled.div`
     padding: 0.5rem 1rem;
     transition: ${props => props.theme.transition}; 
     &:hover {
-        background-color: ${props => props.theme.colors.offWhite};
+        background-color: ${props => props.theme.colors.primaryBackground};
     }
 `;
 

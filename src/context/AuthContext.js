@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { auth } from '../config/clientSdk';
-import { FullPageLoader } from '../components';
 
 export const AuthContext = React.createContext();
 
@@ -32,7 +31,7 @@ class AuthContextProvider extends Component {
                         idToken,
                         companyId,
                         admin
-                    }
+                    },
                 });
             } else {
                 this.setState({
@@ -44,15 +43,9 @@ class AuthContextProvider extends Component {
     }
 
     render() {
-        const { fetchingAuthState } = this.state;
-
         return (
             <AuthContext.Provider value={this.state}>
-                {fetchingAuthState ?
-                    <FullPageLoader />
-                    :
-                    this.props.children
-                }
+                {this.props.children}
             </AuthContext.Provider>
         );
     }

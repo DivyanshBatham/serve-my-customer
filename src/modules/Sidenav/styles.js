@@ -3,7 +3,7 @@ import {IconContainer, Flex } from '../../atoms';
 
 export const StyledLink = styled(Flex.center)`
     text-decoration: none;
-    background-color: white;
+    background-color: ${props => props.theme.colors.secondaryBackground};
     flex-direction: column;
     display: inline-flex;
     height: 100px;
@@ -12,14 +12,14 @@ export const StyledLink = styled(Flex.center)`
     font-weight: ${props => props.theme.fontWeights.medium};
     border-radius: 0.5rem;
     box-shadow: ${props => props.theme.shadows.normal};
-    transition: ${props => props.theme.transition};
-    color: ${props => props.theme.colors.black};
+    transition: ${props => props.theme.transition}, color 0s;
+    color: ${props => props.theme.colors.primaryText};
     cursor: pointer;
     margin-top: 1.7rem;
 
     &.active {
         background-color: ${props => props.theme.colors.primary};
-        color: white;
+        color: ${props => props.theme.colors.tertiaryText};
     }
 
     &:hover {
@@ -39,6 +39,7 @@ export const StyledNav = styled.nav`
     /* width:200px; */
     position:sticky;
     top:0;
-    max-height: 80vh;
+    /* max-height: 80vh; */
+    align-self: start;
     margin: 0 2.5rem;
 `

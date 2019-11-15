@@ -5,8 +5,8 @@ import IconContainer from '../../atoms/IconContainer';
 
 const Rating = styled(IconContainer)`
     font-size: 1.6rem;
-    /* color: ${props => props.theme.colors.lightBlack}; */
-    color: #d3d8de;
+    /* color: #d3d8de; */
+    color: ${props => props.theme.colors.secondaryText};
     cursor: pointer;
     
     &.active, &:hover {

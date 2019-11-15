@@ -23,12 +23,12 @@ const Modal = (props) => {
             <ModalHeader>
                 <Flex.spaceBetween alignItems="center">
                     <Flex>
-                        <IconContainer color="white" mr="0.5rem">
+                        <IconContainer color="tertiaryText" mr="0.5rem">
                             <FontAwesomeIcon
                                 icon={icon}
                             />
                         </IconContainer>
-                        <Text fontSize="1.1rem" color="white" fontWeight="medium">
+                        <Text fontSize="1.1rem" color="tertiaryText" fontWeight="medium">
                             {modalTitle}
                         </Text>
                     </Flex>

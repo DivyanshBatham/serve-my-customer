@@ -41,11 +41,11 @@ class WidgetApp extends Component {
         currentSessionId = currentSessionId && servemycustomer.sessions[currentSessionId].rating ? '' : currentSessionId;
 
         this.state = {
-            showContainer: true,
+            showContainer: false,
             step: currentSessionId ? 2 : 1,
             ongoingSession: false,
             sessionId: currentSessionId || '',
-            companyId: '<<<companyId>>>',
+            companyId: this.props.companyId,
             message: '',
             name: (servemycustomer.user && servemycustomer.user.name) || '',
             email: (servemycustomer.user && servemycustomer.user.email) || '',
@@ -246,7 +246,7 @@ class WidgetApp extends Component {
                                     {/* <FontAwesomeIcon color="white"
                                         icon="chevron-left"
                                     /> */}
-                                    <svg height="32" width="20" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" className="svg-inline--fa fa-chevron-left fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" color="white"><path fill="currentColor" d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"></path></svg>
+                                    <svg height="32" width="20" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" className="svg-inline--fa fa-chevron-left fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"></path></svg>
                                 </BackIcon>
                             }
                             {/* TODO: servemycustomer.currentSessionId? 1: step*/}
@@ -306,7 +306,7 @@ class WidgetApp extends Component {
                                     <Flex justifyContent="flex-end">
                                         <Button type="submit" width="256px" mt="0.5rem">
                                             {ongoingSession ? (
-                                                <Loader bg="white" sizes={['0.6rem', '0.7rem', '0.6rem']} />
+                                                <Loader bg="tertiaryText" sizes={['0.6rem', '0.7rem', '0.6rem']} />
                                             ) : (
                                                     <Flex.verticallyCenter>
                                                         <IconContainer mr="0.5rem" ml="-0.5rem">
@@ -338,7 +338,7 @@ class WidgetApp extends Component {
                                                     key={sessionId}
                                                 >
                                                     <Subject>{servemycustomer.sessions[sessionId].subject}</Subject>
-                                                    <Text ml="0.5rem" fontSize="0.8rem" color="lightBlack">
+                                                    <Text ml="0.5rem" fontSize="0.8rem" color="secondaryText">
                                                         {<TimeAgo date={servemycustomer.sessions[sessionId].receivedTimestamp} formatter={formatter} />}
                                                     </Text>
                                                 </Conversation>

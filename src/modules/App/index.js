@@ -4,14 +4,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { auth } from '../../config/clientSdk';
 import { store } from 'react-notifications-component';
 import axiosInstance from '../../services/axiosInstance';
-import { Dashboard, Employees, Sessions, Session } from "../../pages";
+import { Dashboard, Employees, Sessions, Session, Settings } from "../../pages";
 import Sidenav from "../Sidenav";
 import { Flex, Box, Text, Button, Container, IconContainer, Column } from "../../atoms";
 import { FlexCard } from "../../components";
 import { Modal } from '../../modules';
 import { SettingsIconContainer } from './styles';
+import { ThemeContext } from '../../context/ThemeContext';
 
 class App extends Component {
+    static contextType = ThemeContext;
     constructor(props) {
         super(props);
         this.state = {
@@ -58,7 +60,7 @@ class App extends Component {
                     delay: 0
                 },
             });
-            
+
             this.setState({
                 modalIsOpen: false
             });
@@ -72,7 +74,7 @@ class App extends Component {
                 },
                 responseType: 'blob'
             })
-            
+
             var data = new Blob([res.data]);
             if (typeof window.navigator.msSaveBlob === 'function') {
                 // If it is IE that support download blob directly.
@@ -108,17 +110,25 @@ class App extends Component {
         }
     }
 
+    setTheme = () => {
+        const { contextTheme, setContextTheme } = this.context;
+        setContextTheme({
+            colors: {
+                primary: ['#ffb301', '#f57c00', '#e91e63', '#8bc34a'][~~(Math.random() * 4)]
+            }
+        })
+    }
+
     render() {
         const { user } = this.props;
         const { modalIsOpen } = this.state;
-
         return (
             <>
                 <Box bg="primary">
                     <Container>
                         <Flex.verticallyCenter justifyContent="space-between" height="20vh">
                             <Text
-                                color="white"
+                                color="tertiaryText"
                                 fontSize="2rem"
                                 fontWeight="medium"
                                 fontFamily="pacifico"
@@ -128,7 +138,7 @@ class App extends Component {
                         </Text>
                             <Flex.center>
 
-                                <Button.secondary onClick={this.openModal}>
+                                <Button.tertiary onClick={this.openModal}>
                                     <Flex.verticallyCenter>
                                         <IconContainer mr="0.5rem" ml="-0.5rem">
                                             <FontAwesomeIcon
@@ -137,10 +147,10 @@ class App extends Component {
                                         </IconContainer>
                                         <Text>Get Script</Text>
                                     </Flex.verticallyCenter>
-                                </Button.secondary>
-                                <SettingsIconContainer ml="2rem">
+                                </Button.tertiary>
+                                <SettingsIconContainer ml="2rem" onClick={() => auth.signOut()}>
                                     <FontAwesomeIcon
-                                        icon="cog"
+                                        icon="sign-out-alt"
                                     />
                                 </SettingsIconContainer>
                             </Flex.center>
@@ -179,6 +189,14 @@ class App extends Component {
                                 exact
                                 path={`/app/sessions/:sessionId`}
                                 component={Session}
+                            />
+                            <Redirect exact
+                                from='/app/settings'
+                                to='/app/settings/profile' />
+                            <this.RouteWithUserAsProps
+                                exact
+                                path={`/app/settings/:page(profile|company|theme|security|delete)`}
+                                component={Settings}
                             />
                             <Route path="*">
                                 <Column minHeight="100%">

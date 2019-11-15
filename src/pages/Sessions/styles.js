@@ -3,7 +3,7 @@ import { Row, IconContainer, Box, Text } from '../../atoms';
 import { flexbox } from 'styled-system';
 
 export const StyledCard = styled(Box)`
-    background-color: white;
+    background-color: ${props => props.theme.colors.secondaryBackground};
     height: 140px;
     width: 180px;
     border-radius: 0.5rem;
@@ -16,7 +16,7 @@ export const StyledCard = styled(Box)`
     font-family: ${props => props.theme.fonts.poppins};
     font-weight: ${props => props.theme.fontWeights.medium};
     text-decoration: none;
-    color: ${props => props.theme.colors.black};
+    color: ${props => props.theme.colors.primaryText};
     cursor: pointer;
 
 
@@ -29,11 +29,11 @@ export const StyledCard = styled(Box)`
         }
     }
     &.active {
-        color: white;
+        color: ${props => props.theme.colors.tertiaryText};
         background-color: ${props => props.theme.colors.primary};
 
         strong {
-            color: white;
+            color: ${props => props.theme.colors.tertiaryText};
         }
     }
 `
@@ -56,12 +56,12 @@ export const StatNumber = styled(Text.bold)`
 `
 
 export const StyledRow = styled(Row)`
-    background-color: white;
+    background-color: ${props => props.theme.colors.secondaryBackground};
     border-radius: 0.5rem;
     padding: 0.7rem 1rem;
     justify-content: space-between;
     text-decoration: none;
-    color: ${props => props.theme.colors.black};
+    color: ${props => props.theme.colors.primaryText};
     box-shadow: ${props => props.theme.shadows.normal};
     transition: ${props => props.theme.transition};
     ${flexbox};

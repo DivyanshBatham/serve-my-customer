@@ -19,6 +19,12 @@ const TextField = styled.input`
   box-shadow: ${props => props.theme.shadows.normal};
   transition: ${props => props.theme.transition}; 
   font-size: 0.9rem;
+  color: ${props => props.theme.colors.primaryText}; 
+  background-color: ${props => props.theme.colors.secondaryBackground}; 
+
+  ::placeholder {
+    color: ${props => props.theme.colors.secondaryText}; 
+  }
 
   &:focus {
     box-shadow: ${props => props.theme.shadows.hover};

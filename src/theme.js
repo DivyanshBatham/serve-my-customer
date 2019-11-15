@@ -1,20 +1,14 @@
-const colors = {
-    // black: '#000e1a',
-    black: '#383838',
-    lightBlack: '#808080',
-    white: '#fff',
-    blue: '#3464E0',
-    lightBlue: '#87D3F3',
-    darkBlue: '#1A44AA',
-    offWhite: '#F1F4F9',
-    red: '#F24846',
-};
-
-// Set Primary Theme:
-colors.primary = colors.blue;
-
 export default {
-    colors,
+    colors: {
+        primaryText: '#383838',
+        secondaryText: '#808080',
+        tertiaryText: '#fff',
+        primary: '#3464E0',
+        primaryDark: '#1A44AA',
+        primaryBackground: '#F1F4F9',
+        secondaryBackground: '#FFFFFF',
+        tertiaryBackground: '#F1F4F9',
+    },
     fonts: {
         poppins: "'Poppins', sans-serif",
         openSans: "'Open Sans', sans-serif",

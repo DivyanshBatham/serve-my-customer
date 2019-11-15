@@ -20,7 +20,7 @@ const Button = styled.button`
   transition: ${props => props.theme.transition};
   font-family: ${props => props.theme.fonts.poppins};
   font-weight: ${props => props.theme.fontWeights.medium};
-  color: white;
+  color: ${props => props.theme.colors.tertiaryText};
   background-color: ${props => props.theme.colors.primary};
   border: none;
   font-size: 1rem;
@@ -42,8 +42,15 @@ const Button = styled.button`
 Button.displayName = 'Button';
 
 Button.secondary = styled(Button)`
-  background-color: white;
-  color: ${props => props.theme.colors.black};
+  background-color: ${props => props.theme.colors.secondaryBackground};
+  color: ${props => props.theme.colors.primaryText};
+`
+
+Button.tertiary = styled(Button)`
+  background-color: ${props => props.theme.colors.tertiaryText};
+  /* color: ${props => props.theme.colors.primaryBackground}; */
+  /* Harcoding this for now: */
+  color: #3B3F42;
 `
 
 export default Button;

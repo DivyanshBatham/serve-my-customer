@@ -10,7 +10,7 @@ import { Box, Text } from '../../atoms';
 // `
 
 export const Message = styled(Box)`
-    background-color: rgba(52, 100, 224, 0.1);
+    background-color: ${props => props.theme.colors.tertiaryBackground};
     max-width: 80%;
     margin-bottom: 1rem;
     padding: 0.7rem 1rem;
@@ -22,7 +22,7 @@ export const Timestamp = styled(Text.span)`
     font-size: 0.8rem;
     display: flex;
     align-items: center;
-    color: ${props => props.theme.colors.lightBlack};
+    color: ${props => props.theme.colors.secondaryText};
 `
 
 export const MessageStatus = styled(Text.span)`
@@ -30,5 +30,5 @@ export const MessageStatus = styled(Text.span)`
     margin-left: 0.3rem;
     display: flex;
     align-items: center;
-    color: ${props => props.theme.colors.lightBlack};
+    color: ${props => props.theme.colors.secondaryText};
 `

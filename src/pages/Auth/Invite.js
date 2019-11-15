@@ -72,7 +72,7 @@ class Invite extends Component {
             <Container.Loader showLoader={loading}>
                 <Column alignItems="center">
                     <Text
-                        color="black"
+                        color="primaryText"
                         fontSize="2.2rem"
                         fontWeight="medium"
                         fontFamily="pacifico"

@@ -12,7 +12,7 @@ export const StyledReactModal = styled(ReactModal)`
     outline: none;
 
     padding: 1.5rem;
-    background: ${props => props.theme.colors.offWhite};
+    background: ${props => props.theme.colors.primaryBackground};
     border-radius: 0.5rem;
     box-shadow: ${props => props.theme.shadows.normal};
     overflow: hidden;
@@ -28,12 +28,13 @@ export const ModalHeader = styled(Box)`
 
 export const StyledIconContainer = styled(IconContainer)`
     cursor: pointer;
-    color: ${props => props.theme.colors.offWhite};
+    /* TODO: This variable should be changed: */
+    color: ${props => props.theme.colors.tertiaryText};
     transition: ${props => props.theme.transition};
     height: 1.1rem;
     width: 1.1rem;
     font-size: 1.1rem;
     &:hover {
-        color: ${props => props.theme.colors.white}
+        color: ${props => props.theme.colors.tertiaryText}
     }
 `

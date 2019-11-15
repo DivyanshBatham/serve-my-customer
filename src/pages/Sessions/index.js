@@ -197,11 +197,11 @@ class Sessions extends Component {
                         <Text fontSize="1rem" fontWeight="medium">Sessions</Text>
                         <StatNumber>{pendingSessionsCount ?
                             pendingSessionsCount :
-                            <Loader bg={status === "pending" ? 'white' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
+                            <Loader bg={status === "pending" ? 'tertiaryText' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
                         </StatNumber>
                         {
                             pendingSessionsCount > 0 &&
-                            <StyledCardNotifier bg={status !== 'pending' ? 'primary' : 'white'} />
+                            <StyledCardNotifier bg={status !== 'pending' ? 'primary' : 'tertiaryText'} />
                         }
                     </StyledCard>
 
@@ -210,11 +210,11 @@ class Sessions extends Component {
                         <Text fontSize="1rem" fontWeight="medium">Sessions</Text>
                         <StatNumber>{activeSessionsCount ?
                             activeSessionsCount :
-                            <Loader bg={status === "active" ? 'white' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
+                            <Loader bg={status === "active" ? 'tertiaryText' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
                         </StatNumber>
                         {
                             curEmployeeHasActiveSession &&
-                            <StyledCardNotifier bg={status !== 'active' ? 'primary' : 'white'} />
+                            <StyledCardNotifier bg={status !== 'active' ? 'primary' : 'tertiaryText'} />
                         }
                     </StyledCard>
 
@@ -223,7 +223,7 @@ class Sessions extends Component {
                         <Text fontSize="1rem" fontWeight="medium">Sessions</Text>
                         <StatNumber>{inactiveSessionsCount ?
                             inactiveSessionsCount :
-                            <Loader bg={status === "inactive" ? 'white' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
+                            <Loader bg={status === "inactive" ? 'tertiaryText' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
                         </StatNumber>
                     </StyledCard>
 
@@ -232,7 +232,7 @@ class Sessions extends Component {
                         <Text fontSize="1rem" fontWeight="medium">Sessions</Text>
                         <StatNumber>{completedSessionsCount ?
                             completedSessionsCount :
-                            <Loader bg={status === "completed" ? 'white' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
+                            <Loader bg={status === "completed" ? 'tertiaryText' : 'primary'} sizes={['1rem', '1.1rem', '1rem']} />}
                         </StatNumber>
                     </StyledCard>
                 </Flex>
