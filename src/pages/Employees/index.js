@@ -89,7 +89,7 @@ class Employees extends Component {
                         insert: "bottom",
                         container: "bottom-right",
                         dismiss: {
-                            duration: 2000,
+                            duration: 3000,
                             onScreen: true,
                             pauseOnHover: true
                         },
@@ -158,7 +158,7 @@ class Employees extends Component {
                         insert: "bottom",
                         container: "bottom-right",
                         dismiss: {
-                            duration: 2000,
+                            duration: 3000,
                             onScreen: true,
                             pauseOnHover: true
                         },

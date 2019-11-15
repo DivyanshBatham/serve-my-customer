@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components'
+import { store } from 'react-notifications-component';
 import { firestore } from '../config/clientSdk';
 import { AuthContext } from './AuthContext';
 import { fetchUserTheme, expandTheme } from '../helpers';
@@ -138,6 +139,23 @@ const DynamicThemeProvider = (props) => {
             }
             setContextTheme({});
             setSavingTheme(false);
+            store.addNotification({
+                title: "Theme Saved!",
+                message: "Chat Widget will be updated on refresh.",
+                type: "default",
+                insert: "bottom",
+                container: "bottom-right",
+                dismiss: {
+                    duration: 3000,
+                    onScreen: true,
+                    pauseOnHover: true
+                },
+                slidingExit: {
+                    duration: 800,
+                    timingFunction: 'ease-out',
+                    delay: 0
+                },
+            });
         }
     }
 
