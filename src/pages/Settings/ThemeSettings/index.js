@@ -51,9 +51,7 @@ const ThemeSettings = () => {
                 </ThemeCard>
             </ThemeCardContainer>
 
-            {/* <h3>Customize</h3> */}
-            <h3>Create Your Own:</h3>
-
+            <h3>Customize Current Theme:</h3>
 
 
             <ThemeCardContainer>

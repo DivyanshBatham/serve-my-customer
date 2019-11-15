@@ -50,11 +50,14 @@ const DynamicThemeProvider = (props) => {
                         console.log("Found userTheme - Setting");
                         setThemeName('userTheme');
                         setTheme(expandTheme(themes[userThemeBase], userTheme));
+                        setContextTheme(userTheme);
+                        setContextThemeBase(userThemeBase);
                         localStorage.setItem('theme', JSON.stringify(userTheme));
                         localStorage.setItem('themeBase', JSON.stringify(userThemeBase));
                     } else {
                         setThemeName(currentTheme);
                         setTheme(themes[currentTheme]);
+                        setContextThemeBase(currentTheme);
                         localStorage.setItem('theme', JSON.stringify(currentTheme));
                         localStorage.setItem('themeBase', JSON.stringify({}));
                     }
@@ -93,7 +96,7 @@ const DynamicThemeProvider = (props) => {
         } else {
             const newContextTheme = {
                 colors: {
-                    ...(contextTheme && contextTheme.colors),  
+                    ...(contextTheme && contextTheme.colors),
                     [colorField]: color
                 }
             };
@@ -138,19 +141,16 @@ const DynamicThemeProvider = (props) => {
     const setPreBuiltTheme = (tName) => {
         if (tName === 'userTheme') {
             setThemeName('userTheme');
-            // setContextThemeBase(userThemeBase);
+            setContextTheme(userTheme);
+            setContextThemeBase(userThemeBase);
             setTheme(expandTheme(themes[userThemeBase], userTheme));
 
         } else if (tName === 'customTheme') {
-            // setContextTheme({});
             setThemeName('customTheme');
-            // setContextThemeBase(userThemeBase);
             setTheme(expandTheme(themes[contextThemeBase], contextTheme));
-
-            // if (userTheme && userThemeBase)
-            //     setTheme(expandTheme(themes[userThemeBase], userTheme));
         } else {
             setThemeName(tName);
+            setContextTheme({});
             setContextThemeBase(tName);
             setTheme(themes[tName]);
         }
