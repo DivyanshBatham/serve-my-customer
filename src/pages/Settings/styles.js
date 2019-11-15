@@ -37,7 +37,7 @@ export const SettingsContainer = styled(Box)`
     flex: 1;
     background-color: ${props => props.theme.colors.secondaryBackground};
     margin-left: 2rem;
-    padding: 0.7rem 1.5rem;
+    padding: 1.5rem;
     border-radius: 0.5rem;
     align-self: start;
 `

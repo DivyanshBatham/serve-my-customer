@@ -5,7 +5,7 @@ export const ThemeCardContainer = styled(Box)`
     display: grid;
     grid-template-columns: repeat(3,1fr);
     grid-gap: 2rem;
-    margin: 1.5rem;
+    margin: 2rem 1.5rem;
 `
 
 export const ThemeCard = styled(Box)`

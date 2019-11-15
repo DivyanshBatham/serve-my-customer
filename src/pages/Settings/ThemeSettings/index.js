@@ -11,7 +11,7 @@ const ThemeSettings = () => {
         <>
             <h2>Theme Settings</h2>
             {/* <h3>Templates</h3> */}
-            <Text>Pick one of our pre-built theme or create your own from scratch.</Text>
+            {/* <Text>Pick one of our pre-built theme or create your own custom theme.</Text> */}
 
             <ThemeCardContainer>
                 <ThemeCard
@@ -52,6 +52,7 @@ const ThemeSettings = () => {
             </ThemeCardContainer>
 
             <h3>Customize Current Theme:</h3>
+            <Text>Customize Current theme and save it as yours.</Text>
 
 
             <ThemeCardContainer>
@@ -101,9 +102,14 @@ const ThemeSettings = () => {
             </ThemeCardContainer>
 
 
-
-            <Button.tertiary onClick={() => alert('Reset')} mr="1rem">Cancel</Button.tertiary>
-            <Button onClick={saveTheme}>Save</Button>
+            <Flex mt="1rem" justifyContent="flex-end">
+                <Button.tertiary onClick={() => alert('Reset')} mr="1rem">
+                    Cancel
+                </Button.tertiary>
+                <Button onClick={saveTheme}>
+                    <Text>Save</Text>
+                </Button>
+            </Flex>
 
         </>
     );
