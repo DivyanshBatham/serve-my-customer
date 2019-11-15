@@ -5,5 +5,6 @@ export default createGlobalStyle`
 
     .serve-my-customer > * {
         font-family: 'Poppins', sans-serif;
+        color: ${props => props.theme.colors.primaryText}
     }
 `
