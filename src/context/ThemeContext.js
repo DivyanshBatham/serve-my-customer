@@ -9,7 +9,7 @@ import themes from '../theme/index';
 export const ThemeContext = React.createContext();
 
 const DynamicThemeProvider = (props) => {
-    let { user } = useContext(AuthContext);
+    let { user, fetchingAuthState } = useContext(AuthContext);
 
     const defaultThemeName = "classicBlue"; // Default Theme
     const [themeName, setThemeName] = useState(defaultThemeName);
@@ -41,37 +41,43 @@ const DynamicThemeProvider = (props) => {
 
     useEffect(() => {
         // console.log("useEffect( [user] )");
-        if (user) {
-            // console.log("Fetching userTheme...");
-            fetchUserTheme(user.companyId).then(({ currentTheme, userTheme, userThemeBase }) => {
+        if (!fetchingAuthState) {
+            setFetchingUserTheme(true);
+            if (user) {
+                // console.log("Fetching userTheme...");
+                fetchUserTheme(user.companyId).then(({ currentTheme, userTheme, userThemeBase }) => {
 
-                if (userTheme && userThemeBase) {
-                    setUserTheme(userTheme);
-                    setUserThemeBase(userThemeBase);
-                }
-
-                if (currentTheme) {
-                    if (currentTheme === 'userTheme') {
-                        // console.log("Found userTheme - Setting");
-                        setThemeName('userTheme');
-                        setTheme(expandTheme(themes[userThemeBase], userTheme));
-                        setContextTheme(userTheme);
-                        setContextThemeBase(userThemeBase);
-                        localStorage.setItem('theme', JSON.stringify(userTheme));
-                        localStorage.setItem('themeBase', JSON.stringify(userThemeBase));
-                    } else {
-                        setThemeName(currentTheme);
-                        setTheme(themes[currentTheme]);
-                        setContextThemeBase(currentTheme);
-                        localStorage.setItem('theme', JSON.stringify({}));
-                        localStorage.setItem('themeBase', JSON.stringify(currentTheme));
+                    if (userTheme && userThemeBase) {
+                        setUserTheme(userTheme);
+                        setUserThemeBase(userThemeBase);
                     }
-                }
 
+                    if (currentTheme) {
+                        if (currentTheme === 'userTheme') {
+                            // console.log("Found userTheme - Setting");
+                            setThemeName('userTheme');
+                            setTheme(expandTheme(themes[userThemeBase], userTheme));
+                            setContextTheme(userTheme);
+                            setContextThemeBase(userThemeBase);
+                            localStorage.setItem('theme', JSON.stringify(userTheme));
+                            localStorage.setItem('themeBase', JSON.stringify(userThemeBase));
+                        } else {
+                            setThemeName(currentTheme);
+                            setTheme(themes[currentTheme]);
+                            setContextThemeBase(currentTheme);
+                            localStorage.setItem('theme', JSON.stringify({}));
+                            localStorage.setItem('themeBase', JSON.stringify(currentTheme));
+                        }
+                    }
+                }).then(() => {
+                    setFetchingUserTheme(false);
+                })
+            } else {
+                // User not logged in, hence cannot fetch theme:
                 setFetchingUserTheme(false);
-            })
+            }
         }
-    }, [user]);
+    }, [fetchingAuthState, user]);
 
     const setContextThemeAndUpdateTheme = (colorField, color) => {
         if (themeName !== 'customTheme') {
