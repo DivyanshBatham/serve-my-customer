@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Box } from '../../atoms';
+import { Box, Flex } from '../../atoms';
 
 export const StyledLink = styled.div`
     text-decoration: none;
@@ -40,4 +40,12 @@ export const SettingsContainer = styled(Box)`
     padding: 1.5rem;
     border-radius: 0.5rem;
     align-self: start;
+    position: relative;
+`
+
+export const Controls = styled(Flex)`
+    justify-content: flex-end;
+    position: absolute;
+    right: 0;
+    top: -4rem;
 `

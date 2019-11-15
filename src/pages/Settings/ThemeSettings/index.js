@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Flex, Text, Button } from '../../../atoms';
 import { Loader } from '../../../components';
 import { ThemeCardContainer, ThemeCard } from './styles';
+import { Controls } from '../styles';
 import { ColorPicker } from '../../../modules';
 import { ThemeContext } from '../../../context/ThemeContext';
 
@@ -101,7 +102,7 @@ const ThemeSettings = () => {
             </ThemeCardContainer>
 
 
-            <Flex mt="1rem" justifyContent="flex-end">
+            <Controls>
                 {/* <Button.tertiary onClick={() => alert('Reset')} mr="1rem">
                     Cancel
                 </Button.tertiary> */}
@@ -114,7 +115,7 @@ const ThemeSettings = () => {
                         )
                     }
                 </Button>
-            </Flex>
+            </Controls>
 
         </>
     );
