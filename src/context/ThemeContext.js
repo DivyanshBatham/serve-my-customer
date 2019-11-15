@@ -28,14 +28,14 @@ const DynamicThemeProvider = (props) => {
         try {
             cachedTheme = JSON.parse(localStorage.getItem('theme'));
             cachedThemeBase = JSON.parse(localStorage.getItem('themeBase'));
+            // console.log("Found cachedTheme - Setting");
+            if (cachedTheme && cachedThemeBase) {
+                setTheme(expandTheme(themes[cachedThemeBase], cachedTheme));
+            }
         } catch (err) {
             // console.log("Failed parsing cached theme, so not expanding");
             localStorage.removeItem('theme');
             localStorage.removeItem('themeBase');
-        }
-        if (cachedTheme && cachedThemeBase) {
-            // console.log("Found cachedTheme - Setting");
-            setTheme(expandTheme(themes[cachedThemeBase], cachedTheme));
         }
     }, []);
 
@@ -63,8 +63,8 @@ const DynamicThemeProvider = (props) => {
                         setThemeName(currentTheme);
                         setTheme(themes[currentTheme]);
                         setContextThemeBase(currentTheme);
-                        localStorage.setItem('theme', JSON.stringify(currentTheme));
-                        localStorage.setItem('themeBase', JSON.stringify({}));
+                        localStorage.setItem('theme', JSON.stringify({}));
+                        localStorage.setItem('themeBase', JSON.stringify(currentTheme));
                     }
                 }
 
