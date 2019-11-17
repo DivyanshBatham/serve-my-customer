@@ -20,7 +20,9 @@ import {
   faMeh,
   faSmile,
   faFrown,
-  faChevronLeft
+  faChevronLeft,
+  faExclamationTriangle,
+  faTrash
 } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -44,5 +46,7 @@ library.add(
   faMeh,
   faSmile,
   faFrown,
-  faChevronLeft
+  faChevronLeft,
+  faExclamationTriangle,
+  faTrash
 );

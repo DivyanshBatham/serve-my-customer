@@ -4,6 +4,7 @@ import { Column, Row, Text } from '../../atoms';
 import { FlexCard } from '../../components';
 import { StyledLink, StyledNav, SettingsContainer } from './styles';
 import ThemeSettings from './ThemeSettings';
+import AccountSettings from './AccountSettings';
 
 class Settings extends Component {
     constructor(props) {
@@ -22,11 +23,14 @@ class Settings extends Component {
                         <StyledLink as={NavLink} to="/app/settings/profile">
                             Profile
                         </StyledLink>
+                        <StyledLink as={NavLink} to="/app/settings/delete">
+                            Account
+                        </StyledLink>
                         <StyledLink as={NavLink} to="/app/settings/company">
-                            Company (Admin)
+                            Company
                         </StyledLink>
                         <StyledLink as={NavLink} to="/app/settings/theme">
-                            Theme (Admin)
+                            Theme
                         </StyledLink>
                         {/* <StyledLink as={NavLink} to="/app/settings/templates">
                             Message Templates (Admin)
@@ -40,9 +44,6 @@ class Settings extends Component {
                         <StyledLink as={NavLink} to="/app/settings/security">
                             Security
                         </StyledLink>
-                        <StyledLink as={NavLink} to="/app/settings/delete">
-                            Delete Account
-                        </StyledLink>
 
                     </StyledNav>
 
@@ -52,6 +53,11 @@ class Settings extends Component {
                                 exact
                                 path={`/app/settings/theme`}
                                 component={ThemeSettings}
+                            />
+                            <Route
+                                exact
+                                path={`/app/settings/delete`}
+                                component={AccountSettings}
                             />
                             <Route path="*">
                                 <Column minHeight="100%">
