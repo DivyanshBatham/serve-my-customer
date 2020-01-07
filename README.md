@@ -48,6 +48,12 @@ Select Project
 firebase use default
 ```
 
+Add Firebase Client SDK Config:
+```
+Go to Firebase console > Project Settings > Download the Config file
+Create a new file at src\config\firebaseConfig.json
+```
+
 Start Client Dev Server
 ```
 npm start
